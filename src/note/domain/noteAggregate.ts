@@ -35,7 +35,7 @@ export class NoteAggregate{
         return this.idNota;
     }
 
-    public getcuerpoNotaText(): cuerpoNota {
+    public getcuerpoNota(): cuerpoNota {
         return this.cuerpoNota;
     }
 

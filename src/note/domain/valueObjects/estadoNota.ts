@@ -1,5 +1,5 @@
 export class estadoNota{
-    estado?: string;
+    estado: string;
     constructor(estado: string){
         this.estado = estado;
     }

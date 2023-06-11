@@ -1,5 +1,5 @@
 export class tituloNota {
-    private tituloNota?: string;
+    private tituloNota: string;
     constructor(tituloNota: string) {
         this.tituloNota = tituloNota;
     }
