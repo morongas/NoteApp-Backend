@@ -6,9 +6,9 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     type: 'postgres',
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT),
-    username: "postgres",
-    password: "cjmd140102",
-    database: "notesApp",
+    database: process.env.DB_DATABASE,
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
     autoLoadEntities: true,
     synchronize: true,
     logging: true
