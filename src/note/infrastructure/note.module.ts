@@ -2,16 +2,12 @@ import { Module } from '@nestjs/common';
 import { NoteController } from './NoteController';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModuleAsyncConfig } from 'src/configDatabase';
 import { adapterNoteRepository } from './adapterNoteRepository';
-import { INotes } from '../domain/repository/INotes';
+import { NoteEntity } from './entities/note_entity';
 
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({isGlobal: true}),
-    TypeOrmModule.forRootAsync(TypeOrmModuleAsyncConfig)
-  ],
+  imports: [TypeOrmModule.forFeature([NoteEntity])],
   controllers: [NoteController],
   providers: [adapterNoteRepository]
 })
