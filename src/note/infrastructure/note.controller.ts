@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { NoteService } from './note.service';
-import { CreateNoteDto } from './dto/create-note.dto';
+import { CreateNoteDto } from './dto/CreateNoteDto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 
 @Controller('note')
