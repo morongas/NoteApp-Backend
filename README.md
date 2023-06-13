@@ -21,4 +21,6 @@ $ yarn start:dev
 
 # production mode
 $ yarn start:prod
+
+## Tercero cambiar el nombre a .env.template a .env y configurar las variables de entorno
 ```
