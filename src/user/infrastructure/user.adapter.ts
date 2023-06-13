@@ -16,6 +16,10 @@ export class UserService {
     return `This action returns a #${id} user`;
   }
 
+  findNotes(id: number) {
+    return `This action returns notes from user #${id}`;
+  }
+
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
