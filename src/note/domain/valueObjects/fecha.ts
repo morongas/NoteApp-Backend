@@ -1,9 +1,18 @@
+import { Either } from "src/generics/Either";
+
 export class fecha{
-    fecha: Date;
-    constructor(fecha: Date){
+    private fecha: Date;
+    private constructor(fecha: Date){
         this.fecha = fecha;
     }
     getFecha(): Date{
         return this.fecha;
     }
+    static create(fe: Date): Either<Error,fecha>{
+        if(fecha === undefined){
+            return Either.makeLeft<Error, fecha>(new Error('No se puede crear una nota sin fecha'));
+        }
+        return Either.makeRight<Error,fecha>(new fecha(fe));
+    }
+
 }

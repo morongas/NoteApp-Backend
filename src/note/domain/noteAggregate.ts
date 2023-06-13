@@ -1,3 +1,4 @@
+import { Either } from "src/generics/Either";
 import { IDNota } from "./valueObjects/IDNota";
 import { cuerpoNota } from "./valueObjects/cuerpoNota";
 import { estadoNota } from "./valueObjects/estadoNota";
@@ -14,7 +15,7 @@ export class NoteAggregate{
     private fechaCreacion: fecha;
     private estado?: estadoNota;
 
-    constructor(idNota: IDNota, fechaCreacion: fecha, etiqueta?: etiquetaNota, titulo?: tituloNota, estado?: estadoNota,
+    private constructor(idNota: IDNota, fechaCreacion: fecha, etiqueta?: etiquetaNota, titulo?: tituloNota, estado?: estadoNota,
         cuerpoNota?: cuerpoNota) {
         this.idNota = idNota;
         this.cuerpoNota = cuerpoNota;
@@ -25,10 +26,25 @@ export class NoteAggregate{
         
     }
 
-    static create(idNota: IDNota, fechaCreacion: fecha, etiqueta?: etiquetaNota, titulo?: tituloNota, estado?: estadoNota,
-        cuerpoNota?: cuerpoNota): NoteAggregate {
-        return new NoteAggregate(idNota, fechaCreacion, etiqueta, titulo, estado, cuerpoNota);
+    static create(fechaC: Date,cuerpoText?: string, cuerpoImg?: string, etiqueta?: string, tituloNot?: string, estado?: string):
+         Either<Error, NoteAggregate> {
+        let idNota = IDNota.create();
+        let fechaCreacion = fecha.create(fechaC);
+        let cuerpo = cuerpoNota.create(cuerpoText, cuerpoImg);
+        let etiquet = etiquetaNota.create(etiqueta);
+        let titulo = tituloNota.create(tituloNot);
+        let estadoNote = estadoNota.create(estado);
+
+
+        if ((fechaCreacion.isLeft()) && (cuerpo.isLeft()) && (etiquet.isLeft()) && (titulo.isLeft()) && (estadoNote.isLeft())) {
+            return Either.makeLeft<Error, NoteAggregate>(new Error('No se puede crear una nota sin fecha'));
+        }else{
+            console.log("pene");
+            return Either.makeRight<Error, NoteAggregate>(new NoteAggregate(idNota, fechaCreacion.getRight(), etiquet.getRight(), titulo.getRight(), estadoNote.getRight(), cuerpo.getRight()));
+        }
+
     }
+
 
     //GETTERS
     public getid(): IDNota {

@@ -3,6 +3,6 @@ import { IDNota } from "../valueObjects/IDNota";
 import { NoteAggregate } from "../noteAggregate";
 
 export interface INotes {
-    saveNota(nota: NoteAggregate): Promise<Either<string, Error>>;
-    editNota(nota : IDNota): Promise<Either<NoteAggregate,Error>>;
+    saveNota(nota: NoteAggregate): Promise<Either<Error, string>>;
+    editNota(nota : IDNota): Promise<Either<Error,NoteAggregate>>;
 }

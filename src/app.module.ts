@@ -4,6 +4,11 @@ import { ConfigModule } from '@nestjs/config';
 import { Type } from 'class-transformer';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './configDatabase';
+import { createnoteService } from './note/application/createNoteService';
+import { adapterNoteRepository } from './note/infrastructure/adapterNoteRepository';
+import { NoteController } from './note/infrastructure/NoteController';
+import { NoteEntity } from './note/infrastructure/entities/note_entity';
+
 
 
 @Module({
