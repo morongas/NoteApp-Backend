@@ -18,10 +18,6 @@ export class createnoteService implements IAppService<CreateNoteDto, string>{
         this.NotesRepository = repo;
     }
 
-    getRepo(): INotes {
-        return this.NotesRepository;
-    }
-
     // Creamos la nota en el agregado
     async execute(dto: CreateNoteDto): Promise<Either<Error,string>> {
     

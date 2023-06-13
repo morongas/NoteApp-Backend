@@ -39,7 +39,6 @@ export class NoteAggregate{
         if ((fechaCreacion.isLeft()) && (cuerpo.isLeft()) && (etiquet.isLeft()) && (titulo.isLeft()) && (estadoNote.isLeft())) {
             return Either.makeLeft<Error, NoteAggregate>(new Error('No se puede crear una nota sin fecha'));
         }else{
-            console.log("pene");
             return Either.makeRight<Error, NoteAggregate>(new NoteAggregate(idNota, fechaCreacion.getRight(), etiquet.getRight(), titulo.getRight(), estadoNote.getRight(), cuerpo.getRight()));
         }
 

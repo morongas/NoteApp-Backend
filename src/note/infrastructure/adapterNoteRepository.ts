@@ -26,7 +26,6 @@ export class adapterNoteRepository  implements INotes{
             fechaNota: nota.getfechaNota().getFecha(),
             tituloNota: nota.gettituloNota().getTituloNota()
         };
-        console.log(aux);
         try{
             const resultado = await this.repositorio.save(aux);
             return Either.makeRight<Error,string>(resultado.tituloNota);
