@@ -15,7 +15,6 @@ export class adapterNoteRepository  implements INotes{
     ) {}
 
     async saveNota(nota: NoteAggregate): Promise<Either<Error, string>> {
-        let aux2;
 
         const aux: NoteEntity = {
             idNota: nota.getid().getIDNota(),
@@ -35,8 +34,25 @@ export class adapterNoteRepository  implements INotes{
     }
 
     
-    editNota(nota: IDNota): Promise<Either<Error, NoteAggregate>> {
-        throw new Error("Method not implemented.");
+    async editNota(id:string, nota: NoteAggregate): Promise<Either<Error, string>> {
+        let noteToUpdate : NoteEntity;
+        noteToUpdate = await this.repositorio.findOneBy({
+            idNota: id,
+        })
+
+        noteToUpdate.cuerpoNotaText = nota.getcuerpoNota().getcuerpoNotaText();
+        noteToUpdate.cuerpoNotaImg = nota.getcuerpoNota().getcuerpoNotaImg();
+        noteToUpdate.estadoNota = nota.getestadoNota().getEstado();
+        noteToUpdate.etiquetaNota = nota.getetiquetaNota().getEtiquetaNota().getValue();
+        noteToUpdate.fechaNota = nota.getfechaNota().getFecha();
+        noteToUpdate.tituloNota = nota.gettituloNota().getTituloNota();
+
+        try{
+            const resultado = await this.repositorio.save(noteToUpdate);
+            return Either.makeRight<Error,string>(resultado.tituloNota);
+        }catch(error){
+            return Either.makeLeft<Error,string>(error.message);
+        }
     }
 
 }

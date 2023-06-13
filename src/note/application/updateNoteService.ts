@@ -11,26 +11,25 @@ import { CreateNoteDto } from "../infrastructure/dto/CreateNoteDto";
 import { Either } from "../../generics/Either";
 import { adapterNoteRepository } from "../infrastructure/adapterNoteRepository";
 import { Inject } from "@nestjs/common";
+import { UpdateNoteDto } from "../infrastructure/dto/UpdateNoteDto";
 
-export class createnoteService implements IAppService<CreateNoteDto, string>{
+
+export class updatenoteService{
     private NotesRepository: INotes;
     constructor(@Inject(adapterNoteRepository)  repo: INotes) {
         this.NotesRepository = repo;
     }
 
     // Creamos la nota en el agregado
-    async execute(dto: CreateNoteDto): Promise<Either<Error,string>> {
-    
+    async execute(id:string, dto: UpdateNoteDto): Promise<Either<Error,string>> {  
         //Creamos el agregado
         const nota = NoteAggregate.create(dto.fechaCreacion,dto.cuerpoText,dto.cuerpoImg,dto.etiqueta,dto.tituloNota,dto.estado);
         // Guardamos la nota en la base de datos
         if (nota.isLeft()) {
-            return Either.makeLeft<Error,string>(new Error('No se puede crear la nota'));
+            return Either.makeLeft<Error,string>(new Error('No se puede editar la nota'));
         }else{
-            let result = await this.NotesRepository.saveNota(nota.getRight());
+            let result = await this.NotesRepository.editNota(id, nota.getRight());
             return Either.makeRight<Error,string>("Resultado "+  result);
-        }
-        
-        
+        }   
     }
 }

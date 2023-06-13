@@ -5,11 +5,12 @@ import { ConfigModule } from '@nestjs/config';
 import { adapterNoteRepository } from './adapterNoteRepository';
 import { NoteEntity } from './entities/note_entity';
 import { createnoteService } from '../application/createNoteService';
+import { updatenoteService } from '../application/updateNoteService';
 
 
 @Module({
   imports: [TypeOrmModule.forFeature([NoteEntity])],
   controllers: [NoteController],
-  providers: [createnoteService, adapterNoteRepository]
+  providers: [createnoteService, updatenoteService, adapterNoteRepository]
 })
 export class NoteModule {}
