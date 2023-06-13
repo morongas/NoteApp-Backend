@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, getManager, JoinTable, ManyToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
-export class User {
+export class UserEntity {
     @PrimaryColumn({ type: "uuid" }) 
     id: string;
 
