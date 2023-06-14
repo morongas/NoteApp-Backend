@@ -14,21 +14,21 @@ import { Inject } from "@nestjs/common";
 import { UpdateNoteDto } from "../infrastructure/dto/UpdateNoteDto";
 
 
-export class updatenoteService{
+export class updatenoteService implements IAppService<CreateNoteDto, string>{
     private NotesRepository: INotes;
     constructor(@Inject(adapterNoteRepository)  repo: INotes) {
         this.NotesRepository = repo;
     }
 
     // Creamos la nota en el agregado
-    async execute(id:string, dto: UpdateNoteDto): Promise<Either<Error,string>> {  
+    async execute(dto: UpdateNoteDto): Promise<Either<Error,string>> {  
         //Creamos el agregado
         const nota = NoteAggregate.create(dto.fechaCreacion,dto.cuerpoText,dto.cuerpoImg,dto.etiqueta,dto.tituloNota,dto.estado);
         // Guardamos la nota en la base de datos
         if (nota.isLeft()) {
             return Either.makeLeft<Error,string>(new Error('No se puede editar la nota'));
         }else{
-            let result = await this.NotesRepository.editNota(id, nota.getRight());
+            let result = await this.NotesRepository.editNota(dto.idNota, nota.getRight());
             return Either.makeRight<Error,string>("Resultado "+  result);
         }   
     }
