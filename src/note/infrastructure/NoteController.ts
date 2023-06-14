@@ -33,15 +33,16 @@ export class NoteController {
 
   @Put(':id')
   async update(@Param('id') id:string, @Body() body, @Req() request): Promise<string> {
+    let idNota = id;
     let text = body.text;
     let img = body.img;
     let etiquet = body.etiquet;
     let titulo = body.titulo;
     let fechaC = body.fechaC;
     let est = body.est;
-    let dto = new UpdateNoteDto(text, img, etiquet, titulo, fechaC, est);
+    let dto = new UpdateNoteDto(idNota,text, img, etiquet, titulo, fechaC, est);
 
-    if ((await this.repoUpdate.execute(id,dto)).isLeft()) {
+    if ((await this.repoUpdate.execute(dto)).isLeft()) {
       return "No se pudo crear la nota";
     }else{
       return "Nota editada";
