@@ -28,6 +28,9 @@ export class createnoteService implements IAppService<CreateNoteDto, string>{
             return Either.makeLeft<Error,string>(new Error('No se puede crear la nota'));
         }else{
             let result = await this.NotesRepository.saveNota(nota.getRight());
+            if(result.isLeft()){
+                return result; 
+            }
             return Either.makeRight<Error,string>("Resultado "+  result);
         }
         

@@ -23,9 +23,9 @@ export class NoteController {
     let fechaC = body.fechaC;
     let est = body.est;
     let dto = new CreateNoteDto(text, img, etiquet, titulo, fechaC, est);
-
-    if ((await this.repo.execute(dto) ).isLeft()) {
-      return "No se pudo crear la nota";
+    let resultado = await this.repo.execute(dto);
+    if (resultado.isLeft()) {
+      return "No se pudo crear la nota: "+resultado.getLeft().message;
     }else{
       return "Nota creada";
     }
@@ -41,9 +41,9 @@ export class NoteController {
     let fechaC = body.fechaC;
     let est = body.est;
     let dto = new UpdateNoteDto(idNota,text, img, etiquet, titulo, fechaC, est);
-
-    if ((await this.repoUpdate.execute(dto)).isLeft()) {
-      return "No se pudo crear la nota";
+    let resultado = await this.repoUpdate.execute(dto);
+    if (resultado.isLeft()) {
+      return "No se pudo editar la nota: "+resultado.getLeft().message;
     }else{
       return "Nota editada";
     }

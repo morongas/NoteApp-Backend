@@ -28,6 +28,9 @@ export class updatenoteService implements IAppService<UpdateNoteDto, string>{
             return Either.makeLeft<Error,string>(new Error('No se puede editar la nota'));
         }else{
             let result = await this.NotesRepository.editNota(dto.idNota, nota.getRight());
+            if(result.isLeft()){
+                return result; 
+            }
             return Either.makeRight<Error,string>("Resultado "+  result);
         }   
     }

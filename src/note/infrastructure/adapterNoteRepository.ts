@@ -6,6 +6,7 @@ import { NoteAggregate } from "../domain/noteAggregate";
 import { NoteEntity } from "./entities/note_entity";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Optional } from "../../generics/Optional";
 
 @Injectable()
 export class adapterNoteRepository  implements INotes{
@@ -29,7 +30,7 @@ export class adapterNoteRepository  implements INotes{
             const resultado = await this.repositorio.save(aux);
             return Either.makeRight<Error,string>(resultado.tituloNota);
         }catch(error){
-            return Either.makeLeft<Error,string>(error.message);
+            return Either.makeLeft<Error,string>(error);
         }
     }
 
@@ -39,6 +40,12 @@ export class adapterNoteRepository  implements INotes{
         noteToUpdate = await this.repositorio.findOneBy({
             idNota: id,
         })
+
+        const note = new Optional<NoteEntity>(noteToUpdate);
+
+        if(!note.hasvalue()){
+            return Either.makeLeft<Error,string>((new Error('La nota no existe')));
+        }
 
         noteToUpdate.cuerpoNotaText = nota.getcuerpoNota().getcuerpoNotaText();
         noteToUpdate.cuerpoNotaImg = nota.getcuerpoNota().getcuerpoNotaImg();
@@ -51,7 +58,7 @@ export class adapterNoteRepository  implements INotes{
             const resultado = await this.repositorio.save(noteToUpdate);
             return Either.makeRight<Error,string>(resultado.tituloNota);
         }catch(error){
-            return Either.makeLeft<Error,string>(error.message);
+            return Either.makeLeft<Error,string>(error);
         }
     }
 
