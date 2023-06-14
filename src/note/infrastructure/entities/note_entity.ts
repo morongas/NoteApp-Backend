@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { UserEntity } from "src/user/infrastructure/entities/user.entity";
+import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 
 
 //PRUEBA 
@@ -25,5 +26,11 @@ export class NoteEntity {
 
     @Column()
     tituloNota?: string;
+
+    @ManyToOne(
+        ()=>UserEntity,
+        (userEntity)=> userEntity.notes
+    )
+    user: string;
 }
 

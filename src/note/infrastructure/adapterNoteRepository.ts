@@ -24,7 +24,8 @@ export class adapterNoteRepository  implements INotes{
             estadoNota: nota.getestadoNota().getEstado(),
             etiquetaNota: nota.getetiquetaNota().getEtiquetaNota().getValue(),
             fechaNota: nota.getfechaNota().getFecha(),
-            tituloNota: nota.gettituloNota().getTituloNota()
+            tituloNota: nota.gettituloNota().getTituloNota(),
+            user: "1"
         };
         try{
             const resultado = await this.repositorio.save(aux);

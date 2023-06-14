@@ -4,11 +4,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { UserEntity } from './entities/user.entity';
 import { getNotesByUserService } from '../application/getNotesByUserService';
+import { adapterUserRepository } from './user.adapter';
 
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
   controllers: [UserController],
-  providers: [getNotesByUserService]
+  providers: [getNotesByUserService,adapterUserRepository]
 })
 export class UserModule {}

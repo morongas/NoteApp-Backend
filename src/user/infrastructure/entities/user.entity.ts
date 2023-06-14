@@ -1,24 +1,31 @@
-import { Column, CreateDateColumn, Entity, getManager, JoinTable, ManyToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { NoteEntity } from "src/note/infrastructure/entities/note_entity";
+import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 
-@Entity()
+@Entity({ name: 'user' })
 export class UserEntity {
-    @PrimaryColumn({ type: "uuid" }) 
+    @PrimaryColumn() 
     id: string;
 
-    @Column({ name: 'nombre_completo', length: 32 }) 
+    @Column() 
     nombre: string;
 
-    @Column({ name: 'clave', length: 32 }) 
+    @Column() 
     clave: string;
 
-    @Column({ name: 'usuario', length: 32 }) 
-    usuario: number;
+    @Column() 
+    usuario: string;
 
-    @Column({ name: 'correo', length: 32 }) 
-    correo: number;
+    @Column() 
+    correo: string;
 
-    @Column({ name: 'f_nacimiento', length: 32 }) 
-    f_nacimiento: number;
+    @Column() 
+    f_nacimiento: string;
+
+    @OneToMany(
+        () =>NoteEntity,
+        (noteEntity) => noteEntity.user
+    )
+    notes: NoteEntity[];
 
 
 }

@@ -8,6 +8,7 @@ import { createnoteService } from './note/application/createNoteService';
 import { adapterNoteRepository } from './note/infrastructure/adapterNoteRepository';
 import { NoteController } from './note/infrastructure/NoteController';
 import { NoteEntity } from './note/infrastructure/entities/note_entity';
+import { UserModule } from './user/infrastructure/user.module';
 
 
 
@@ -16,6 +17,7 @@ import { NoteEntity } from './note/infrastructure/entities/note_entity';
     ConfigModule.forRoot({isGlobal: true}),
     TypeOrmModule.forRoot(typeOrmConfig),
     NoteModule,
+    UserModule
   ],
   controllers: [],
   providers: [],
