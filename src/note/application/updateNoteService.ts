@@ -7,11 +7,11 @@ import { etiquetaNota } from "../domain/valueObjects/etiquetaNota";
 import { fecha } from "../domain/valueObjects/fecha";
 import { NoteAggregate } from "../domain/noteAggregate";
 import { tituloNota } from "../domain/valueObjects/tituloNota";
-import { CreateNoteDto } from "../infrastructure/dto/CreateNoteDto";
+import { CreateNoteDto } from "./dto/CreateNoteDto";
 import { Either } from "../../generics/Either";
 import { adapterNoteRepository } from "../infrastructure/adapterNoteRepository";
 import { Inject } from "@nestjs/common";
-import { UpdateNoteDto } from "../infrastructure/dto/UpdateNoteDto";
+import { UpdateNoteDto } from "./dto/UpdateNoteDto";
 
 
 export class updatenoteService{

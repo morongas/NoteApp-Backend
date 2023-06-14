@@ -1,12 +1,12 @@
 import { Controller, Get, Post, Body, Put, Patch, Param, Delete, Inject, Req } from '@nestjs/common';
-import { CreateNoteDto } from './dto/CreateNoteDto';
+import { CreateNoteDto } from '../application/dto/CreateNoteDto';
 import { createnoteService } from 'src/note/application/createNoteService';
 import { adapterNoteRepository } from './adapterNoteRepository';
 import { NoteAggregate } from '../domain/noteAggregate';
 import { INotes } from '../domain/repository/INotes';
 import { Either } from 'src/generics/Either';
 import { updatenoteService } from 'src/note/application/updateNoteService';
-import { UpdateNoteDto } from './dto/UpdateNoteDto';
+import { UpdateNoteDto } from '../application/dto/UpdateNoteDto';
 //import { UpdateNoteDto } from './dto/update-note.dto';
 
 @Controller('note')
