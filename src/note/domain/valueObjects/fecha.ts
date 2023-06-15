@@ -9,7 +9,7 @@ export class fecha{
         return this.fecha;
     }
     static create(fe: Date): Either<Error,fecha>{
-        if(fecha === undefined){
+        if(fe === undefined){
             return Either.makeLeft<Error, fecha>(new Error('No se puede crear una nota sin fecha'));
         }
         return Either.makeRight<Error,fecha>(new fecha(fe));

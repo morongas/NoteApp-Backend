@@ -70,4 +70,6 @@ export class NoteAggregate{
         return this.estado;
     }
 
+    
+
 }

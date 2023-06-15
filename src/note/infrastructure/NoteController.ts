@@ -1,15 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, Req } from '@nestjs/common';
-import { CreateNoteDto } from './dto/CreateNoteDto';
+import { Controller, Get, Post, Body, Put, Patch, Param, Delete, Inject, Req } from '@nestjs/common';
+import { CreateNoteDto } from '../application/dto/CreateNoteDto';
 import { createnoteService } from 'src/note/application/createNoteService';
 import { adapterNoteRepository } from './adapterNoteRepository';
 import { NoteAggregate } from '../domain/noteAggregate';
 import { INotes } from '../domain/repository/INotes';
 import { Either } from 'src/generics/Either';
+import { updatenoteService } from 'src/note/application/updateNoteService';
+import { UpdateNoteDto } from '../application/dto/UpdateNoteDto';
 //import { UpdateNoteDto } from './dto/update-note.dto';
 
 @Controller('note')
 export class NoteController {
-  constructor(private readonly repo: createnoteService) {}
+  constructor(private readonly repo: createnoteService, private readonly repoUpdate: updatenoteService) {}
 
 
   @Post()
@@ -21,11 +23,29 @@ export class NoteController {
     let fechaC = body.fechaC;
     let est = body.est;
     let dto = new CreateNoteDto(text, img, etiquet, titulo, fechaC, est);
-
-    if ((await this.repo.execute(dto) ).isLeft()) {
-      return "No se pudo crear la nota";
+    let resultado = await this.repo.execute(dto);
+    if (resultado.isLeft()) {
+      return "No se pudo crear la nota: "+resultado.getLeft().message;
     }else{
       return "Nota creada";
+    }
+  }
+
+  @Put(':id')
+  async update(@Param('id') id:string, @Body() body, @Req() request): Promise<string> {
+    let idNota = id;
+    let text = body.text;
+    let img = body.img;
+    let etiquet = body.etiquet;
+    let titulo = body.titulo;
+    let fechaC = body.fechaC;
+    let est = body.est;
+    let dto = new UpdateNoteDto(idNota,text, img, etiquet, titulo, fechaC, est);
+    let resultado = await this.repoUpdate.execute(dto);
+    if (resultado.isLeft()) {
+      return "No se pudo editar la nota: "+resultado.getLeft().message;
+    }else{
+      return "Nota editada";
     }
   }
   /*
