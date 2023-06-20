@@ -1,13 +1,12 @@
 import { IUser } from "../domain/repository/IUser";
-import { UsuarioId } from "../domain/valueObjects/UsuarioId";
-import { adapterUserRepository } from "../infrastructure/user.adapter";
-import { Inject } from "@nestjs/common";
-import { Either } from "../../generics/Either";
+import { Inject, Injectable } from "@nestjs/common";
 
 
+
+@Injectable()
 export class getNotesByUserService<T>{
     private UserRepository: IUser<T>;
-    constructor(@Inject(adapterUserRepository)  repo: IUser<T>) {
+    constructor(@Inject('IUser<T>')  repo: IUser<T>) {
         this.UserRepository = repo;
     }
 

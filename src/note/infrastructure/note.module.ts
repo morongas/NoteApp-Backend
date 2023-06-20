@@ -11,6 +11,9 @@ import { updatenoteService } from '../application/updateNoteService';
 @Module({
   imports: [TypeOrmModule.forFeature([NoteEntity])],
   controllers: [NoteController],
-  providers: [createnoteService, updatenoteService, adapterNoteRepository]
+  providers: [createnoteService,updatenoteService,{
+    provide: 'INotes',
+    useClass: adapterNoteRepository,
+  },]
 })
 export class NoteModule {}

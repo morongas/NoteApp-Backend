@@ -1,21 +1,15 @@
 import { IAppService } from "src/core/application/IAppService";
-import { IDNota } from "../domain/valueObjects/IDNota";
 import { INotes } from "../domain/repository/INotes";
-import { cuerpoNota } from "../domain/valueObjects/cuerpoNota";
-import { estadoNota } from "../domain/valueObjects/estadoNota";
-import { etiquetaNota } from "../domain/valueObjects/etiquetaNota";
-import { fecha } from "../domain/valueObjects/fecha";
 import { NoteAggregate } from "../domain/noteAggregate";
-import { tituloNota } from "../domain/valueObjects/tituloNota";
 import { Either } from "../../generics/Either";
-import { adapterNoteRepository } from "../infrastructure/adapterNoteRepository";
-import { Inject } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { UpdateNoteDto } from "./dto/UpdateNoteDto";
 
 
+@Injectable()
 export class updatenoteService implements IAppService<UpdateNoteDto, string>{
     private NotesRepository: INotes;
-    constructor(@Inject(adapterNoteRepository)  repo: INotes) {
+    constructor(@Inject('INotes')  repo: INotes) {
         this.NotesRepository = repo;
     }
 
