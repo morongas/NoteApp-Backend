@@ -9,8 +9,10 @@ import { updatenoteService } from 'src/note/application/updateNoteService';
 import { UpdateNoteDto } from '../application/dto/UpdateNoteDto';
 import { findNoteDto } from '../application/dto/findNoteDto';
 import { findNoteService } from '../application/findNoteService';
+import { ApiTags } from '@nestjs/swagger';
 //import { UpdateNoteDto } from './dto/update-note.dto';
 
+@ApiTags('Notas')
 @Controller('note')
 export class NoteController {
   constructor(private readonly repo: createnoteService, private readonly repoUpdate: updatenoteService, private readonly repofind: findNoteService) {}
