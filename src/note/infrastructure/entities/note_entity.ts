@@ -1,5 +1,6 @@
 import { UserEntity } from "src/user/infrastructure/entities/user.entity";
-import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
+import { bodyEntity } from "./body_entity";
 
 
 //PRUEBA 
@@ -8,12 +9,6 @@ export class NoteEntity {
     
     @PrimaryColumn()
     idNota: string;
-
-    @Column()
-    cuerpoNotaText: string;
-
-    @Column()
-    cuerpoNotaImg: string;
 
     @Column()
     estadoNota: string;
@@ -32,5 +27,11 @@ export class NoteEntity {
         (userEntity)=> userEntity.notes
     )
     user: string;
+
+    @OneToMany(
+        () => bodyEntity,
+        (bodyEntity)=>bodyEntity.nota
+    )
+    body: bodyEntity[];
 }
 

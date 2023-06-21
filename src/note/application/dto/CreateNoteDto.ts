@@ -1,14 +1,11 @@
 export class CreateNoteDto {
-    cuerpoText?: string;
-    cuerpoImg?: string;
     etiqueta?: string;
     tituloNota?: string;
     fechaCreacion: Date;
     estado?: string;
 
-    constructor(cuerpoText?: string, cuerpoImg?: string, etiqueta?: string, tituloNota?: string, fechaCreacion?: Date, estado?: string) {
-        this.cuerpoText = cuerpoText;
-        this.cuerpoImg = cuerpoImg;
+    constructor( etiqueta?: string, tituloNota?: string, fechaCreacion?: Date, estado?: string) {
+
         this.etiqueta = etiqueta;
         this.tituloNota = tituloNota;
         this.fechaCreacion = fechaCreacion;

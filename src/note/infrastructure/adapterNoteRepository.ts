@@ -15,17 +15,26 @@ export class adapterNoteRepository  implements INotes{
         private readonly repositorio: Repository<NoteEntity>,
     ) {}
 
+    async buscarNota(id: string): Promise<Either<Error, NoteAggregate>> {
+        const result = await this.repositorio.findOneBy({ idNota: id });
+        if (result) {
+            let aux = NoteAggregate.create(result.fechaNota, result.etiquetaNota, result.tituloNota, result.estadoNota, result.idNota);
+            return Either.makeRight<Error, NoteAggregate>(aux.getRight());
+        } else {
+            return Either.makeLeft<Error, NoteAggregate>(new Error('No se encontro la nota'));
+        }
+    }
+
     async saveNota(nota: NoteAggregate): Promise<Either<Error, string>> {
 
         const aux: NoteEntity = {
             idNota: nota.getid().getIDNota(),
-            cuerpoNotaText: nota.getcuerpoNota().getcuerpoNotaText(),
-            cuerpoNotaImg: nota.getcuerpoNota().getcuerpoNotaImg(),
             estadoNota: nota.getestadoNota().getEstado(),
             etiquetaNota: nota.getetiquetaNota().getEtiquetaNota().getValue(),
             fechaNota: nota.getfechaNota().getFecha(),
             tituloNota: nota.gettituloNota().getTituloNota(),
-            user: "1"
+            user: "1",
+            body: []
         };
         try{
             const resultado = await this.repositorio.save(aux);
@@ -48,8 +57,6 @@ export class adapterNoteRepository  implements INotes{
             return Either.makeLeft<Error,string>((new Error('La nota no existe')));
         }
 
-        noteToUpdate.cuerpoNotaText = nota.getcuerpoNota().getcuerpoNotaText();
-        noteToUpdate.cuerpoNotaImg = nota.getcuerpoNota().getcuerpoNotaImg();
         noteToUpdate.estadoNota = nota.getestadoNota().getEstado();
         noteToUpdate.etiquetaNota = nota.getetiquetaNota().getEtiquetaNota().getValue();
         noteToUpdate.fechaNota = nota.getfechaNota().getFecha();
@@ -62,5 +69,7 @@ export class adapterNoteRepository  implements INotes{
             return Either.makeLeft<Error,string>(error);
         }
     }
+
+  
 
 }
