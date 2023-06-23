@@ -19,17 +19,17 @@ export class NoteController {
 
 
   @Post()
-  async create(@Body() body, @Req() request): Promise<string> {
+  async create(@Body() body, @Res() response): Promise<string> {
     let etiquet = body.etiquet;
     let titulo = body.titulo;
     let fechaC = body.fechaC;
     let est = body.est;
     let dto = new CreateNoteDto( etiquet, titulo, fechaC, est);
-    let resultado = await this.repo.execute(dto);
-    if (resultado.isLeft()) {
-      return "No se pudo crear la nota: "+resultado.getLeft().message;
+    let result = await this.repo.execute(dto);
+    if (result.isLeft()) {
+      return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
     }else{
-      return "Nota creada";
+      return response.status(HttpStatus.OK).json("Nota Creada con Exito");
     }
   }
 
@@ -51,9 +51,11 @@ export class NoteController {
     }
   }
 
-  @Get('/findById')
-  async findById(@Res() response, @Body() body: findNoteDto) {
-    let result = await this.repofind.execute(body);
+  @Get(':id')
+  async findById(@Param('id') id:string, @Res() response) {
+    let idNota = id;
+    let dto = new findNoteDto(idNota);
+    let result = await this.repofind.execute(dto);
     if (result.isRight()) {
       return response.status(HttpStatus.OK).json(result.getRight());
     }

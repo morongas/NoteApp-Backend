@@ -4,6 +4,7 @@ import { estadoNota } from "./valueObjects/estadoNota";
 import { etiquetaNota } from "./valueObjects/etiquetaNota";
 import { fecha } from "./valueObjects/fecha";
 import { tituloNota } from "./valueObjects/tituloNota";
+import { body } from "./entities/body";
 
 export class NoteAggregate{
 
@@ -12,6 +13,7 @@ export class NoteAggregate{
     private tituloNota?: tituloNota;
     private fechaCreacion: fecha;
     private estado?: estadoNota;
+    private body?: body[] = [];
 
     private constructor(idNota: IDNota, fechaCreacion: fecha, etiqueta?: etiquetaNota, titulo?: tituloNota, estado?: estadoNota) {
         this.idNota = idNota;
@@ -22,6 +24,7 @@ export class NoteAggregate{
         
     }
 
+ 
     static create(fechaC: Date, etiqueta?: string, tituloNot?: string, estado?: string, id?: string):
          Either<Error, NoteAggregate> {
         
@@ -45,7 +48,6 @@ export class NoteAggregate{
 
     }
 
-
     //GETTERS
     public getid(): IDNota {
         return this.idNota;
@@ -68,6 +70,8 @@ export class NoteAggregate{
         return this.estado;
     }
 
-    
-
+    //SETTERS
+    public setbodyNota(body: body){
+        this.body.push(body);
+    }
 }

@@ -10,21 +10,26 @@ export class body {
     private imagen?: Buffer;
     private IDbody: string;
 
-    private constructor(idNota: string, text?: string, imagen?: Buffer) {
+    constructor(idNota: string, text?: string, imagen?: Buffer, idbody?: string) {
         this.idNota = idNota;
         this.text = text;
         this.imagen = imagen;
-        this.IDbody = uuidv4();
+        if(idbody==undefined){
+            this.IDbody = uuidv4();
+        } else {
+            this.IDbody = idbody;
+        }
     }
 
-    static create(idNota: string, text?: string, imagen?: Buffer): Either<Error, body> {
+    static create(idNota: string, text?: string, imagen?: Buffer, idBody?: string): Either<Error, body> {
         if(text===undefined && imagen===undefined){
+            console.log('entra');
             return Either.makeLeft(new Error("Debe haber al menos un campo con información"));
         }
         if(idNota===undefined){
             return Either.makeLeft(new Error("Debe haber una nota para ser asociada"));
         }
-        return Either.makeRight(new body(idNota, text, imagen));
+        return Either.makeRight(new body(idNota, text,imagen,idBody));
         
     }
 
