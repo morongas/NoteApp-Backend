@@ -11,7 +11,7 @@ export class NombreEtiqueta{
     }
 
     static create(nombre: string): Either<Error,NombreEtiqueta>{
-        if(nombre===undefined) return Either.makeLeft<Error, NombreEtiqueta>(new Error('No se puede crear una nota sin titulo'));
+        if(nombre===undefined) return Either.makeLeft<Error, NombreEtiqueta>(new Error('No se a insertado el nombre a una etiqueta'));
         else return Either.makeRight<Error,NombreEtiqueta>(new NombreEtiqueta(nombre))
     }
 }
