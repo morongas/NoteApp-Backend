@@ -2,8 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { getNotesByUserService } from '../application/getNotesByUserService';
 import { UserEntity } from './entities/user.entity';
 import { Either } from "../../generics/Either";
+import { ApiTags } from '@nestjs/swagger';
 
-
+@ApiTags('Usuario')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: getNotesByUserService<UserEntity[]>) {}

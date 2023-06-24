@@ -7,22 +7,42 @@ import { NoteEntity } from "./entities/note_entity";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Optional } from "../../generics/Optional";
+import { bodyEntity } from "./entities/body_entity";
+import { body } from "../domain/entities/body";
 
 @Injectable()
 export class adapterNoteRepository  implements INotes{
     constructor(
         @InjectRepository(NoteEntity)
         private readonly repositorio: Repository<NoteEntity>,
+        @InjectRepository(bodyEntity)
+        private readonly repositoriobody: Repository<bodyEntity>,
+
     ) {}
 
     async buscarNota(id: string): Promise<Either<Error, NoteAggregate>> {
-        const result = await this.repositorio.findOneBy({ idNota: id });
-        if (result) {
-            let aux = NoteAggregate.create(result.fechaNota, result.etiquetaNota, result.tituloNota, result.estadoNota, result.idNota);
-            return Either.makeRight<Error, NoteAggregate>(aux.getRight());
-        } else {
-            return Either.makeLeft<Error, NoteAggregate>(new Error('No se encontro la nota'));
+        const result = await this.repositorio.find({ 
+            where: {
+                idNota: id
+            }, 
+            relations: {
+                body: true,
+            }
+        });
+        if (result.length == 0) {
+            return Either.makeLeft<Error, NoteAggregate>(new Error('No se encontro la nota'));  
         }
+        let aux = NoteAggregate.create(result[0].fechaNota, result[0].etiquetaNota, result[0].tituloNota, result[0].estadoNota, result[0].idNota);
+        if(result[0].body.length == 0){
+            return Either.makeRight<Error, NoteAggregate>(aux.getRight());
+        }
+        for(let i=0;i<result[0].body.length;i++){
+            const bo = body.create(result[0].idNota, result[0].body[i].text, result[0].body[i].imagen,result[0].body[i].IDbody);
+            if(bo.isRight()){
+                aux.getRight().setbodyNota(bo.getRight());
+            }
+        }
+            return Either.makeRight<Error, NoteAggregate>(aux.getRight());
     }
 
     async saveNota(nota: NoteAggregate): Promise<Either<Error, string>> {

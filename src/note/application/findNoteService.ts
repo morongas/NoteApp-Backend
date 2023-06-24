@@ -11,9 +11,9 @@ export class findNoteService{
         this.notaRepositorio = notaRepo;
     }
 
-    async execute(service: findNoteDto): Promise<Either<Error, NoteAggregate>> {
+    async execute(dto: findNoteDto): Promise<Either<Error, NoteAggregate>> {
 
-        return await this.notaRepositorio.buscarNota(service.id);
+        return await this.notaRepositorio.buscarNota(dto.id);
 
     }
 }

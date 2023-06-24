@@ -2,8 +2,9 @@ import { Body, Controller, Param, Post, Req, UploadedFile, UseInterceptors } fro
 import { addBodyToNoteService } from "../application/addBodyToNoteService";
 import { addBodyDto } from "../application/dto/addBodyDto";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { ApiExcludeController } from "@nestjs/swagger";
 
-
+@ApiExcludeController()
 @Controller('body')
 export class addBodyController {
     constructor(private readonly repo: addBodyToNoteService) {}
