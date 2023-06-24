@@ -2,6 +2,7 @@ import { UsuarioId } from "src/user/domain/valueObjects/UsuarioId";
 import { EtiquetaId } from "./ValueObjects/EtiquetaId";
 import { NombreEtiqueta } from "./ValueObjects/NombreEtiqueta";
 import { Either } from "src/generics/Either";
+import { timeStamp } from "console";
 
 export class Etiqueta{
     constructor(
@@ -16,6 +17,10 @@ export class Etiqueta{
 
     public getNombre(): NombreEtiqueta{
         return this.nombre
+    }
+
+    public getIdUsuario(): UsuarioId{
+        return this.idUsuario
     }
 
     static create(id: string, idUsuario: number, nombre: string ): Either<Error,Etiqueta>{
