@@ -13,7 +13,4 @@ export class TagEntity{
     @Column()
     nombre: string;
 
-    @ManyToMany(type=>NoteEntity, note=>note.tags)
-    @JoinTable()
-    notes: NoteEntity[]
 }

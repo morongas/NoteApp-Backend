@@ -3,12 +3,13 @@ import { EtiquetaId } from "./ValueObjects/EtiquetaId";
 import { NombreEtiqueta } from "./ValueObjects/NombreEtiqueta";
 import { Either } from "src/generics/Either";
 import { timeStamp } from "console";
+import { NoteAggregate } from "src/note/domain/noteAggregate";
 
 export class Etiqueta{
     constructor(
-        public id: EtiquetaId,
-        public idUsuario: UsuarioId,
-        public nombre: NombreEtiqueta
+        private id: EtiquetaId,
+        private idUsuario: UsuarioId,
+        private nombre: NombreEtiqueta
         ){}
 
     public getId(): EtiquetaId{
@@ -23,7 +24,7 @@ export class Etiqueta{
         return this.idUsuario
     }
 
-    static create(id: string, idUsuario: number, nombre: string ): Either<Error,Etiqueta>{
+    static create(idUsuario: number, nombre: string, id?: string): Either<Error,Etiqueta>{
         let idEtiqueta: EtiquetaId;
 
         if(id === undefined){
@@ -37,11 +38,16 @@ export class Etiqueta{
 
         if(idUser.isLeft() || name.isLeft()){ //No se inserto algun valor obligatorio
             var errorMessage = new String( "Se presentaron los siguientes errores al intentar crear el tag: " );
-            if(idUser.isLeft()) errorMessage.concat(idUser.getLeft().message,' ')
-            if(name.isLeft()) errorMessage.concat(name.getLeft().message,' ')
+            if(idUser.isLeft()) { 
+                errorMessage.concat(idUser.getLeft().message,' ');
+            }
+            if(name.isLeft()){
+                errorMessage.concat(name.getLeft().message,' ')
+            } 
 
             return Either.makeLeft<Error, Etiqueta>(new Error(errorMessage.toString()));
         
-        } return Either.makeRight<Error, Etiqueta>(new Etiqueta(idEtiqueta,idUser.getRight(),name.getRight()))
+        } 
+        return Either.makeRight<Error, Etiqueta>(new Etiqueta(idEtiqueta,idUser.getRight(),name.getRight()))
     }
 }

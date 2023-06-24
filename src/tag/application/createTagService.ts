@@ -11,22 +11,23 @@ export class CreateTagService{
         @Inject('IEtiqueta') public EtiquetaRepository: IEtiqueta
     ){}
     
-    async execute(dto: createTagDto): Promise<Either<Error, EtiquetaId>> {
+    async execute(dto: createTagDto): Promise<Either<Error, string>> {
 
         //Se crea el tag
-        const tag = Etiqueta.create(dto.id, dto.idUsuario, dto.nombre)
+        const tag = Etiqueta.create(dto.idUsuario, dto.nombre)
         
         //Se valida que el tag se haya creado bien, es decir
         //se le hayan pasado todos los parametros obligatorios
-        if(tag.isLeft()) return Either.makeLeft<Error, EtiquetaId>(new Error(tag.getLeft().message.toString())) 
-        else{
+        if(tag.isLeft()){
+            return Either.makeLeft<Error, string>(new Error(tag.getLeft().message.toString())) 
+        }
+            else{
             let result = await this.EtiquetaRepository.crearEtiqueta(tag.getRight())
             //se valida que se haya guardado en la BD
-            // if(result.isLeft()){
-            //     return result
-            //     //Either.makeLeft<Error, EtiquetaId>(new Error(result.getLeft().message)); 
-            // }
-            return result
+            if(result.isLeft()){
+                return result
+            }
+            return Either.makeRight<Error,string>("Resultado "+  result);
         }
     }
 }
