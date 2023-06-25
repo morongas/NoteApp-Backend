@@ -14,9 +14,6 @@ export class etiquetaNota {
         }
     }
     static create(etiqueta: string): Either<Error, etiquetaNota> {
-        if (etiqueta === undefined) {
-            return Either.makeLeft<Error, etiquetaNota>(new Error('No se puede crear una nota sin etiqueta'));
-        }
         return Either.makeRight<Error, etiquetaNota>(new etiquetaNota(etiqueta));
     }
 

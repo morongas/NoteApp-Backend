@@ -14,7 +14,7 @@ export class bodyEntity {
     text: string;
 
     @Column({ type: 'bytea', nullable: true })
-    imagen: Buffer;
+    imagen?: Buffer;
 
     @ManyToOne(
         () => NoteEntity,

@@ -32,7 +32,7 @@ export class adapterNoteRepository  implements INotes{
         if (result.length == 0) {
             return Either.makeLeft<Error, NoteAggregate>(new Error('No se encontro la nota'));  
         }
-        let aux = NoteAggregate.create(result[0].fechaNota, result[0].etiquetaNota, result[0].tituloNota, result[0].estadoNota, result[0].idNota);
+        let aux = NoteAggregate.create(result[0].tituloNota, result[0].fechaNota, result[0].etiquetaNota,result[0].estadoNota, result[0].idNota,result[0].descripcionNota);
         if(result[0].body.length == 0){
             return Either.makeRight<Error, NoteAggregate>(aux.getRight());
         }
@@ -53,6 +53,7 @@ export class adapterNoteRepository  implements INotes{
             etiquetaNota: nota.getetiquetaNota().getEtiquetaNota().getValue(),
             fechaNota: nota.getfechaNota().getFecha(),
             tituloNota: nota.gettituloNota().getTituloNota(),
+            descripcionNota: nota.getdescripcionNota().getDescripcion(),
             user: "1",
             body: []
         };
@@ -81,6 +82,7 @@ export class adapterNoteRepository  implements INotes{
         noteToUpdate.etiquetaNota = nota.getetiquetaNota().getEtiquetaNota().getValue();
         noteToUpdate.fechaNota = nota.getfechaNota().getFecha();
         noteToUpdate.tituloNota = nota.gettituloNota().getTituloNota();
+        noteToUpdate.descripcionNota = nota.getdescripcionNota().getDescripcion();
 
         try{
             const resultado = await this.repositorio.save(noteToUpdate);

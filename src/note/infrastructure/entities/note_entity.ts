@@ -10,17 +10,20 @@ export class NoteEntity {
     @PrimaryColumn()
     idNota: string;
 
-    @Column()
-    estadoNota: string;
+    @Column({ nullable: true})
+    estadoNota?: string;
 
-    @Column()
-    etiquetaNota: string;
+    @Column({ nullable: true})
+    etiquetaNota?: string;
 
     @Column()
     fechaNota: Date;
 
     @Column()
-    tituloNota?: string;
+    tituloNota: string;
+
+    @Column({ nullable: true})
+    descripcionNota?: string;
 
     @ManyToOne(
         ()=>UserEntity,

@@ -24,7 +24,8 @@ export class NoteController {
     let titulo = body.titulo;
     let fechaC = body.fechaC;
     let est = body.est;
-    let dto = new CreateNoteDto( etiquet, titulo, fechaC, est);
+    let desc = body.desc;
+    let dto = new CreateNoteDto(titulo,etiquet,fechaC, est,desc);
     let result = await this.repo.execute(dto);
     if (result.isLeft()) {
       return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
@@ -36,13 +37,12 @@ export class NoteController {
   @Put(':id')
   async update(@Param('id') id:string, @Body() body, @Req() request): Promise<string> {
     let idNota = id;
-    let text = body.text;
-    let img = body.img;
     let etiquet = body.etiquet;
     let titulo = body.titulo;
     let fechaC = body.fechaC;
     let est = body.est;
-    let dto = new UpdateNoteDto(idNota, etiquet, titulo, fechaC, est);
+    let desc = body.desc;
+    let dto = new UpdateNoteDto(titulo, idNota, etiquet,fechaC, est,desc);
     let resultado = await this.repoUpdate.execute(dto);
     if (resultado.isLeft()) {
       return "No se pudo editar la nota: "+resultado.getLeft().message;

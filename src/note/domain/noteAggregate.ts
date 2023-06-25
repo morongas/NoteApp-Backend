@@ -5,27 +5,30 @@ import { etiquetaNota } from "./valueObjects/etiquetaNota";
 import { fecha } from "./valueObjects/fecha";
 import { tituloNota } from "./valueObjects/tituloNota";
 import { body } from "./entities/body";
+import { descripcionNota } from "./valueObjects/descripcionNota";
 
 export class NoteAggregate{
 
     private idNota: IDNota;
     private etiqueta?: etiquetaNota;
-    private tituloNota?: tituloNota;
+    private tituloNota: tituloNota;
     private fechaCreacion: fecha;
     private estado?: estadoNota;
+    private descripcion?: descripcionNota;
     private body?: body[] = [];
 
-    private constructor(idNota: IDNota, fechaCreacion: fecha, etiqueta?: etiquetaNota, titulo?: tituloNota, estado?: estadoNota) {
+    private constructor(idNota: IDNota, fechaCreacion: fecha, etiqueta?: etiquetaNota, titulo?: tituloNota, estado?: estadoNota, descrip?: descripcionNota) {
         this.idNota = idNota;
         this.etiqueta = etiqueta;
         this.tituloNota = titulo;
         this.fechaCreacion = fechaCreacion;
         this.estado = estado;
+        this.descripcion = descrip;
         
     }
 
  
-    static create(fechaC: Date, etiqueta?: string, tituloNot?: string, estado?: string, id?: string):
+    static create(tituloNot: string, fechaC: Date, etiqueta?: string, estado?: string, descrip?: string,id?: string):
          Either<Error, NoteAggregate> {
         
         let idNota: IDNota;
@@ -38,12 +41,15 @@ export class NoteAggregate{
         let etiquet = etiquetaNota.create(etiqueta);
         let titulo = tituloNota.create(tituloNot);
         let estadoNote = estadoNota.create(estado);
+        let descripcion = descripcionNota.create(descrip);
 
-
-        if ((fechaCreacion.isLeft()) && (etiquet.isLeft()) && (titulo.isLeft()) && (estadoNote.isLeft())) {
+        if ((fechaCreacion.isLeft()) && (titulo.isLeft())) {
             return Either.makeLeft<Error, NoteAggregate>(new Error('No se puede crear una nota sin fecha'));
         }else{
-            return Either.makeRight<Error, NoteAggregate>(new NoteAggregate(idNota, fechaCreacion.getRight(), etiquet.getRight(), titulo.getRight(), estadoNote.getRight()));
+            if(titulo.isLeft()){
+                return Either.makeLeft<Error, NoteAggregate>(titulo.getLeft());
+            }
+            return Either.makeRight<Error, NoteAggregate>(new NoteAggregate(idNota, fechaCreacion.getRight(), etiquet.getRight(), titulo.getRight(), estadoNote.getRight(), descripcion.getRight()));
         }
 
     }
@@ -70,6 +76,9 @@ export class NoteAggregate{
         return this.estado;
     }
 
+    public getdescripcionNota(): descripcionNota {
+        return this.descripcion;
+    }
     //SETTERS
     public setbodyNota(body: body){
         this.body.push(body);

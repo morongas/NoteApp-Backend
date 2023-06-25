@@ -1,7 +1,7 @@
 import { Either } from "src/generics/Either";
 
 export class estadoNota{
-    private estado: string;
+    private estado?: string;
     private constructor(estado: string){
         this.estado = estado;
     }
@@ -9,9 +9,6 @@ export class estadoNota{
         return this.estado;
     }
     static create(estado: string): Either<Error,estadoNota>{
-        if(estado === undefined){
-            return Either.makeLeft<Error, estadoNota>(new Error('No se puede crear una nota sin estado'));
-        }
         return Either.makeRight<Error,estadoNota>(new estadoNota(estado));
     }
     

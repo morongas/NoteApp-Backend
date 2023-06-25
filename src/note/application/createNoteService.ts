@@ -13,11 +13,12 @@ export class createnoteService implements IAppService<CreateNoteDto, string>{
         this.NotesRepository = repo;
     }
 
+
     // Creamos la nota en el agregado
     async execute(dto: CreateNoteDto): Promise<Either<Error,string>> {
     
         //Creamos el agregado
-        const nota = NoteAggregate.create(dto.fechaCreacion,dto.etiqueta,dto.tituloNota,dto.estado);
+        const nota = NoteAggregate.create(dto.tituloNota, dto.fechaCreacion,dto.etiqueta,dto.estado,dto.descrip);
         // Guardamos la nota en la base de datos
         if (nota.isLeft()) {
             return Either.makeLeft<Error,string>(new Error('No se puede crear la nota'));
