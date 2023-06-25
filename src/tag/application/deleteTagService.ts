@@ -6,28 +6,20 @@ import { Inject } from "@nestjs/common";
 import { Etiqueta } from "../domain/Etiqueta";
 import { EtiquetaId } from "../domain/ValueObjects/EtiquetaId";
 
-export class CreateTagService{
+export class DeleteTagService{
     constructor(
         @Inject('IEtiqueta') public EtiquetaRepository: IEtiqueta
     ){}
     
-    async execute(dto: createTagDto): Promise<Either<Error, string>> {
+    async execute(id: string): Promise<Either<Error, string>> {
+    
+        let result = await this.EtiquetaRepository.eliminarEtiqueta(id)
 
-        //Se crea el tag
-        const tag = Etiqueta.create(dto.idUsuario, dto.nombre)
-        
-        //Se valida que el tag se haya creado bien, es decir
-        //se le hayan pasado todos los parametros obligatorios
-        if(tag.isLeft()){
-            return Either.makeLeft<Error, string>(new Error(tag.getLeft().message.toString())) 
-        }
-        else{
-        let result = await this.EtiquetaRepository.crearEtiqueta(tag.getRight())
-        //se valida que se haya guardado en la BD
         if(result.isLeft()){
             return result
         }
         return Either.makeRight<Error,string>("Resultado: "+  result.getRight());
-        }
+
+        
     }
 }

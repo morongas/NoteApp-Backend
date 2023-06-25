@@ -39,10 +39,10 @@ export class Etiqueta{
         if(idUser.isLeft() || name.isLeft()){ //No se inserto algun valor obligatorio
             var errorMessage = new String( "Se presentaron los siguientes errores al intentar crear el tag: " );
             if(idUser.isLeft()) { 
-                errorMessage.concat(idUser.getLeft().message,' ');
+                errorMessage.concat('No se inserto el id de usuario ');
             }
             if(name.isLeft()){
-                errorMessage.concat(name.getLeft().message,' ')
+                errorMessage.concat('No se inserto el nombre de la etiqueta')
             } 
 
             return Either.makeLeft<Error, Etiqueta>(new Error(errorMessage.toString()));

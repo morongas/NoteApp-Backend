@@ -38,7 +38,7 @@ export class adapterTagRepository implements IEtiqueta{
         // }
         const tagAux: TagEntity= {
             id: etiqueta.getId().getid(),
-            idUsuario: etiqueta.getIdUsuario().getIDUser(),
+            idUsuario: String(etiqueta.getIdUsuario().getIDUser()),
             nombre: etiqueta.getNombre().getNombreEtiqueta(),
             //notas: notaArrayAux
             
@@ -47,6 +47,16 @@ export class adapterTagRepository implements IEtiqueta{
             const resultado = await this.repo.save(tagAux);
             return Either.makeRight<Error,string>('Se ha creado el tag correctamente');
         }catch(error){
+            return Either.makeLeft<Error,string>(error);
+        }
+
+    }
+
+    async eliminarEtiqueta(id: string): Promise<Either<Error, string>> {
+        try {
+            const resultado = await this.repo.delete(id)
+            return Either.makeRight<Error,string>('Se ha eliminado el tag correctamente');
+        } catch (error) {
             return Either.makeLeft<Error,string>(error);
         }
     }
