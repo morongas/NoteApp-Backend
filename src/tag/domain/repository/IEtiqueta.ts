@@ -4,5 +4,6 @@ import { EtiquetaId } from "../ValueObjects/EtiquetaId";
 
 export interface IEtiqueta{
     crearEtiqueta(etiqueta: Etiqueta): Promise<Either<Error, string>>;
+    editarEtiqueta(id: string, etiqueta: Etiqueta): Promise<Either<Error, string>>;
     eliminarEtiqueta(id: string): Promise<Either<Error, string>>
 }

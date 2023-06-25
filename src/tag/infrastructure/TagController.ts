@@ -1,15 +1,18 @@
-import { Body, Controller, Delete, HttpStatus, Param, Post, Res } from "@nestjs/common";
+import { Body, Controller, Delete, HttpStatus, Param, Post, Put, Res } from "@nestjs/common";
 import { CreateTagService } from "../application/createTagService";
 import { createTagDto } from "../application/dto/createTagDto";
 import { ApiTags } from "@nestjs/swagger";
 import { DeleteTagService } from "../application/deleteTagService";
+import { UpdateTagService } from "../application/updateTagService";
+import { editTagDto } from "../application/dto/editTagDto";
 
 @ApiTags('Etiquetas')
 @Controller('tag')
 export class TagController{
     constructor(
         private readonly createRepo: CreateTagService,
-        private readonly deleteRepo: DeleteTagService
+        private readonly deleteRepo: DeleteTagService,
+        private readonly updateRepo: UpdateTagService
     ){}
 
     @Post()
@@ -33,5 +36,17 @@ export class TagController{
       }else{
         return response.status(HttpStatus.OK).json(result.getRight());
       }
+  }
+
+  @Put(':id')
+    async update(@Param('id') id: string, @Body() body, @Res() response): Promise<string>{
+
+        let dto = new editTagDto(id,body.nombre, body.idUsuario)
+        let result = await this.updateRepo.execute(id,dto);
+        if (result.isLeft()) {
+            return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
+          }else{
+            return response.status(HttpStatus.OK).json(result.getRight());
+          }
     }
 }

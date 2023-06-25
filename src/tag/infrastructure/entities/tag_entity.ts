@@ -13,7 +13,7 @@ export class TagEntity{
         (userEntity)=> userEntity.tags
     )
     idUsuario: string;
-
+    
     @Column()
     nombre: string;
 

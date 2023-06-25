@@ -28,8 +28,11 @@ export class Etiqueta{
         let idEtiqueta: EtiquetaId;
 
         if(id === undefined){
+            console.log('es undefined y creo id\n')
+            console.log(id)
             idEtiqueta = EtiquetaId.create();
         }else{
+            console.log('no es undefined')
             idEtiqueta = EtiquetaId.create(id);
         }
 
