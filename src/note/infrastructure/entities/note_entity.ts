@@ -1,6 +1,7 @@
 import { UserEntity } from "src/user/infrastructure/entities/user.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
 import { bodyEntity } from "./body_entity";
+import { TagEntity } from "src/tag/infrastructure/entities/tag_entity";
 
 
 //PRUEBA 
@@ -36,5 +37,8 @@ export class NoteEntity {
         (bodyEntity)=>bodyEntity.nota
     )
     body: bodyEntity[];
+    
+    @ManyToMany(()=>TagEntity, (etiqueta)=>etiqueta.notas)
+    etiquetas?: TagEntity[]
 }
 
