@@ -14,9 +14,6 @@ export class NoteEntity {
     @Column({ nullable: true})
     estadoNota?: string;
 
-    @Column({ nullable: true})
-    etiquetaNota?: string;
-
     @Column()
     fechaNota: Date;
 

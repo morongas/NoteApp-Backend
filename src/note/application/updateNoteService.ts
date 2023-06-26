@@ -16,7 +16,7 @@ export class updatenoteService implements IAppService<UpdateNoteDto, string>{
     // Creamos la nota en el agregado
     async execute(dto: UpdateNoteDto): Promise<Either<Error,string>> {  
         //Creamos el agregado
-        const nota = NoteAggregate.create(dto.tituloNota,dto.fechaCreacion,dto.etiqueta,dto.estado,dto.descrip);
+        const nota = NoteAggregate.create(dto.tituloNota,dto.fechaCreacion,dto.estado,dto.descrip);
         // Guardamos la nota en la base de datos
         if (nota.isLeft()) {
             return Either.makeLeft<Error,string>(new Error('No se puede editar la nota'));

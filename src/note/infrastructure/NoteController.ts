@@ -20,12 +20,11 @@ export class NoteController {
 
   @Post()
   async create(@Body() body, @Res() response): Promise<string> {
-    let etiquet = body.etiquet;
     let titulo = body.titulo;
     let fechaC = body.fechaC;
     let est = body.est;
     let desc = body.desc;
-    let dto = new CreateNoteDto(titulo,etiquet,fechaC, est,desc);
+    let dto = new CreateNoteDto(titulo,fechaC, est,desc);
     let result = await this.repo.execute(dto);
     if (result.isLeft()) {
       return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
@@ -37,12 +36,11 @@ export class NoteController {
   @Put(':id')
   async update(@Param('id') id:string, @Body() body, @Req() request): Promise<string> {
     let idNota = id;
-    let etiquet = body.etiquet;
     let titulo = body.titulo;
     let fechaC = body.fechaC;
     let est = body.est;
     let desc = body.desc;
-    let dto = new UpdateNoteDto(titulo, idNota, etiquet,fechaC, est,desc);
+    let dto = new UpdateNoteDto(titulo, idNota,fechaC, est,desc);
     let resultado = await this.repoUpdate.execute(dto);
     if (resultado.isLeft()) {
       return "No se pudo editar la nota: "+resultado.getLeft().message;
@@ -63,23 +61,5 @@ export class NoteController {
       return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
     }
   }
-
-
-  /*
-  @Get()
-  findAll() {
-    return this.noteService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.noteService.findOne(+id);
-  }
-  
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNoteDto: UpdateNoteDto) {
-    return this.noteService.update(+id, updateNoteDto);
-  }*/
-
   
 }
