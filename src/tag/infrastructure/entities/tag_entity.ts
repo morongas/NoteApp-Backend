@@ -17,4 +17,10 @@ export class TagEntity{
     @Column()
     nombre: string;
 
+    @ManyToMany(()=>NoteEntity, (note)=>note.etiquetas)
+    @JoinTable({name: 'tags_notas',
+    joinColumn: {name: 'tag_id'},
+    inverseJoinColumn: {name: 'note_id'}})
+    notas?: NoteEntity[]
+
 }

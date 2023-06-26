@@ -41,7 +41,7 @@ export class TagController{
   @Put(':id')
     async update(@Param('id') id: string, @Body() body, @Res() response): Promise<string>{
 
-        let dto = new editTagDto(id,body.nombre, body.idUsuario)
+        let dto = new editTagDto(id,body.nombre, body.idUsuario, body.notas)
         let result = await this.updateRepo.execute(id,dto);
         if (result.isLeft()) {
             return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);

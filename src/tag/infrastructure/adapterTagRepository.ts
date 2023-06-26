@@ -12,7 +12,9 @@ export class adapterTagRepository implements IEtiqueta{
 
     constructor(
         @InjectRepository(TagEntity)
-        private readonly repo: Repository<TagEntity>
+        private readonly repo: Repository<TagEntity>,
+        @InjectRepository(NoteEntity)
+        private readonly repoNote: Repository<NoteEntity>
     ){}
     async crearEtiqueta(etiqueta: Etiqueta): Promise<Either<Error, string>> {
 
@@ -33,15 +35,24 @@ export class adapterTagRepository implements IEtiqueta{
     }
 
     async editarEtiqueta(id: string, etiqueta: Etiqueta): Promise<Either<Error, string>> {
+        let notas_id: string[] = [];
+        console.log("\n\nEntro al for\n\n")
+        etiqueta.getNotas().forEach(function(ids){
+            console.log(ids)
+            notas_id.push(ids.getIDNota())
+        })    
+        let notasData: NoteEntity[] = await this.repoNote.findByIds(notas_id)
+
         const tagAux: TagEntity= {
             id: etiqueta.getId().getid(),
             idUsuario: String(etiqueta.getIdUsuario().getIDUser()),
             nombre: etiqueta.getNombre().getNombreEtiqueta(),
-            //notas: notaArrayAux
-            
+            //notas: notas_id
+            notas : notasData
         };
         try{
-            const resultado = await this.repo.update(id,tagAux);
+            console.log(tagAux)
+            const resultado = await this.repo.save(tagAux);
             return Either.makeRight<Error,string>('Se ha modificado');
         }catch(error){
             return Either.makeLeft<Error,string>(error);

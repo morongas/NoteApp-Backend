@@ -16,4 +16,8 @@ export class IDNota{
         return new IDNota(id);
     }
 
+    static create2(id:string): IDNota{
+        return new IDNota(id);
+    }
+
 }

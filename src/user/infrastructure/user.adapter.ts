@@ -16,7 +16,9 @@ export class adapterUserRepository implements IUser<UserEntity[]>{
 
     const resultado = await this.repositorio.find({
       relations: {
-        tags:true,
+        tags:{ 
+          notas: true
+        },
         notes: true
         
     },

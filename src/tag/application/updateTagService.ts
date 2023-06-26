@@ -12,7 +12,7 @@ export class UpdateTagService{
     async execute(id: string, dto: editTagDto): Promise<Either<Error, string>> {
 
         //Se crea el tag
-        const tag = Etiqueta.create(dto.idUsuario, dto.nombre, dto.id)
+        const tag = Etiqueta.edit(dto.idUsuario, dto.nombre, dto.id, dto.notas)
         //Se valida que el tag se haya creado bien, es decir
         //se le hayan pasado todos los parametros obligatorios
         if(tag.isLeft()){
