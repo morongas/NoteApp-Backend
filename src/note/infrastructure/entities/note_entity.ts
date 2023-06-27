@@ -1,5 +1,7 @@
 import { UserEntity } from "src/user/infrastructure/entities/user.entity";
-import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
+import { bodyEntity } from "./body_entity";
+import { TagEntity } from "src/tag/infrastructure/entities/tag_entity";
 
 
 //PRUEBA 
@@ -9,28 +11,31 @@ export class NoteEntity {
     @PrimaryColumn()
     idNota: string;
 
-    @Column()
-    cuerpoNotaText: string;
-
-    @Column()
-    cuerpoNotaImg: string;
-
-    @Column()
-    estadoNota: string;
-
-    @Column()
-    etiquetaNota: string;
+    @Column({ nullable: true})
+    estadoNota?: string;
 
     @Column()
     fechaNota: Date;
 
     @Column()
-    tituloNota?: string;
+    tituloNota: string;
+
+    @Column({ nullable: true})
+    descripcionNota?: string;
 
     @ManyToOne(
         ()=>UserEntity,
         (userEntity)=> userEntity.notes
     )
     user: string;
+
+    @OneToMany(
+        () => bodyEntity,
+        (bodyEntity)=>bodyEntity.nota
+    )
+    body: bodyEntity[];
+    
+    @ManyToMany(()=>TagEntity, (etiqueta)=>etiqueta.notas)
+    etiquetas?: TagEntity[]
 }
 
