@@ -6,6 +6,7 @@ import { bodyEntity } from "./entities/body_entity";
 import { Repository } from "typeorm";
 import { IBody } from "../domain/repository/IBody";
 import { body } from "../domain/entities/body";
+import { Optional } from "src/generics/Optional";
 
 
 @Injectable()
@@ -32,8 +33,26 @@ export class adapterBody implements IBody{
 
     }
     async editBody(id: string, body: body): Promise<Either<Error, string>> {
-        throw new Error("Method not implemented.");
-    }
+        let bodyToUpdate : bodyEntity;
+        bodyToUpdate = await this.repositorio.findOneBy({
+            IDbody: id,
+        })
 
-   
+        const bodynote = new Optional<bodyEntity>(bodyToUpdate);
+
+        if(!bodynote.hasvalue()){
+            return Either.makeLeft<Error,string>((new Error('El body no existe')));
+        }
+
+        bodyToUpdate.text = body.gettext().getValue();
+        bodyToUpdate.imagen = body.getimagen().getValue();
+        
+        try{
+            const resultado = await this.repositorio.save(bodyToUpdate);
+            return Either.makeRight<Error,string>('Se cambio el body exitosamente');
+        }catch(error){
+            return Either.makeLeft<Error,string>(error);
+        }
+    }
+    
 }

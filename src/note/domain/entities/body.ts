@@ -23,13 +23,23 @@ export class body {
 
     static create(idNota: string, text?: string, imagen?: Buffer, idBody?: string): Either<Error, body> {
         if(text===undefined && imagen===undefined){
-            console.log('entra');
             return Either.makeLeft(new Error("Debe haber al menos un campo con información"));
         }
         if(idNota===undefined){
             return Either.makeLeft(new Error("Debe haber una nota para ser asociada"));
         }
         return Either.makeRight(new body(idNota, text,imagen,idBody));
+        
+    }
+
+    static edit(text?: string, imagen?: Buffer, idBody?: string): Either<Error, body> {
+        if(text===undefined && imagen===undefined){
+            return Either.makeLeft(new Error("Debe haber al menos un campo con información"));
+        }
+        if(idBody===undefined){
+            return Either.makeLeft(new Error("Debe haber un body para poder editar"));
+        }
+        return Either.makeRight(new body(idBody,text,imagen,idBody));
         
     }
 

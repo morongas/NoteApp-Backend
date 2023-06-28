@@ -15,9 +15,6 @@ export class adapterNoteRepository  implements INotes{
     constructor(
         @InjectRepository(NoteEntity)
         private readonly repositorio: Repository<NoteEntity>,
-        @InjectRepository(bodyEntity)
-        private readonly repositoriobody: Repository<bodyEntity>,
-
     ) {}
 
     async buscarNota(id: string): Promise<Either<Error, NoteAggregate>> {
@@ -32,7 +29,7 @@ export class adapterNoteRepository  implements INotes{
         if (result.length == 0) {
             return Either.makeLeft<Error, NoteAggregate>(new Error('No se encontro la nota'));  
         }
-        let aux = NoteAggregate.create(result[0].tituloNota, result[0].fechaNota,result[0].estadoNota, result[0].idNota,result[0].descripcionNota);
+        let aux = NoteAggregate.create(result[0].tituloNota, result[0].fechaNota,result[0].estadoNota,result[0].descripcionNota, result[0].idNota);
         if(result[0].body.length == 0){
             return Either.makeRight<Error, NoteAggregate>(aux.getRight());
         }
