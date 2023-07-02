@@ -12,17 +12,25 @@ import { addBodyController } from './addBodyController';
 import { addBodyToNoteService } from '../application/addBodyToNoteService';
 import { findNoteService } from '../application/findNoteService';
 import { updateBodyFromNoteService } from '../application/updateBodyFromNoteService';
+import { taskEntity } from './entities/task_entity';
+import { taskController } from './taskController';
+import { addTaskService } from '../application/addTaskService';
+import { adapterTask } from './adapterTask';
+import { updateTaskService } from '../application/updateTaskService';
 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([NoteEntity]), TypeOrmModule.forFeature([bodyEntity])],
-  controllers: [NoteController,addBodyController],
-  providers: [createnoteService,updatenoteService,addBodyToNoteService,findNoteService,updateBodyFromNoteService,{
+  imports: [TypeOrmModule.forFeature([NoteEntity]), TypeOrmModule.forFeature([bodyEntity]), TypeOrmModule.forFeature([taskEntity])],
+  controllers: [NoteController,addBodyController,taskController],
+  providers: [createnoteService,updatenoteService,addBodyToNoteService,findNoteService,updateBodyFromNoteService,addTaskService,updateTaskService,{
     provide: 'INotes',
     useClass: adapterNoteRepository,
 
   },{provide: 'IBody',
       useClass: adapterBody,
-  }]
+    }, {
+      provide: 'ITask',
+      useClass: adapterTask,
+    }]
 })
 export class NoteModule {}

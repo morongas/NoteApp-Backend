@@ -5,6 +5,7 @@ import { fecha } from "./valueObjects/fecha";
 import { tituloNota } from "./valueObjects/tituloNota";
 import { body } from "./entities/body";
 import { descripcionNota } from "./valueObjects/descripcionNota";
+import { task } from "./entities/task";
 
 export class NoteAggregate{
 
@@ -14,6 +15,7 @@ export class NoteAggregate{
     private estado?: estadoNota;
     private descripcion?: descripcionNota;
     private body?: body[] = [];
+    private tareas?: task[] = [];
 
     private constructor(idNota: IDNota, fechaCreacion: fecha,titulo?: tituloNota, estado?: estadoNota, descrip?: descripcionNota) {
         this.idNota = idNota;
@@ -50,6 +52,24 @@ export class NoteAggregate{
 
     }
 
+    static createTask(idNota: string, titulo: string, status: string, fecha: Date): Either<Error, task> {
+        const tarea = task.createTask(titulo, fecha, status, idNota);
+        if(tarea.isLeft()){
+            return Either.makeLeft<Error, task>(tarea.getLeft());
+        }else{
+            return Either.makeRight<Error, task>(tarea.getRight());
+        }
+    }
+
+    static editTask(id: string, titulo: string, status: string ): Either<Error, task>{
+        const tarea = task.editTask(id, titulo, status);
+        if(tarea.isLeft()){
+            return Either.makeLeft<Error, task>(tarea.getLeft());
+        }else{
+            return Either.makeRight<Error, task>(tarea.getRight());
+        }
+    }
+
     //GETTERS
     public getid(): IDNota {
         return this.idNota;
@@ -72,5 +92,9 @@ export class NoteAggregate{
     //SETTERS
     public setbodyNota(body: body){
         this.body.push(body);
+    }
+
+    public settareaNota(task: task){
+        this.tareas.push(task);
     }
 }
