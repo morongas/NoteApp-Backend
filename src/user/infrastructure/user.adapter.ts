@@ -26,27 +26,8 @@ export class adapterUserRepository implements IUser<UserEntity>{
     return resultado
 
   }
-  // create(createUserDto: CreateUserDto) {
-  //   return 'This action adds a new user';
-  // }
-
-  // findAll() {
-  //   return `This action returns all user`;
-  // }
-
-  // findOne(id: number) {
-  //   return `This action returns a #${id} user`;
-  // }
-
-  // findNotes(id: number) {
-  //   return `This action returns notes from user #${id}`;
-  // }
-
-  // // update(id: number, updateUserDto: UpdateUserDto) {
-  // //   return `This action updates a #${id} user`;
-  // // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} user`;
-  // }
+  
+  async registrarUsuario(): Promise<Either<Error, string>> {
+    return 
+  }
 }
