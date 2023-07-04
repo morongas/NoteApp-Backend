@@ -6,7 +6,7 @@ import { Inject } from "@nestjs/common";
 import { Etiqueta } from "../domain/Etiqueta";
 import { EtiquetaId } from "../domain/ValueObjects/EtiquetaId";
 
-export class CreateTagService{
+export class CreateTagService implements IAppService<createTagDto,string>{
     constructor(
         @Inject('IEtiqueta') public EtiquetaRepository: IEtiqueta
     ){}

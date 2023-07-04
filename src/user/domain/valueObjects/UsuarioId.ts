@@ -2,8 +2,9 @@ import { Either } from "src/generics/Either";
 
 export class UsuarioId{
     constructor(
-        private id: number
+        private id?: number
     ){}
+
 
     getIDUser(): number{
         return this.id;
