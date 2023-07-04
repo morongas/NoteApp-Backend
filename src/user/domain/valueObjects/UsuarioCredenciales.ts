@@ -2,7 +2,7 @@ import { Either } from "src/generics/Either";
 import { Usuario } from "../Usuario";
 
 export class UsuarioCredenciales {
-    constructor(
+    private constructor(
         public usuario: string,
         public clave: string,
         public email: string
