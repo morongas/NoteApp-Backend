@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./docs/logo.svg" width="320" alt="Logo" />
+  <img src="./docs/my_notes_app.png" width="320" alt="Logo" />
 </p>
 
 ## _NoteApp-Backend_
