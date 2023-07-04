@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, HttpStatus, Param, Post, Put, Res } from "@nestjs/common";
 import { CreateTagService } from "../application/createTagService";
 import { createTagDto } from "../application/dto/createTagDto";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiTags,ApiBody } from "@nestjs/swagger";
 import { DeleteTagService } from "../application/deleteTagService";
 import { UpdateTagService } from "../application/updateTagService";
 import { editTagDto } from "../application/dto/editTagDto";
@@ -14,7 +14,7 @@ export class TagController{
         private readonly deleteRepo: DeleteTagService,
         private readonly updateRepo: UpdateTagService
     ){}
-
+    @ApiBody({type: createTagDto})
     @Post()
     async create(@Body() body, @Res() response): Promise<string>{
 

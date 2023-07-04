@@ -5,36 +5,47 @@ import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 @Entity({ name: 'user' })
 export class UserEntity {
     @PrimaryColumn() 
-    id: string;
+    id?: number;
 
     @Column() 
-    nombre: string;
+    primer_nombre: string;
 
-    @Column() 
-    clave: string;
+    @Column()
+    segundo_nombre: string;
+
+    @Column()
+    nombre_completo: string
 
     @Column() 
     usuario: string;
 
     @Column() 
+    clave: string;
+
+    @Column() 
     correo: string;
 
     @Column() 
-    f_nacimiento: string;
+    fecha_nacimiento: Date;
+
+    @Column()
+    fecha_suscripcion: Date;
+
+    @Column()
+    telefono: string;
 
     @OneToMany(
         () =>TagEntity,
         (tagEntity) => tagEntity.idUsuario
     )
-    tags: TagEntity[];
+    tags?: TagEntity[];
 
     @OneToMany(
         () =>NoteEntity,
         (noteEntity) => noteEntity.user
     )
-    notes: NoteEntity[];
+    notes?: NoteEntity[];
 
     
-
 
 }

@@ -1,8 +1,9 @@
 import { IDNota } from "src/note/domain/valueObjects/IDNota";
 import { Either } from "../../../generics/Either";
+import { Usuario } from "../Usuario";
 
 
-export interface IUser<T,Q>{
-   registrarUsuario(): Promise<Either<Q, T>>
-   getNotes(nota : string): Promise<T>;
+export interface IUser<T>{
+   registrarUsuario(usuario: Usuario): Promise<Either<Error, T>>
+   getNotes(nota : number): Promise<T>;
 }

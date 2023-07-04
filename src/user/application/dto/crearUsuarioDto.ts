@@ -1,11 +1,32 @@
+import { ApiProperty } from "@nestjs/swagger";
+
 export class crearUsuarioDto{
-    constructor(
-        public usuario: string,
-        public clave: string,
-        public email: string,
-        public primer_nombre: string,
-        public segundo_nombre: string,
-        public fecha_nacimiento: Date,
-        public telefono: string
-    ){}
+
+        @ApiProperty()
+        public usuario: string;
+        @ApiProperty()
+        public clave: string;
+        @ApiProperty()
+        public email: string;
+        @ApiProperty()
+        public primer_nombre: string;
+        @ApiProperty()
+        public segundo_nombre: string;
+        @ApiProperty()
+        public fecha_nacimiento: Date;
+        @ApiProperty()
+        public telefono: string;
+
+        constructor(usuario:string, clave:string, email: string, primer_nombre: string,
+            segundo_nombre: string, fecha_nacimiento: Date, telefono: string){
+                this.usuario = usuario;
+                this.clave = clave;
+                this.email = email;
+                this.primer_nombre = primer_nombre;
+                this.segundo_nombre = segundo_nombre;
+                this.fecha_nacimiento = fecha_nacimiento
+                this.telefono = telefono;
+
+        }
+
 }

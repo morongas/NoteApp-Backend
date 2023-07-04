@@ -14,13 +14,26 @@ export class Usuario{
         public id?: UsuarioId|undefined
     ){}
 
+    getCredenciales(): UsuarioCredenciales{
+        return this.credenciales
+    }
+    getNombres(): UsuarioNombreCompleto{
+        return this.nombres
+    }
+    getFechas(): UsuarioFechas{
+        return this.fechas
+    }
+    getTelefono(): UsuarioTelefono{
+        return this.telefono
+    }
+
     static create(usuario: string, clave: string, email: string, primer_nombre: string, 
-        segundo_nombre: string, fecha_nacimiento: Date, telefono: string, id?: number): Either<Map<string,string>,Usuario>{
+        segundo_nombre: string, fecha_nacimiento: Date, telefono: string, id?: number): Either<string,Usuario>{
         const credencialesAux = UsuarioCredenciales.create(usuario,clave,email);
         
-        if(credencialesAux.isLeft) return Either.makeLeft<Map<string,string>,Usuario>(credencialesAux.getLeft())
+        if(credencialesAux.isLeft) return Either.makeLeft<string,Usuario>(credencialesAux.getLeft())
         
-        return Either.makeRight<Map<string,string>,Usuario>(new Usuario(
+        return Either.makeRight<string,Usuario>(new Usuario(
         credencialesAux.getRight(), new UsuarioNombreCompleto(primer_nombre,segundo_nombre),
         new UsuarioFechas(fecha_nacimiento),new UsuarioTelefono(telefono)))
     }

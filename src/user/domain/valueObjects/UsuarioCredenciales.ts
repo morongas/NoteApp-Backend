@@ -8,6 +8,18 @@ export class UsuarioCredenciales {
         public email: string
     ){}
 
+    getUsuario(): string{
+        return this.usuario
+    }
+
+    getClave(): string{
+        return this.clave
+    }
+
+    getEmail(): string{
+        return this.email
+    }
+
     public validarEmail():Boolean{
         const expression: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
         return expression.test(this.email);
@@ -22,18 +34,16 @@ export class UsuarioCredenciales {
         return this.validarClave() && this.validarEmail()
     }
 
-    public static create(usuario, clave, email): Either<Map<string,string>, UsuarioCredenciales>{
+    public static create(usuario, clave, email): Either<string, UsuarioCredenciales>{
         const credenciales: UsuarioCredenciales = 
             new UsuarioCredenciales(usuario,clave,email)
         
         //Es verdadero si todas las credenciales estan bien
-        if(credenciales.validarCredenciales()) return Either.makeRight<Map<string,string>,UsuarioCredenciales>(credenciales)
+        if(credenciales.validarCredenciales()) return Either.makeRight<string,UsuarioCredenciales>(credenciales)
 
-        let error = new Map<string,string>()
-
-        if(!credenciales.validarClave()) error.set('Clave','La clave no cumple con el formato indicado')
-        if(!credenciales.validarEmail()) error.set('Email','Se ha ingresado un correo invalido')
-        
-        return Either.makeLeft<Map<string,string>,UsuarioCredenciales>(error)
+        if(!credenciales.validarClave()){
+            return Either.makeLeft<string,UsuarioCredenciales>('La clave ingresada es incorrecta')
+        } 
+        return Either.makeLeft<string,UsuarioCredenciales>('Se ha ingresado un correo invalido')
     }
 }
