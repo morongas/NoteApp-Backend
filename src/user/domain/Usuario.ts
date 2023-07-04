@@ -7,20 +7,20 @@ import { UsuarioTelefono } from "./valueObjects/UsuarioTelefono";
 
 export class Usuario{
     private constructor(
-        public id: UsuarioId,
         public credenciales: UsuarioCredenciales,
         public nombres: UsuarioNombreCompleto,
         public fechas: UsuarioFechas,
-        public telefono: UsuarioTelefono
+        public telefono: UsuarioTelefono,
+        public id?: UsuarioId|undefined
     ){}
 
-    static create(id: number, usuario: string, clave: string, email: string, primer_nombre: string, 
-        segundo_nombre: string, fecha_nacimiento: Date, telefono: string): Either<Map<string,string>,Usuario>{
+    static create(usuario: string, clave: string, email: string, primer_nombre: string, 
+        segundo_nombre: string, fecha_nacimiento: Date, telefono: string, id?: number): Either<Map<string,string>,Usuario>{
         const credencialesAux = UsuarioCredenciales.create(usuario,clave,email);
         
         if(credencialesAux.isLeft) return Either.makeLeft<Map<string,string>,Usuario>(credencialesAux.getLeft())
         
-        return Either.makeRight<Map<string,string>,Usuario>(new Usuario(new UsuarioId(id),
+        return Either.makeRight<Map<string,string>,Usuario>(new Usuario(
         credencialesAux.getRight(), new UsuarioNombreCompleto(primer_nombre,segundo_nombre),
         new UsuarioFechas(fecha_nacimiento),new UsuarioTelefono(telefono)))
     }

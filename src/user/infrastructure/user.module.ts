@@ -11,7 +11,7 @@ import { adapterUserRepository } from './user.adapter';
   imports: [TypeOrmModule.forFeature([UserEntity])],
   controllers: [UserController],
   providers: [getNotesByUserService, {
-    provide: 'IUser<T>',
+    provide: 'IUser<T,Q>',
     useClass: adapterUserRepository,
   },]
 })
