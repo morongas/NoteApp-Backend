@@ -17,12 +17,14 @@ import { taskController } from './taskController';
 import { addTaskService } from '../application/addTaskService';
 import { adapterTask } from './adapterTask';
 import { updateTaskService } from '../application/updateTaskService';
+import { deleteTaskService } from '../application/deleteTaskService';
 
 
 @Module({
   imports: [TypeOrmModule.forFeature([NoteEntity]), TypeOrmModule.forFeature([bodyEntity]), TypeOrmModule.forFeature([taskEntity])],
   controllers: [NoteController,addBodyController,taskController],
-  providers: [createnoteService,updatenoteService,addBodyToNoteService,findNoteService,updateBodyFromNoteService,addTaskService,updateTaskService,{
+  providers: [createnoteService,updatenoteService,addBodyToNoteService,findNoteService,updateBodyFromNoteService,addTaskService,
+    updateTaskService,deleteTaskService,{
     provide: 'INotes',
     useClass: adapterNoteRepository,
 

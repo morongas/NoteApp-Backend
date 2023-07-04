@@ -54,5 +54,25 @@ export class adapterTask implements ITask{
             return Either.makeLeft<Error, string>(error);
         }
     }
+
+    async deleteTask(id: string): Promise<Either<Error, string>> {
+        let taskToDelete: taskEntity;
+        taskToDelete = await this.repositorio.findOneBy({
+            IDtask: id,
+        })
+
+        const tasknote = new Optional<taskEntity>(taskToDelete);
+
+        if (!tasknote.hasvalue()) {
+            return Either.makeLeft<Error, string>((new Error('La tarea no existe')));
+        }
+
+        try {
+            const resultado = await this.repositorio.delete(taskToDelete);
+            return Either.makeRight<Error, string>('Se elimino la tarea exitosamente');
+        }catch (error) {
+            return Either.makeLeft<Error, string>(error);
+        }
+    }
     
 }

@@ -2,8 +2,8 @@ import { IAppService } from "src/core/application/IAppService";
 import { updateBodyDto } from "./dto/updateBodyDto";
 import { Either } from "src/generics/Either";
 import { Inject } from "@nestjs/common";
-import { body } from "../domain/entities/body";
 import { IBody } from "../domain/repository/IBody";
+import { NoteAggregate } from "../domain/noteAggregate";
 
 export class updateBodyFromNoteService implements IAppService<updateBodyDto, string>{
     private NotesRepository: IBody;
@@ -17,7 +17,7 @@ export class updateBodyFromNoteService implements IAppService<updateBodyDto, str
         if(dto.imagen === undefined){
             dto.imagen = Buffer.from("");
         }
-        const bo = body.edit(dto.text, dto.imagen,dto.idBody);
+        const bo = NoteAggregate.editBody(dto.idBody,dto.text, dto.imagen);
         if (bo.isLeft()) {
             return Either.makeLeft<Error, string>(new Error('No se puede editar el body'));
         }else{

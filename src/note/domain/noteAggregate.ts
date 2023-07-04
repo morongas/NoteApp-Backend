@@ -70,6 +70,24 @@ export class NoteAggregate{
         }
     }
 
+    static createBody(idNota: string, text?: string, imagen?: Buffer): Either<Error, body> {
+        const bo = body.create(idNota, text, imagen);
+        if (bo.isLeft()) {
+            return Either.makeLeft<Error, body>(bo.getLeft());
+        }else{
+            return Either.makeRight<Error, body>(bo.getRight());
+        }
+    }
+
+    static editBody(id: string, text?: string, imagen?: Buffer): Either<Error, body> {
+        const bo = body.edit(text, imagen, id);
+        if (bo.isLeft()) {
+            return Either.makeLeft<Error, body>(bo.getLeft());
+        }else{
+            return Either.makeRight<Error, body>(bo.getRight());
+        }
+    }
+
     //GETTERS
     public getid(): IDNota {
         return this.idNota;
