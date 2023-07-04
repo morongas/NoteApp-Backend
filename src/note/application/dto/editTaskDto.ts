@@ -1,6 +1,11 @@
+import { ApiProperty } from "@nestjs/swagger";
+
 export class editTaskDto {
+    @ApiProperty()
     text: string;
+    @ApiProperty()
     status: string;
+    @ApiProperty()
     idTask: string;
 
     constructor(text, status,  idTask) {

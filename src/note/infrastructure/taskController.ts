@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Param, Post, Put, Req, UploadedFile, UseInterceptors } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiTags } from "@nestjs/swagger";
 import { addTaskService } from "../application/addTaskService";
 import { addTaskDto } from "../application/dto/addTaskDto";
 import { editTaskDto } from "../application/dto/editTaskDto";
@@ -13,6 +13,7 @@ import { deleteTaskService } from "../application/deleteTaskService";
 export class taskController{
     constructor(private readonly repo: addTaskService, private readonly repoUpdate: updateTaskService, private readonly repoDelete: deleteTaskService){}
 
+    @ApiBody({type: addTaskDto})
     @Post(':id')
     async create(@Param('id') id: string,@Body() body?, @Req() request?): Promise<string> {
         let idNota = id;
@@ -28,6 +29,7 @@ export class taskController{
         }
     }
 
+    @ApiBody({type: editTaskDto})
     @Put(':id')
     async update(@Param('id') id:string, @Body() body, @Req() request): Promise<string> {
         let idTask = id;

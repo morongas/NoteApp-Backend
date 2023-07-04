@@ -17,6 +17,7 @@ async function bootstrap() {
    .setTitle('MyNoteApp')
    .setDescription('App for Notes')
    .setVersion('1.0')
+   .addTag('Usuario','Nota: Para registrar a un usuario su nombre de USUARIO debe ser único y la clave debe tener: Una Mayúscula. Un Caracter Especial. Un Número.')
    .build();
  const document = SwaggerModule.createDocument(app, config);
  SwaggerModule.setup('swagger', app, document);

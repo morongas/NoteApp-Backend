@@ -9,7 +9,7 @@ import { updatenoteService } from 'src/note/application/updateNoteService';
 import { UpdateNoteDto } from '../application/dto/UpdateNoteDto';
 import { findNoteDto } from '../application/dto/findNoteDto';
 import { findNoteService } from '../application/findNoteService';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 //import { UpdateNoteDto } from './dto/update-note.dto';
 
 @ApiTags('Notas')
@@ -17,7 +17,7 @@ import { ApiTags } from '@nestjs/swagger';
 export class NoteController {
   constructor(private readonly repo: createnoteService, private readonly repoUpdate: updatenoteService, private readonly repofind: findNoteService) {}
 
-
+  @ApiBody({type: CreateNoteDto})
   @Post()
   async create(@Body() body, @Res() response): Promise<string> {
     let titulo = body.titulo;
@@ -32,7 +32,7 @@ export class NoteController {
       return response.status(HttpStatus.OK).json("Nota Creada con Exito");
     }
   }
-
+  @ApiBody({type: UpdateNoteDto})
   @Put(':id')
   async update(@Param('id') id:string, @Body() body, @Req() request): Promise<string> {
     let idNota = id;
