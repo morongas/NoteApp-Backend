@@ -1,11 +1,20 @@
 import { NoteEntity } from "src/note/infrastructure/entities/note_entity";
 import { TagEntity } from "src/tag/infrastructure/entities/tag_entity";
-import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'user' })
-export class UserEntity {
-    @PrimaryColumn() 
-    id?: number;
+export class UserEntity extends BaseEntity{
+    @PrimaryGeneratedColumn() 
+    id: number;
+
+    @Column({ unique: true }) 
+    usuario: string;
+
+    @Column() 
+    clave: string;
+
+    @Column() 
+    correo: string;
 
     @Column() 
     primer_nombre: string;
@@ -15,15 +24,6 @@ export class UserEntity {
 
     @Column()
     nombre_completo: string
-
-    @Column() 
-    usuario: string;
-
-    @Column() 
-    clave: string;
-
-    @Column() 
-    correo: string;
 
     @Column() 
     fecha_nacimiento: Date;
@@ -36,13 +36,17 @@ export class UserEntity {
 
     @OneToMany(
         () =>TagEntity,
-        (tagEntity) => tagEntity.idUsuario
+        (tagEntity) => tagEntity.idUsuario,{
+            onDelete: 'CASCADE',
+        } 
     )
     tags?: TagEntity[];
 
     @OneToMany(
         () =>NoteEntity,
-        (noteEntity) => noteEntity.user
+        (noteEntity) => noteEntity.user,{
+            onDelete: 'CASCADE',
+        }
     )
     notes?: NoteEntity[];
 

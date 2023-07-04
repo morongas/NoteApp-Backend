@@ -30,9 +30,7 @@ export class Usuario{
     static create(usuario: string, clave: string, email: string, primer_nombre: string, 
         segundo_nombre: string, fecha_nacimiento: Date, telefono: string, id?: number): Either<string,Usuario>{
         const credencialesAux = UsuarioCredenciales.create(usuario,clave,email);
-        
-        if(credencialesAux.isLeft) return Either.makeLeft<string,Usuario>(credencialesAux.getLeft())
-        
+        if(credencialesAux.isLeft()) return Either.makeLeft<string,Usuario>(credencialesAux.getLeft())
         return Either.makeRight<string,Usuario>(new Usuario(
         credencialesAux.getRight(), new UsuarioNombreCompleto(primer_nombre,segundo_nombre),
         new UsuarioFechas(fecha_nacimiento),new UsuarioTelefono(telefono)))

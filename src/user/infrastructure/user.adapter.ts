@@ -29,21 +29,20 @@ export class adapterUserRepository implements IUser<UserEntity>{
   }
   
   async registrarUsuario(usuario: Usuario): Promise<Either<Error, UserEntity>> {
-    const usuarioAux: UserEntity = {
-      primer_nombre: usuario.getNombres().getPrimerNombre(),
-      segundo_nombre: usuario.getNombres().getSegundoNombre(),
-      nombre_completo: usuario.getNombres().getNombreCompleto(),
-      usuario: usuario.getCredenciales().getUsuario(),
-      clave: usuario.getCredenciales().getClave(),
-      correo: usuario.getCredenciales().getEmail(),
-      fecha_nacimiento: usuario.getFechas().getFechaNacimiento(),
-      fecha_suscripcion: usuario.getFechas().getFechaSuscripcion(),
-      telefono: usuario.getTelefono().getTelefono()
-
-    };
+    const usuarioEntidad: UserEntity = UserEntity.create()
+    usuarioEntidad.primer_nombre= usuario.getNombres().getPrimerNombre();
+    usuarioEntidad.segundo_nombre= usuario.getNombres().getSegundoNombre();
+    usuarioEntidad.nombre_completo= usuario.getNombres().getNombreCompleto();
+    usuarioEntidad.usuario= usuario.getCredenciales().getUsuario();
+    usuarioEntidad.clave= usuario.getCredenciales().getClave();
+    usuarioEntidad.correo= usuario.getCredenciales().getEmail();
+    usuarioEntidad.fecha_nacimiento= usuario.getFechas().getFechaNacimiento();
+    usuarioEntidad.fecha_suscripcion= usuario.getFechas().getFechaSuscripcion();
+    usuarioEntidad.telefono= usuario.getTelefono().getTelefono();
     try{
-      const resultado = await this.repositorio.save(usuarioAux);
-      return Either.makeRight<Error, UserEntity>(usuarioAux);
+      
+      const resultado = await this.repositorio.save(usuarioEntidad);
+      return Either.makeRight<Error, UserEntity>(resultado);
     }catch(error){
       return Either.makeLeft<Error, UserEntity>(error);
   }

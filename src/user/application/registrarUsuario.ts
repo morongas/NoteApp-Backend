@@ -13,16 +13,11 @@ export class registrarUsuario<T>{
         this.UserRepository = repo;
     }
     async execute(dto: crearUsuarioDto): Promise<Either<Error,T>>{
-        console.log('Voy a crear el usuario\n')
         
         const usuario = Usuario.create(dto.usuario,dto.clave,dto.email,dto.primer_nombre,
                         dto.segundo_nombre,dto.fecha_nacimiento, dto.telefono)
-        console.log('Se ha creado el usuario\n')
 
         if(usuario.isLeft()) return Either.makeLeft<Error,T>(new Error(usuario.getLeft()))
-
-        console.log('Se ha creado el Es right')
-
         let result = this.UserRepository.registrarUsuario(usuario.getRight())
         return result
     }
