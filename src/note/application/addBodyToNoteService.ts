@@ -17,7 +17,7 @@ export class addBodyToNoteService implements IAppService<addBodyDto, string>{
         if(dto.imagen === undefined){
             dto.imagen = Buffer.from("");
         }
-        const bo = body.create(dto.idNota, dto.text, dto.imagen);
+        const bo = body.create(dto.idNota,dto.fecha, dto.text, dto.imagen);
         if (bo.isLeft()) {
             return Either.makeLeft<Error, string>(new Error('No se puede crear el body'));
         }else{

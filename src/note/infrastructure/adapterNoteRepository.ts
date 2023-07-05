@@ -9,6 +9,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Optional } from "../../generics/Optional";
 import { bodyEntity } from "./entities/body_entity";
 import { body } from "../domain/entities/body";
+import { task } from "../domain/entities/task";
 
 @Injectable()
 export class adapterNoteRepository  implements INotes{
@@ -24,22 +25,31 @@ export class adapterNoteRepository  implements INotes{
             }, 
             relations: {
                 body: true,
+                task: true
             }
         });
         if (result.length == 0) {
             return Either.makeLeft<Error, NoteAggregate>(new Error('No se encontro la nota'));  
         }
         let aux = NoteAggregate.create(result[0].tituloNota, result[0].fechaNota,result[0].estadoNota,result[0].descripcionNota, result[0].idNota);
-        if(result[0].body.length == 0){
-            return Either.makeRight<Error, NoteAggregate>(aux.getRight());
-        }
-        for(let i=0;i<result[0].body.length;i++){
-            const bo = body.create(result[0].idNota, result[0].body[i].text, result[0].body[i].imagen,result[0].body[i].IDbody);
-            if(bo.isRight()){
-                aux.getRight().setbodyNota(bo.getRight());
+        if(result[0].body.length != 0){
+            for(let i=0;i<result[0].body.length;i++){
+                const bo = body.create(result[0].idNota,result[0].body[i].fechaBody ,result[0].body[i].text, result[0].body[i].imagen,result[0].body[i].IDbody);
+                if(bo.isRight()){
+                    aux.getRight().setbodyNota(bo.getRight());
+                }
             }
-        }
-            return Either.makeRight<Error, NoteAggregate>(aux.getRight());
+
+        } else if (result[0].task.length != 0) {
+            for(let i=0;i<result[0].task.length;i++){
+                const ta = task.createTask(result[0].task[i].title,result[0].task[i].fechaCreacion, result[0].task[i].status,result[0].idNota);
+                if(ta.isRight()){
+                    aux.getRight().settareaNota(ta.getRight());
+                }
+            }
+        }  
+
+        return Either.makeRight<Error, NoteAggregate>(aux.getRight());
     }
 
     async saveNota(nota: NoteAggregate): Promise<Either<Error, string>> {
@@ -51,7 +61,8 @@ export class adapterNoteRepository  implements INotes{
             tituloNota: nota.gettituloNota().getTituloNota(),
             descripcionNota: nota.getdescripcionNota().getDescripcion(),
             user: "1",
-            body: []
+            body: [],
+            task: []
         };
         try{
             const resultado = await this.repositorio.save(aux);

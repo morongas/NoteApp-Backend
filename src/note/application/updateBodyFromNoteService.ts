@@ -17,7 +17,7 @@ export class updateBodyFromNoteService implements IAppService<updateBodyDto, str
         if(dto.imagen === undefined){
             dto.imagen = Buffer.from("");
         }
-        const bo = body.edit(dto.text, dto.imagen,dto.idBody);
+        const bo = body.edit(dto.fecha, dto.text, dto.imagen,dto.idBody);
         if (bo.isLeft()) {
             return Either.makeLeft<Error, string>(new Error('No se puede editar el body'));
         }else{

@@ -16,16 +16,17 @@ export class addBodyController {
     async create(@Param('id') id: string,@Body() body?, @Req() request?, @UploadedFile() fileImg?: Express.Multer.File): Promise<string> {
         let idNota = id;
         let text = body.text;
+        let fecha = body.fecha;
         let img ;
         let dto: addBodyDto;
         if(fileImg===undefined){
             console.log("no hay imagen");
             console.log(fileImg);
-            dto = new addBodyDto(idNota, text);
+            dto = new addBodyDto(idNota,fecha,text);
         }
         if(fileImg){
             img = fileImg.buffer;
-            dto = new addBodyDto(idNota, text, img);
+            dto = new addBodyDto(idNota,fecha,text,img);
         }
         let resultado = await this.repo.execute(dto);
         if (resultado.isLeft()) {
@@ -40,16 +41,17 @@ export class addBodyController {
     async update(@Param('idBody') idBody: string,@Body() body?, @Req() request?, @UploadedFile() fileImg?: Express.Multer.File): Promise<string> {
         let idbody = idBody;
         let text = body.text;
+        let fecha = body.fecha;
         let img ;
         let dto: updateBodyDto;
         if(fileImg===undefined){
             console.log("no hay imagen");
             console.log(fileImg);
-            dto = new updateBodyDto(idbody,text);
+            dto = new updateBodyDto(idbody,fecha,text);
         }
         if(fileImg){
             img = fileImg.buffer;
-            dto = new updateBodyDto(idbody, text, img);
+            dto = new updateBodyDto(idbody,fecha,text,img);
         }
         let resultado = await this.repoUpdate.execute(dto);
         if (resultado.isLeft()) {

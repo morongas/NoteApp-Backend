@@ -16,6 +16,9 @@ export class bodyEntity {
     @Column({ type: 'bytea', nullable: true })
     imagen?: Buffer;
 
+    @Column({ nullable: false })
+    fechaBody: Date;
+
     @ManyToOne(
         () => NoteEntity,
         (NoteEntity) => NoteEntity.idNota

@@ -5,15 +5,31 @@ import { taskEntity } from "./entities/task_entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Optional } from "src/generics/Optional";
+import { NoteEntity } from "./entities/note_entity";
 
 export class adapterTask implements ITask{
     constructor(
         @InjectRepository(taskEntity)
         private readonly repositorio: Repository<taskEntity>,
+        @InjectRepository(NoteEntity)
+        private readonly repositorio2: Repository<NoteEntity>
     ) { }
 
 
     async saveTask(tarea: task): Promise<Either<Error, string>> {
+        const result = await this.repositorio2.find({ 
+            where: {
+                idNota: tarea.getIdNota().getIDNota()
+            }, 
+            relations: {
+                body: true
+            }
+        }); 
+
+        if (result[0].body.length != 0) {
+            return Either.makeLeft<Error,string>((new Error('Esta nota ya tiene body')));
+        } 
+
         const aux: taskEntity = {
             IDtask: tarea.getId().getId(),
             title: tarea.getTitle().getTitle(),

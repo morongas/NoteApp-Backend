@@ -89,6 +89,7 @@ export class NoteAggregate{
     public getdescripcionNota(): descripcionNota {
         return this.descripcion;
     }
+
     //SETTERS
     public setbodyNota(body: body){
         this.body.push(body);

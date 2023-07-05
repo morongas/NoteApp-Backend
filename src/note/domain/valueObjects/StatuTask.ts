@@ -1,4 +1,4 @@
 export enum StatuTask {
     Listo = "Listo",
-    PorHacer = "PorHacer"
+    PorHacer = "Por Hacer"
 }
