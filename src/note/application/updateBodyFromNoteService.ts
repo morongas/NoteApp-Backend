@@ -14,7 +14,7 @@ export class updateBodyFromNoteService implements IAppService<updateBodyDto, str
     
     async execute(dto: updateBodyDto): Promise<Either<Error, string>> {
 
-        if(dto.imagen === undefined){
+        if((dto.imagen === undefined)||(dto.imagen === null)){
             dto.imagen = Buffer.from("");
         }
         const bo = NoteAggregate.editBody(dto.idBody,dto.text, dto.imagen);
@@ -25,7 +25,7 @@ export class updateBodyFromNoteService implements IAppService<updateBodyDto, str
             if(result.isLeft()){
                 return result; 
             }
-            return Either.makeRight<Error,string>("Resultado "+  result);
+            return Either.makeRight<Error,string>(result.getRight());
         }
     }
 }

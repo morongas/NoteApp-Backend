@@ -55,7 +55,7 @@ export class adapterNoteRepository  implements INotes{
         };
         try{
             const resultado = await this.repositorio.save(aux);
-            return Either.makeRight<Error,string>(resultado.tituloNota);
+            return Either.makeRight<Error,string>(resultado.idNota);
         }catch(error){
             return Either.makeLeft<Error,string>(error);
         }

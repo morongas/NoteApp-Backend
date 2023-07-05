@@ -14,7 +14,7 @@ export class addBodyToNoteService implements IAppService<addBodyDto, string>{
     
     async execute(dto: addBodyDto): Promise<Either<Error, string>> {
 
-        if(dto.imagen === undefined){
+        if((dto.imagen === undefined) || (dto.imagen === null)){
             dto.imagen = Buffer.from("");
         }
         const bo = NoteAggregate.createBody(dto.idNota, dto.text, dto.imagen);
