@@ -34,11 +34,10 @@ export class adapterTagRepository implements IEtiqueta{
 
     }
 
-    async editarEtiqueta(id: string, etiqueta: Etiqueta): Promise<Either<Error, string>> {
+    async editarEtiqueta(etiqueta: Etiqueta): Promise<Either<Error, string>> {
         let notas_id: string[] = [];
-        console.log("\n\nEntro al for\n\n")
+
         etiqueta.getNotas().forEach(function(ids){
-            console.log(ids)
             notas_id.push(ids.getIDNota())
         })    
         let notasData: NoteEntity[] = await this.repoNote.findByIds(notas_id)
@@ -51,7 +50,6 @@ export class adapterTagRepository implements IEtiqueta{
             notas : notasData
         };
         try{
-            console.log(tagAux)
             const resultado = await this.repo.save(tagAux);
             return Either.makeRight<Error,string>('Se ha modificado');
         }catch(error){

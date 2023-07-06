@@ -3,13 +3,14 @@ import { IEtiqueta } from "../domain/repository/IEtiqueta";
 import { Inject } from "@nestjs/common";
 import { Etiqueta } from "../domain/Etiqueta";
 import { editTagDto } from "./dto/editTagDto";
+import { IAppService } from "src/core/application/IAppService";
 
-export class UpdateTagService{
+export class UpdateTagService implements IAppService<editTagDto,string>{
     constructor(
         @Inject('IEtiqueta') public EtiquetaRepository: IEtiqueta
     ){}
     
-    async execute(id: string, dto: editTagDto): Promise<Either<Error, string>> {
+    async execute(dto: editTagDto): Promise<Either<Error, string>> {
 
         //Se crea el tag
         const tag = Etiqueta.edit(dto.idUsuario, dto.nombre, dto.id, dto.notas)
@@ -19,7 +20,7 @@ export class UpdateTagService{
             return Either.makeLeft<Error, string>(new Error(tag.getLeft().message.toString())) 
         }
         else{
-        let result = await this.EtiquetaRepository.editarEtiqueta(id, tag.getRight())
+        let result = await this.EtiquetaRepository.editarEtiqueta(tag.getRight())
         //se valida que se haya guardado en la BD
         if(result.isLeft()){
             return result

@@ -2,7 +2,7 @@ import { Body, Controller, Param, Post, Put, Req, UploadedFile, UseInterceptors 
 import { addBodyToNoteService } from "../application/addBodyToNoteService";
 import { addBodyDto } from "../application/dto/addBodyDto";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { ApiExcludeController, ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiExcludeController, ApiTags } from "@nestjs/swagger";
 import { updateBodyFromNoteService } from "../application/updateBodyFromNoteService";
 import { updateBodyDto } from "../application/dto/updateBodyDto";
 
@@ -11,6 +11,7 @@ import { updateBodyDto } from "../application/dto/updateBodyDto";
 export class addBodyController {
     constructor(private readonly repo: addBodyToNoteService, private readonly repoUpdate: updateBodyFromNoteService) {}
 
+    @ApiBody({type: addBodyDto})
     @Post(':id')
     @UseInterceptors(FileInterceptor('file'))
     async create(@Param('id') id: string,@Body() body?, @Req() request?, @UploadedFile() fileImg?: Express.Multer.File): Promise<string> {
@@ -36,6 +37,7 @@ export class addBodyController {
         }
     }
 
+    @ApiBody({type: updateBodyDto})
     @Put(':idBody')
     @UseInterceptors(FileInterceptor('file'))
     async update(@Param('idBody') idBody: string,@Body() body?, @Req() request?, @UploadedFile() fileImg?: Express.Multer.File): Promise<string> {

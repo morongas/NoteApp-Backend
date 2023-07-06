@@ -10,7 +10,7 @@ export class getNotesByUserService<T>{
         this.UserRepository = repo;
     }
 
-    async execute(idUser: string): Promise<T>{
+    async execute(idUser: number): Promise<T>{
         let result = await this.UserRepository.getNotes(idUser);
         return result;
     }

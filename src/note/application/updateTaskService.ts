@@ -14,7 +14,7 @@ export class updateTaskService implements IAppService<editTaskDto, string>{
     async execute(dto: editTaskDto): Promise<Either<Error, string>> {
         const tarea = NoteAggregate.editTask(dto.idTask,dto.text,dto.status);
         if (tarea.isLeft()) {
-            return Either.makeLeft<Error, string>(new Error('No se puede editar la tarea'));
+            return Either.makeLeft<Error, string>(tarea.getLeft());
         }else{
             let result = await this.taskRepo.editTask(dto.idTask,tarea.getRight());
             if(result.isLeft()){

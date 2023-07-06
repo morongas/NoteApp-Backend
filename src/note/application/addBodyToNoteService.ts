@@ -2,8 +2,8 @@ import { IAppService } from "src/core/application/IAppService";
 import { addBodyDto } from "./dto/addBodyDto";
 import { Either } from "src/generics/Either";
 import { Inject } from "@nestjs/common";
-import { body } from "../domain/entities/body";
 import { IBody } from "../domain/repository/IBody";
+import { NoteAggregate } from "../domain/noteAggregate";
 
 export class addBodyToNoteService implements IAppService<addBodyDto, string>{
     private NotesRepository: IBody;
@@ -14,10 +14,10 @@ export class addBodyToNoteService implements IAppService<addBodyDto, string>{
     
     async execute(dto: addBodyDto): Promise<Either<Error, string>> {
 
-        if(dto.imagen === undefined){
+        if((dto.imagen === undefined) || (dto.imagen === null)){
             dto.imagen = Buffer.from("");
         }
-        const bo = body.create(dto.idNota,dto.fecha, dto.text, dto.imagen);
+        const bo = NoteAggregate.createBody(dto.idNota,dto.fecha,dto.text, dto.imagen);
         if (bo.isLeft()) {
             return Either.makeLeft<Error, string>(new Error('No se puede crear el body'));
         }else{

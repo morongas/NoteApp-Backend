@@ -1,40 +1,55 @@
 import { NoteEntity } from "src/note/infrastructure/entities/note_entity";
 import { TagEntity } from "src/tag/infrastructure/entities/tag_entity";
-import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'user' })
-export class UserEntity {
-    @PrimaryColumn() 
-    id: string;
+export class UserEntity extends BaseEntity{
+    @PrimaryGeneratedColumn() 
+    id: number;
 
-    @Column() 
-    nombre: string;
+    @Column({ unique: true }) 
+    usuario: string;
 
     @Column() 
     clave: string;
 
     @Column() 
-    usuario: string;
-
-    @Column() 
     correo: string;
 
     @Column() 
-    f_nacimiento: string;
+    primer_nombre: string;
+
+    @Column()
+    segundo_nombre: string;
+
+    @Column()
+    nombre_completo: string
+
+    @Column() 
+    fecha_nacimiento: Date;
+
+    @Column()
+    fecha_suscripcion: Date;
+
+    @Column()
+    telefono: string;
 
     @OneToMany(
         () =>TagEntity,
-        (tagEntity) => tagEntity.idUsuario
+        (tagEntity) => tagEntity.idUsuario,{
+            onDelete: 'CASCADE',
+        } 
     )
-    tags: TagEntity[];
+    tags?: TagEntity[];
 
     @OneToMany(
         () =>NoteEntity,
-        (noteEntity) => noteEntity.user
+        (noteEntity) => noteEntity.user,{
+            onDelete: 'CASCADE',
+        }
     )
-    notes: NoteEntity[];
+    notes?: NoteEntity[];
 
     
-
 
 }

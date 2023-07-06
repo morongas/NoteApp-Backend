@@ -1,19 +1,39 @@
-import { FechaNacimiento } from "./valueObjects/FechaNacimiento";
-import { NombreCompleto } from "./valueObjects/NombreCompleto";
-import { Username } from "./valueObjects/Username";
-import { UsuarioClave } from "./valueObjects/UsuarioClave";
-import { UsuarioCorreo } from "./valueObjects/UsuarioCorreo";
+import { Either } from "src/generics/Either";
+import { UsuarioCredenciales } from "./valueObjects/UsuarioCredenciales";
+import { UsuarioFechas } from "./valueObjects/UsuarioFechas";
 import { UsuarioId } from "./valueObjects/UsuarioId";
+import { UsuarioNombreCompleto } from "./valueObjects/UsuarioNombreCompleto";
+import { UsuarioTelefono } from "./valueObjects/UsuarioTelefono";
 
 export class Usuario{
-    constructor(
-        public id: UsuarioId,
-        public nombre: NombreCompleto,
-        public clave: UsuarioClave,
-        public usuario: Username,
-        public correo: UsuarioCorreo,
-        public nacimiento: FechaNacimiento
+    private constructor(
+        public credenciales: UsuarioCredenciales,
+        public nombres: UsuarioNombreCompleto,
+        public fechas: UsuarioFechas,
+        public telefono: UsuarioTelefono,
+        public id?: UsuarioId|undefined
     ){}
 
+    getCredenciales(): UsuarioCredenciales{
+        return this.credenciales
+    }
+    getNombres(): UsuarioNombreCompleto{
+        return this.nombres
+    }
+    getFechas(): UsuarioFechas{
+        return this.fechas
+    }
+    getTelefono(): UsuarioTelefono{
+        return this.telefono
+    }
+
+    static create(usuario: string, clave: string, email: string, primer_nombre: string, 
+        segundo_nombre: string, fecha_nacimiento: Date, telefono: string, id?: number): Either<string,Usuario>{
+        const credencialesAux = UsuarioCredenciales.create(usuario,clave,email);
+        if(credencialesAux.isLeft()) return Either.makeLeft<string,Usuario>(credencialesAux.getLeft())
+        return Either.makeRight<string,Usuario>(new Usuario(
+        credencialesAux.getRight(), new UsuarioNombreCompleto(primer_nombre,segundo_nombre),
+        new UsuarioFechas(fecha_nacimiento),new UsuarioTelefono(telefono)))
+    }
   
 }
