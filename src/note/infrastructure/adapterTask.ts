@@ -26,6 +26,10 @@ export class adapterTask implements ITask{
             }
         }); 
 
+        if(result.length == 0){
+            return Either.makeLeft<Error,string>((new Error('La nota no existe'))); 
+        }
+
         if (result[0].body.length != 0) {
             return Either.makeLeft<Error,string>((new Error('Esta nota ya tiene body')));
         } 

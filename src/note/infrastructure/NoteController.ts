@@ -9,13 +9,16 @@ import { updatenoteService } from 'src/note/application/updateNoteService';
 import { UpdateNoteDto } from '../application/dto/UpdateNoteDto';
 import { findNoteDto } from '../application/dto/findNoteDto';
 import { findNoteService } from '../application/findNoteService';
+import { deleteNoteService } from '../application/deleteNoteService';
+
 import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { deleteNoteDto } from '../application/dto/deleteNoteDto';
 //import { UpdateNoteDto } from './dto/update-note.dto';
 
 @ApiTags('Notas')
 @Controller('note')
 export class NoteController {
-  constructor(private readonly repo: createnoteService, private readonly repoUpdate: updatenoteService, private readonly repofind: findNoteService) {}
+  constructor(private readonly repo: createnoteService, private readonly repoUpdate: updatenoteService, private readonly repofind: findNoteService, private readonly repoDelete: deleteNoteService) {}
 
   @ApiBody({type: CreateNoteDto})
   @Post()
@@ -61,5 +64,17 @@ export class NoteController {
       return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
     }
   }
+
+  @Delete(':id')
+    async delete(@Param('id') id:string, @Req() request): Promise<string> {
+        let idNote = id;
+        let dto = new deleteNoteDto(idNote);
+        let resultado = await this.repoDelete.execute(dto);
+        if (resultado.isLeft()) {
+            return "No se pudo eliminar la nota: "+resultado.getLeft();
+        }else{
+            return "Nota eliminada";
+        }
+    }
   
 }

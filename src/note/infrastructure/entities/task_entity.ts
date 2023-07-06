@@ -17,7 +17,9 @@ export class taskEntity{
 
     @ManyToOne(
         () => NoteEntity,
-        (NoteEntity) => NoteEntity.idNota
+        (NoteEntity) => NoteEntity.idNota, {
+            onDelete: 'CASCADE',
+        }
     )
     nota: string;
 }

@@ -6,4 +6,5 @@ export interface INotes {
     saveNota(nota: NoteAggregate): Promise<Either<Error, string>>;
     editNota(id : string, nota: NoteAggregate): Promise<Either<Error, string>>;
     buscarNota(id: string): Promise<Either<Error, NoteAggregate>>;
+    deleteNota(id: string): Promise<Either<Error, string>>;
 }

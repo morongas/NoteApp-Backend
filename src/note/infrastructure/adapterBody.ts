@@ -28,7 +28,11 @@ export class adapterBody implements IBody{
             relations: {
                 task: true
             }
-        }); 
+        });
+        
+        if(result.length == 0){
+            return Either.makeLeft<Error,string>((new Error('La nota no existe'))); 
+        }
 
         if (result[0].task.length != 0) {
             return Either.makeLeft<Error,string>((new Error('Esta nota ya tiene tareas asignadas')));
@@ -70,6 +74,26 @@ export class adapterBody implements IBody{
             return Either.makeRight<Error,string>('Se cambio el body exitosamente');
         }catch(error){
             return Either.makeLeft<Error,string>(error);
+        }
+    }
+
+    async deleteBody(id: string): Promise<Either<Error, string>> {
+        let BodyToDelete: bodyEntity;
+        BodyToDelete = await this.repositorio.findOneBy({
+            IDbody: id,
+        })
+
+        const bodynote = new Optional<bodyEntity>(BodyToDelete);
+
+        if (!bodynote.hasvalue()) {
+            return Either.makeLeft<Error, string>((new Error('El body no existe')));
+        }
+
+        try {
+            const resultado = await this.repositorio.delete(BodyToDelete);
+            return Either.makeRight<Error, string>('Se elimino el body exitosamente');
+        }catch (error) {
+            return Either.makeLeft<Error, string>(error);
         }
     }
     

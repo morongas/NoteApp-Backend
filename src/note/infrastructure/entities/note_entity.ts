@@ -32,13 +32,17 @@ export class NoteEntity {
 
     @OneToMany(
         () => bodyEntity,
-        (bodyEntity)=>bodyEntity.nota
+        (bodyEntity)=>bodyEntity.nota,{
+            cascade: true,
+        }
     )
     body: bodyEntity[];
     
     @OneToMany(
         () => taskEntity,
-        (taskEntity)=>taskEntity.nota
+        (taskEntity)=>taskEntity.nota,{
+            cascade: true,
+        }
     )
     task: taskEntity[];
     

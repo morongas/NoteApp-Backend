@@ -1,15 +1,18 @@
-import { Body, Controller, Param, Post, Put, Req, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Param, Post, Put, Req, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { addBodyToNoteService } from "../application/addBodyToNoteService";
 import { addBodyDto } from "../application/dto/addBodyDto";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBody, ApiExcludeController, ApiTags } from "@nestjs/swagger";
 import { updateBodyFromNoteService } from "../application/updateBodyFromNoteService";
+import { deleteBodyService } from "../application/deleteBodyService";
+
 import { updateBodyDto } from "../application/dto/updateBodyDto";
+import { deleteBodyDto } from "../application/dto/deleteBodyDto";
 
 @ApiTags('Body')
 @Controller('body')
 export class addBodyController {
-    constructor(private readonly repo: addBodyToNoteService, private readonly repoUpdate: updateBodyFromNoteService) {}
+    constructor(private readonly repo: addBodyToNoteService, private readonly repoUpdate: updateBodyFromNoteService, private readonly repoDelete: deleteBodyService) {}
 
     @ApiBody({type: addBodyDto})
     @Post(':id')
@@ -21,8 +24,6 @@ export class addBodyController {
         let img ;
         let dto: addBodyDto;
         if(fileImg===undefined){
-            console.log("no hay imagen");
-            console.log(fileImg);
             dto = new addBodyDto(idNota,fecha,text);
         }
         if(fileImg){
@@ -47,8 +48,6 @@ export class addBodyController {
         let img ;
         let dto: updateBodyDto;
         if(fileImg===undefined){
-            console.log("no hay imagen");
-            console.log(fileImg);
             dto = new updateBodyDto(idbody,fecha,text);
         }
         if(fileImg){
@@ -60,6 +59,18 @@ export class addBodyController {
             return "No se pudo editar el body: "+resultado.getLeft().message;
         }else{
             return "Body editado";
+        }
+    }
+
+    @Delete(':id')
+    async delete(@Param('id') id:string, @Req() request): Promise<string> {
+        let idBody = id;
+        let dto = new deleteBodyDto(idBody);
+        let resultado = await this.repoDelete.execute(dto);
+        if (resultado.isLeft()) {
+            return "No se pudo eliminar la tarea: "+resultado.getLeft();
+        }else{
+            return "Body eliminado";
         }
     }
 

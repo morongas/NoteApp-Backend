@@ -98,6 +98,26 @@ export class adapterNoteRepository  implements INotes{
         }
     }
 
+    async deleteNota(id: string): Promise<Either<Error, string>> {
+        let noteToDelete: NoteEntity;
+        noteToDelete = await this.repositorio.findOneBy({
+            idNota: id,
+        })
+
+        const note = new Optional<NoteEntity>(noteToDelete);
+
+        if (!note.hasvalue()) {
+            return Either.makeLeft<Error, string>((new Error('La nota no existe')));
+        }
+
+        try {
+            const resultado = await this.repositorio.delete(noteToDelete);
+            return Either.makeRight<Error, string>('Se elimino la nota exitosamente');
+        }catch (error) {
+            return Either.makeLeft<Error, string>(error);
+        }
+    }
+
   
 
 }
