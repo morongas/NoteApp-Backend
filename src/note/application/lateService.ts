@@ -15,6 +15,12 @@ import { editTaskDto } from "./dto/editTaskDto";
 import { updateTaskService } from "./updateTaskService";
 import { deleteTaskService } from "./deleteTaskService";
 import { deleteTaskDto } from "./dto/deleteTaskDto";
+import { updatenoteService } from "./updateNoteService";
+import { UpdateNoteDto } from "./dto/UpdateNoteDto";
+import { deleteNoteDto } from "./dto/deleteNoteDto";
+import { deleteNoteService } from "./deleteNoteService";
+import { deleteBodyDto } from "./dto/deleteBodyDto";
+import { deleteBodyService } from "./deleteBodyService";
 
 export class lateService {
     private notas: createnoteService;
@@ -23,6 +29,9 @@ export class lateService {
     private task: addTaskService;
     private editTask: updateTaskService;
     private deleteTask: deleteTaskService;
+    private updateNote: updatenoteService;
+    private deleteNote: deleteNoteService;
+    private deleteBody: deleteBodyService;
 
     constructor(@Inject('INotes') repo: INotes, @Inject('IBody') repoBody: IBody, @Inject('ITask') repoTask: ITask) { 
         this.notas = new createnoteService(repo);
@@ -31,6 +40,9 @@ export class lateService {
         this.task = new addTaskService(repoTask);
         this.editTask = new updateTaskService(repoTask);
         this.deleteTask = new deleteTaskService(repoTask);
+        this.updateNote = new updatenoteService(repo);
+        this.deleteNote = new deleteNoteService(repo);
+        this.deleteBody = new deleteBodyService(repoBody);
     }
 
     async execute(body): Promise<Either<Error, string>> {
@@ -43,23 +55,35 @@ export class lateService {
                     result = await this.notas.execute(dto);
                     idNotanueva = result.getRight();
                     break;
+                case "updateNote": 
+                    let dtoUpdate = new UpdateNoteDto(body[x].nota.titulo, body[x].nota.idNota,  body[x].nota.fechaC, body[x].nota.est, body[x].nota.desc);
+                    result = await this.updateNote.execute(dtoUpdate);
+                    break;
+                case "deleteNote":
+                    let dtoDelete = new deleteNoteDto(body[x].nota.idNota);
+                    result = await this.deleteNote.execute(dtoDelete);
+                    break;
                 case "addBody":
                     let idNota;
-                    if(body[x].bod.idNota === null){
+                    if((body[x].bod.idNota === undefined)||(body[x].bod.idNota === null)){
                         idNota = idNotanueva;
                     }else{
                         idNota = body[x].bod.idNota;
                     }
-                    let dtoBody = new addBodyDto(idNota, body[x].bod.text, body[x].bod.img);
+                    let dtoBody = new addBodyDto(idNota, body[x].bod.fecha,body[x].bod.text, body[x].bod.img);
                     result = await this.body.execute(dtoBody);
                     break;
                 case "updateBody":
-                    let editBodyDto = new updateBodyDto(body[x].bod.idBody, body[x].bod.text, body[x].bod.img);
+                    let editBodyDto = new updateBodyDto(body[x].bod.idBody, body[x].bod.fecha, body[x].bod.text, body[x].bod.img);
                     result = await this.editBody.execute(editBodyDto);
                     break;
+                case "deleteBody":
+                    let deleteBody= new deleteBodyDto(body[x].bod.idBody);
+                    result = await this.deleteBody.execute(deleteBody);
+                    break
                 case "createTask":
                     let idNotaTask;
-                    if(body[x].task.idNota === null){
+                    if((body[x].task.idNota === null)||(body[x].task.idNota === undefined)){
                         console.log("ENTRO");
                         idNotaTask = idNotanueva;
                     }else{

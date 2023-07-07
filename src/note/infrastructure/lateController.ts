@@ -13,15 +13,19 @@ export class lateController{
     @Post()
     async create(@Body() body?, @Req() request?): Promise<string> {
         let auxx: offline[] = body.acciones;
-    
-        console.log(auxx)
+        
+        /*
+        console.log(auxx);
+        console.log(auxx[0].nota.idNota);*/
+
         
         let resultado = await this.repo.execute(auxx);
         if (resultado.isLeft()) {
             return "No se pudo crear el lay: "+resultado.getLeft();
         }else{
             return "Lay creado";
-        }
+        } 
+        //return "Lay creado";
     }
 
 
