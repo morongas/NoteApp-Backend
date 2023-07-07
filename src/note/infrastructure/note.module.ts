@@ -37,6 +37,27 @@ import { deleteNoteService } from '../application/deleteNoteService';
     }, {
       provide: 'ITask',
       useClass: adapterTask,
-    }]
+    },{
+      provide: 'lateNota',
+      useClass: createnoteService
+    },{provide: 'lateUpdateNote',
+        useClass: updatenoteService},
+        {provide: 'deleteNote',
+          useClass: deleteNoteService
+    }, { provide: 'lateCreateBody',
+      useClass: addBodyToNoteService
+    }, { provide: 'lateUpdateBody',
+      useClass: updateBodyFromNoteService},
+    { provide: 'lateDeleteBody',
+      useClass: deleteBodyService},
+    { provide: 'lateCreateTask', 
+      useClass: addTaskService},
+    {
+      provide: 'lateUpdateTask', 
+      useClass: updateTaskService},
+    {
+      provide: 'lateDeleteTask', 
+      useClass: deleteTaskService}
+      ]
 })
 export class NoteModule {}

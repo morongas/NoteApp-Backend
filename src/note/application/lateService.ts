@@ -33,16 +33,18 @@ export class lateService {
     private deleteNote: deleteNoteService;
     private deleteBody: deleteBodyService;
 
-    constructor(@Inject('INotes') repo: INotes, @Inject('IBody') repoBody: IBody, @Inject('ITask') repoTask: ITask) { 
-        this.notas = new createnoteService(repo);
-        this.body = new addBodyToNoteService(repoBody);
-        this.editBody = new updateBodyFromNoteService(repoBody);
-        this.task = new addTaskService(repoTask);
-        this.editTask = new updateTaskService(repoTask);
-        this.deleteTask = new deleteTaskService(repoTask);
-        this.updateNote = new updatenoteService(repo);
-        this.deleteNote = new deleteNoteService(repo);
-        this.deleteBody = new deleteBodyService(repoBody);
+    constructor(@Inject('lateNota') repo: createnoteService, @Inject('lateUpdateNote') repoNoteUpdate: updatenoteService, @Inject('deleteNote') repoDelteNote: deleteNoteService,
+                @Inject('lateCreateBody') lateBody: addBodyToNoteService, @Inject('lateUpdateBody') repoUpdateBody: updateBodyFromNoteService, @Inject('lateDeleteBody') repoDeleteBody: deleteBodyService,
+                @Inject('lateCreateTask') lateTask: addTaskService, @Inject('lateUpdateTask') lateUpdateTask: updateTaskService, @Inject('lateDeleteTask') repoDeleteTask: deleteTaskService) { 
+        this.notas = repo;
+        this.body = lateBody;
+        this.editBody = repoUpdateBody;
+        this.task = lateTask;
+        this.editTask = lateUpdateTask;
+        this.deleteTask = repoDeleteTask;
+        this.updateNote = repoNoteUpdate;
+        this.deleteNote = repoDelteNote;
+        this.deleteBody = repoDeleteBody;
     }
 
     async execute(body): Promise<Either<Error, string>> {
