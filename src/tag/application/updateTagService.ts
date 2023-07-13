@@ -1,13 +1,12 @@
 import { Either } from "src/generics/Either";
 import { IEtiqueta } from "../domain/repository/IEtiqueta";
-import { Inject } from "@nestjs/common";
 import { Etiqueta } from "../domain/Etiqueta";
 import { editTagDto } from "./dto/editTagDto";
 import { IAppService } from "src/core/application/IAppService";
 
 export class UpdateTagService implements IAppService<editTagDto,string>{
     constructor(
-        @Inject('IEtiqueta') public EtiquetaRepository: IEtiqueta
+       public EtiquetaRepository: IEtiqueta
     ){}
     
     async execute(dto: editTagDto): Promise<Either<Error, string>> {

@@ -2,23 +2,27 @@ import { Controller, Get, Post, Body, Put, Patch, Param, Delete, Inject, Req, Re
 import { CreateNoteDto } from '../application/dto/CreateNoteDto';
 import { createnoteService } from 'src/note/application/createNoteService';
 import { adapterNoteRepository } from './adapterNoteRepository';
-import { NoteAggregate } from '../domain/noteAggregate';
-import { INotes } from '../domain/repository/INotes';
-import { Either } from 'src/generics/Either';
 import { updatenoteService } from 'src/note/application/updateNoteService';
 import { UpdateNoteDto } from '../application/dto/UpdateNoteDto';
 import { findNoteDto } from '../application/dto/findNoteDto';
 import { findNoteService } from '../application/findNoteService';
 import { deleteNoteService } from '../application/deleteNoteService';
-
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { deleteNoteDto } from '../application/dto/deleteNoteDto';
-//import { UpdateNoteDto } from './dto/update-note.dto';
 
 @ApiTags('Notas')
 @Controller('note')
 export class NoteController {
-  constructor(private readonly repo: createnoteService, private readonly repoUpdate: updatenoteService, private readonly repofind: findNoteService, private readonly repoDelete: deleteNoteService) {}
+  constructor(private readonly repoInotes: adapterNoteRepository,
+              private  repo: createnoteService, 
+              private  repoUpdate: updatenoteService, 
+              private  repofind: findNoteService, 
+              private  repoDelete: deleteNoteService) {
+                this.repo = new createnoteService(this.repoInotes);
+                this.repoUpdate = new updatenoteService(this.repoInotes);
+                this.repofind = new findNoteService(this.repoInotes);
+                this.repoDelete = new deleteNoteService(this.repoInotes);
+              }
 
   @ApiBody({type: CreateNoteDto})
   @Post()
@@ -28,6 +32,7 @@ export class NoteController {
     let est = body.est;
     let desc = body.desc;
     let dto = new CreateNoteDto(titulo,fechaC, est,desc);
+
     let result = await this.repo.execute(dto);
     if (result.isLeft()) {
       return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);

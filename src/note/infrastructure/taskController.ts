@@ -6,12 +6,21 @@ import { editTaskDto } from "../application/dto/editTaskDto";
 import { updateTaskService } from "../application/updateTaskService";
 import { deleteTaskDto } from "../application/dto/deleteTaskDto";
 import { deleteTaskService } from "../application/deleteTaskService";
+import { adapterTask } from "./adapterTask";
 
 
 @ApiTags('task')
 @Controller('task')
 export class taskController{
-    constructor(private readonly repo: addTaskService, private readonly repoUpdate: updateTaskService, private readonly repoDelete: deleteTaskService){}
+    constructor(    private readonly repoItask: adapterTask,
+                    private  repo: addTaskService,
+                    private  repoUpdate: updateTaskService, 
+                    private  repoDelete: deleteTaskService)
+                {
+                    this.repo = new addTaskService(this.repoItask);
+                    this.repoUpdate = new updateTaskService(this.repoItask);
+                    this.repoDelete = new deleteTaskService(this.repoItask);
+                }
 
     @ApiBody({type: addTaskDto})
     @Post(':id')

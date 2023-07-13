@@ -5,12 +5,18 @@ import { Either } from "../../generics/Either";
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { crearUsuarioDto } from '../application/dto/crearUsuarioDto';
 import { registrarUsuario } from '../application/registrarUsuario';
+import { adapterUserRepository } from './user.adapter';
 
 @ApiTags('Usuario')
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: getNotesByUserService<UserEntity>,
-    private readonly crearUsuario: registrarUsuario<UserEntity>) {}
+  constructor(private readonly repoIuser: adapterUserRepository,
+              private  userService: getNotesByUserService<UserEntity>,
+              private  crearUsuario: registrarUsuario<UserEntity>) 
+            {
+              this.userService = new getNotesByUserService<UserEntity>(this.repoIuser);
+              this.crearUsuario = new registrarUsuario<UserEntity>(this.repoIuser);
+            }
 
   @ApiBody({type: crearUsuarioDto})
   @Post()

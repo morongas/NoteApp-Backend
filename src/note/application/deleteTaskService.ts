@@ -1,13 +1,12 @@
 import { IAppService } from "src/core/application/IAppService";
 import { deleteTaskDto } from "./dto/deleteTaskDto";
 import { Either } from "src/generics/Either";
-import { Inject } from "@nestjs/common";
 import { ITask } from "../domain/repository/ITask";
 
 export class deleteTaskService implements IAppService<deleteTaskDto, string>{
     private taskRepository: ITask;
 
-    constructor(@Inject('ITask') repo: ITask) {
+    constructor(repo: ITask) {
         this.taskRepository = repo;
     }
     

@@ -2,13 +2,12 @@ import { IAppService } from "src/core/application/IAppService";
 import { addTaskDto } from "./dto/addTaskDto";
 import { Either } from "src/generics/Either";
 import { ITask } from "../domain/repository/ITask";
-import { Inject } from "@nestjs/common";
 import { NoteAggregate } from "../domain/noteAggregate";
 
 export class addTaskService implements IAppService<addTaskDto, string>{
     private taskRepository: ITask;
 
-    constructor(@Inject('ITask') repo: ITask) {
+    constructor(repo: ITask) {
         this.taskRepository = repo;
     }
     

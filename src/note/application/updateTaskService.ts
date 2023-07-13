@@ -2,13 +2,12 @@ import { IAppService } from "src/core/application/IAppService";
 import { editTaskDto } from "./dto/editTaskDto";
 import { Either } from "src/generics/Either";
 import { ITask } from "../domain/repository/ITask";
-import { Inject } from "@nestjs/common";
 import { NoteAggregate } from "../domain/noteAggregate";
 
 export class updateTaskService implements IAppService<editTaskDto, string>{
     private taskRepo: ITask;
 
-    constructor(@Inject('ITask') repo: ITask) {
+    constructor(repo: ITask) {
         this.taskRepo = repo;
     }
     async execute(dto: editTaskDto): Promise<Either<Error, string>> {

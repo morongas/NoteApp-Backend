@@ -2,14 +2,12 @@ import { IAppService } from "src/core/application/IAppService";
 import { INotes } from "../domain/repository/INotes";
 import { NoteAggregate } from "../domain/noteAggregate";
 import { Either } from "../../generics/Either";
-import { Inject, Injectable } from "@nestjs/common";
 import { UpdateNoteDto } from "./dto/UpdateNoteDto";
 
 
-@Injectable()
 export class updatenoteService implements IAppService<UpdateNoteDto, string>{
     private NotesRepository: INotes;
-    constructor(@Inject('INotes')  repo: INotes) {
+    constructor(repo: INotes) {
         this.NotesRepository = repo;
     }
 

@@ -1,12 +1,10 @@
 import { IUser } from "../domain/repository/IUser";
-import { Inject, Injectable } from "@nestjs/common";
 
 
 
-@Injectable()
 export class getNotesByUserService<T>{
     private UserRepository: IUser<T>;
-    constructor(@Inject('IUser<T>')  repo: IUser<T>) {
+    constructor(repo: IUser<T>) {
         this.UserRepository = repo;
     }
 

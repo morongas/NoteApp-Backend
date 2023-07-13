@@ -1,13 +1,12 @@
 import { IAppService } from "src/core/application/IAppService";
 import { deleteBodyDto } from "./dto/deleteBodyDto";
 import { Either } from "src/generics/Either";
-import { Inject } from "@nestjs/common";
 import { IBody } from "../domain/repository/IBody";
 
 export class deleteBodyService implements IAppService<deleteBodyDto, string>{
     private bodyRepository: IBody;
 
-    constructor(@Inject('IBody') repo: IBody) {
+    constructor(repo: IBody) {
         this.bodyRepository = repo;
     }
     

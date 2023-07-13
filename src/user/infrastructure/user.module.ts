@@ -11,7 +11,7 @@ import { registrarUsuario } from '../application/registrarUsuario';
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
   controllers: [UserController],
-  providers: [getNotesByUserService, {
+  providers: [getNotesByUserService, adapterUserRepository, {
     provide: 'IUser<T>',
     useClass: adapterUserRepository,
   },registrarUsuario,{

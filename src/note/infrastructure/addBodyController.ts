@@ -8,11 +8,20 @@ import { deleteBodyService } from "../application/deleteBodyService";
 
 import { updateBodyDto } from "../application/dto/updateBodyDto";
 import { deleteBodyDto } from "../application/dto/deleteBodyDto";
+import { adapterBody } from "./adapterBody";
 
 @ApiTags('Body')
 @Controller('body')
 export class addBodyController {
-    constructor(private readonly repo: addBodyToNoteService, private readonly repoUpdate: updateBodyFromNoteService, private readonly repoDelete: deleteBodyService) {}
+    constructor(private readonly repoInotes: adapterBody,
+                private  repo: addBodyToNoteService,
+                 private  repoUpdate: updateBodyFromNoteService, 
+                 private  repoDelete: deleteBodyService) 
+    {
+        this.repo = new addBodyToNoteService(this.repoInotes);
+        this.repoUpdate = new updateBodyFromNoteService(this.repoInotes);
+        this.repoDelete = new deleteBodyService(this.repoInotes);
+    }
 
     @ApiBody({type: addBodyDto})
     @Post(':id')

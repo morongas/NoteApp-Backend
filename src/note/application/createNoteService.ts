@@ -3,13 +3,12 @@ import { INotes } from "../domain/repository/INotes";
 import { NoteAggregate } from "../domain/noteAggregate";
 import { CreateNoteDto } from "./dto/CreateNoteDto";
 import { Either } from "../../generics/Either";
-import { Inject, Injectable } from "@nestjs/common";
 
 
-@Injectable()
+
 export class createnoteService implements IAppService<CreateNoteDto, string>{
     private NotesRepository: INotes;
-    constructor(@Inject('INotes')  repo: INotes) {
+    constructor(repo: INotes) {
         this.NotesRepository = repo;
     }
 

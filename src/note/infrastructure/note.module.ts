@@ -28,7 +28,7 @@ import { deleteNoteService } from '../application/deleteNoteService';
   imports: [TypeOrmModule.forFeature([NoteEntity]), TypeOrmModule.forFeature([bodyEntity]), TypeOrmModule.forFeature([taskEntity])],
   controllers: [NoteController,addBodyController,taskController,lateController],
   providers: [createnoteService,updatenoteService,addBodyToNoteService,findNoteService,updateBodyFromNoteService,addTaskService,lateService,
-    updateTaskService,deleteTaskService,deleteBodyService,deleteNoteService,{
+    updateTaskService,deleteTaskService,deleteBodyService,deleteNoteService,adapterNoteRepository,adapterBody,adapterTask,{
     provide: 'INotes',
     useClass: adapterNoteRepository,
 

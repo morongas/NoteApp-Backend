@@ -8,7 +8,7 @@ import { NoteAggregate } from "../domain/noteAggregate";
 export class updateBodyFromNoteService implements IAppService<updateBodyDto, string>{
     private NotesRepository: IBody;
 
-    constructor(@Inject('IBody') repo: IBody) {
+    constructor(repo: IBody) {
         this.NotesRepository = repo;
     }
     

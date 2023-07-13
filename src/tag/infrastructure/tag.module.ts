@@ -11,7 +11,7 @@ import { NoteEntity } from 'src/note/infrastructure/entities/note_entity';
 @Module({
     imports: [TypeOrmModule.forFeature([TagEntity, NoteEntity])],
   controllers: [TagController],
-  providers: [CreateTagService,{
+  providers: [CreateTagService,adapterTagRepository,{
     provide: 'IEtiqueta',
     useClass: adapterTagRepository
   }, DeleteTagService,{

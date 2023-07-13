@@ -1,15 +1,13 @@
 import { IUser } from "../domain/repository/IUser";
-import { Inject, Injectable } from "@nestjs/common";
 import { crearUsuarioDto } from "./dto/crearUsuarioDto";
 import { Usuario } from "../domain/Usuario";
 import { Either } from "src/generics/Either";
 
 
 
-@Injectable()
 export class registrarUsuario<T>{
     private UserRepository: IUser<T>;
-    constructor(@Inject('IUser<T>')  repo: IUser<T>) {
+    constructor(repo: IUser<T>) {
         this.UserRepository = repo;
     }
     async execute(dto: crearUsuarioDto): Promise<Either<Error,T>>{
