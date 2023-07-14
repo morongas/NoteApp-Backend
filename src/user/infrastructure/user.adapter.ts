@@ -39,6 +39,7 @@ export class adapterUserRepository implements IUser<UserEntity>{
     usuarioEntidad.fecha_nacimiento= usuario.getFechas().getFechaNacimiento();
     usuarioEntidad.fecha_suscripcion= usuario.getFechas().getFechaSuscripcion();
     usuarioEntidad.telefono= usuario.getTelefono().getTelefono();
+    usuarioEntidad.suscripcion= usuario.getSuscripcion().getSuscripcion()
     try{
       
       const resultado = await this.repositorio.save(usuarioEntidad);

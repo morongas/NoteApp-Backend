@@ -17,6 +17,9 @@ export class UserEntity extends BaseEntity{
     correo: string;
 
     @Column() 
+    suscripcion: string;
+
+    @Column() 
     primer_nombre: string;
 
     @Column()
