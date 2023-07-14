@@ -1,17 +1,8 @@
-enum Suscripcion{
-    GRATIS,
-    PREMIUM
-}
-
 export class UsuarioSuscripcion{
+    constructor(private suscripcion : string)
+    {}
 
-    public suscripcion : Suscripcion
-
-    contructor(suscripcion : Suscripcion){
-        this.suscripcion = suscripcion
-    }
-
-    getSuscripcion(): Suscripcion{
+    public getSuscripcion(): string{
         return this.suscripcion;
     }
 }
