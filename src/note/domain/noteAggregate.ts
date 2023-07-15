@@ -6,9 +6,12 @@ import { tituloNota } from "./valueObjects/tituloNota";
 import { body } from "./entities/body";
 import { descripcionNota } from "./valueObjects/descripcionNota";
 import { task } from "./entities/task";
+import { UsuarioId } from "src/user/domain/valueObjects/UsuarioId";
+import { timeStamp } from "console";
 
 export class NoteAggregate{
 
+    
     private idNota: IDNota;
     private tituloNota: tituloNota;
     private fechaCreacion: fecha;
@@ -16,8 +19,10 @@ export class NoteAggregate{
     private descripcion?: descripcionNota;
     private body?: body[] = [];
     private tareas?: task[] = [];
+    private idUsuario?: UsuarioId;
 
-    private constructor(idNota: IDNota, fechaCreacion: fecha,titulo?: tituloNota, estado?: estadoNota, descrip?: descripcionNota) {
+    private constructor(idNota: IDNota, fechaCreacion: fecha,titulo?: tituloNota, estado?: estadoNota, descrip?: descripcionNota, idUsuario?: UsuarioId) {
+        this.idUsuario = idUsuario;
         this.idNota = idNota;
         this.tituloNota = titulo;
         this.fechaCreacion = fechaCreacion;
@@ -27,7 +32,7 @@ export class NoteAggregate{
     }
 
  
-    static create(tituloNot: string, fechaC: Date, estado?: string, descrip?: string,id?: string):
+    static create(tituloNot: string, fechaC: Date, estado?: string, descrip?: string,id?: string, idUsuario?: number):
          Either<Error, NoteAggregate> {
         
         let idNota: IDNota;
@@ -47,7 +52,15 @@ export class NoteAggregate{
             if(titulo.isLeft()){
                 return Either.makeLeft<Error, NoteAggregate>(titulo.getLeft());
             }
+
+        
+        if(idUsuario === undefined){
             return Either.makeRight<Error, NoteAggregate>(new NoteAggregate(idNota, fechaCreacion.getRight(), titulo.getRight(), estadoNote.getRight(), descripcion.getRight()));
+        }
+        let idUser: UsuarioId = new UsuarioId(idUsuario)
+        return Either.makeRight<Error, NoteAggregate>(new NoteAggregate(idNota, fechaCreacion.getRight(), titulo.getRight(), estadoNote.getRight(), descripcion.getRight(),idUser));
+
+            
         }
 
     }
@@ -106,6 +119,10 @@ export class NoteAggregate{
 
     public getdescripcionNota(): descripcionNota {
         return this.descripcion;
+    }
+
+    public getIdUsuario(): UsuarioId{
+        return this.idUsuario;
     }
 
     //SETTERS

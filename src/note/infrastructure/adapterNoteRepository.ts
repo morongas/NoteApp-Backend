@@ -60,7 +60,7 @@ export class adapterNoteRepository  implements INotes{
             fechaNota: nota.getfechaNota().getFecha(),
             tituloNota: nota.gettituloNota().getTituloNota(),
             descripcionNota: nota.getdescripcionNota().getDescripcion(),
-            user: "1",
+            user: nota.getIdUsuario().getIDUser().toString(),
             body: [],
             task: []
         };

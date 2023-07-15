@@ -31,8 +31,8 @@ export class NoteController {
     let fechaC = body.fechaC;
     let est = body.est;
     let desc = body.desc;
-    let dto = new CreateNoteDto(titulo,fechaC, est,desc);
-
+    let idUsuario = body.idUsuario
+    let dto = new CreateNoteDto(titulo,fechaC, est,desc, idUsuario);
     let result = await this.repo.execute(dto);
     if (result.isLeft()) {
       return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
