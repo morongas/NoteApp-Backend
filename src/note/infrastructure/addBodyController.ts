@@ -30,12 +30,7 @@ export class addBodyController {
         let idNota = id;
         let text = body.text;
         let fecha = body.fecha;
-        let ocr;
-        if(body.ocr === "true"){
-            ocr = true;
-        }else{
-            ocr = false;
-        }
+        let ocr = body.ocr;
         let img ;
         let dto: addBodyDto;
         if(fileImg===undefined){
