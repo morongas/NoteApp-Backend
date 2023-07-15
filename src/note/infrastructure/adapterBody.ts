@@ -37,13 +37,14 @@ export class adapterBody implements IBody{
         if (result[0].task.length != 0) {
             return Either.makeLeft<Error,string>((new Error('Esta nota ya tiene tareas asignadas')));
         } 
-
+        console.log(body.getOCR())
        const aux: bodyEntity = {
            IDbody: body.getIDbody(),
            fechaBody: body.getfecha().getValue(),
            text: body.gettext().getValue(),
            imagen: body.getimagen().getValue(),
-           nota: body.getidNota()
+           nota: body.getidNota(),
+           ocr: body.getOCR()
        };
         try{
             const resultado = await this.repositorio.save(aux);
@@ -68,6 +69,7 @@ export class adapterBody implements IBody{
         bodyToUpdate.fechaBody = body.getfecha().getValue();
         bodyToUpdate.text = body.gettext().getValue();
         bodyToUpdate.imagen = body.getimagen().getValue();
+        bodyToUpdate.ocr = body.getOCR();
         
         try{
             const resultado = await this.repositorio.save(bodyToUpdate);

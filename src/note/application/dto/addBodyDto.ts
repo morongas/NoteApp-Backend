@@ -9,11 +9,14 @@ export class addBodyDto {
     text?: string;
     @ApiProperty()
     imagen?: Buffer;
+    @ApiProperty()
+    ocr: boolean;
     
-    public constructor(idNota,fecha, text?, imagen?) {
+    public constructor(idNota,fecha,ocr, text?, imagen?) {
         this.idNota = idNota;
         this.fecha=fecha;
         this.text = text;
         this.imagen = imagen;
+        this.ocr=ocr;
     }
 }
