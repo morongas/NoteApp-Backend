@@ -36,8 +36,7 @@ export class adapterBody implements IBody{
 
         if (result[0].task.length != 0) {
             return Either.makeLeft<Error,string>((new Error('Esta nota ya tiene tareas asignadas')));
-        } 
-        console.log(body.getOCR())
+        }
        const aux: bodyEntity = {
            IDbody: body.getIDbody(),
            fechaBody: body.getfecha().getValue(),
