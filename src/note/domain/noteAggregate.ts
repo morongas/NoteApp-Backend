@@ -70,8 +70,8 @@ export class NoteAggregate{
         }
     }
 
-    static createBody(idNota: string,fecha: Date, text?: string, imagen?: Buffer): Either<Error, body> {
-        const bo = body.create(idNota,fecha, text, imagen);
+    static createBody(idNota: string,fecha: Date,ocr:boolean, text?: string, imagen?: Buffer): Either<Error, body> {
+        const bo = body.create(idNota,fecha,ocr, text, imagen);
         if (bo.isLeft()) {
             return Either.makeLeft<Error, body>(bo.getLeft());
         }else{
@@ -79,8 +79,8 @@ export class NoteAggregate{
         }
     }
 
-    static editBody(id: string,fecha: Date,text?: string, imagen?: Buffer): Either<Error, body> {
-        const bo = body.edit(fecha,text,imagen, id);
+    static editBody(id: string,fecha: Date,ocr?:boolean,text?: string, imagen?: Buffer): Either<Error, body> {
+        const bo = body.edit(fecha,ocr,text,imagen, id);
         if (bo.isLeft()) {
             return Either.makeLeft<Error, body>(bo.getLeft());
         }else{

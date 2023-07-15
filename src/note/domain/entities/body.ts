@@ -10,12 +10,14 @@ export class body {
     private text?: string;
     private imagen?: Buffer;
     private IDbody: string;
+    private OCR?: boolean;
 
-    constructor(idNota: string,fecha: Date, text?: string, imagen?: Buffer, idbody?: string) {
+    constructor(idNota: string,fecha: Date, OCR?: boolean,text?: string, imagen?: Buffer, idbody?: string) {
         this.idNota = idNota;
         this.fecha= fecha;
         this.text = text;
         this.imagen = imagen;
+        this.OCR = OCR;
         if(idbody==undefined){
             this.IDbody = uuidv4();
         } else {
@@ -24,7 +26,7 @@ export class body {
         
     }
 
-    static create(idNota: string,fecha:Date, text?: string, imagen?: Buffer, idBody?: string): Either<Error, body> {
+    static create(idNota: string,fecha:Date,ocr:boolean ,text?: string, imagen?: Buffer, idBody?: string): Either<Error, body> {
         if(text===undefined && imagen===undefined){
             return Either.makeLeft(new Error("Debe haber al menos un campo con información"));
         }
@@ -34,11 +36,14 @@ export class body {
         if(fecha===undefined){
             return Either.makeLeft(new Error("Debe haber una fecha para ser asociada"));
         }
-        return Either.makeRight(new body(idNota,fecha,text,imagen,idBody));
+        if(ocr === undefined){
+            return Either.makeLeft(new Error("Se tiene que decir el tipo de nota"));
+        }
+        return Either.makeRight(new body(idNota,fecha,ocr,text,imagen,idBody));
         
     }
 
-    static edit(fecha:Date, text?: string, imagen?: Buffer, idBody?: string): Either<Error, body> {
+    static edit(fecha:Date,ocr:boolean, text?: string, imagen?: Buffer, idBody?: string): Either<Error, body> {
         if(text===undefined && imagen===undefined){
             return Either.makeLeft(new Error("Debe haber al menos un campo con información"));
         }
@@ -48,7 +53,7 @@ export class body {
         if(fecha===undefined){
             return Either.makeLeft(new Error("Debe haber una fecha para ser asociada"));
         }
-        return Either.makeRight(new body(idBody,fecha,text,imagen,idBody));
+        return Either.makeRight(new body(idBody,fecha,ocr,text,imagen,idBody));
         
     }
 
@@ -85,6 +90,11 @@ export class body {
         return this.IDbody;
     }
 
+    public getOCR(): boolean {
+        return this.OCR;
+    }
+
+
     //SETTERS
     public settext(text: string): void {
         this.text = text;
@@ -94,7 +104,9 @@ export class body {
         this.imagen = imagen;
     }
 
-
+    public setOCR(ocr: boolean): void {
+        this.OCR = ocr;
+    }
     
 
 }

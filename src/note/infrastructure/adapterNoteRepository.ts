@@ -34,7 +34,7 @@ export class adapterNoteRepository  implements INotes{
         let aux = NoteAggregate.create(result[0].tituloNota, result[0].fechaNota,result[0].estadoNota,result[0].descripcionNota, result[0].idNota);
         if(result[0].body.length != 0){
             for(let i=0;i<result[0].body.length;i++){
-                const bo = body.create(result[0].idNota,result[0].body[i].fechaBody ,result[0].body[i].text, result[0].body[i].imagen,result[0].body[i].IDbody);
+                const bo = body.create(result[0].idNota,result[0].body[i].fechaBody ,result[0].body[i].ocr,result[0].body[i].text, result[0].body[i].imagen,result[0].body[i].IDbody);
                 if(bo.isRight()){
                     aux.getRight().setbodyNota(bo.getRight());
                 }

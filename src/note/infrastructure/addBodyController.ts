@@ -30,14 +30,20 @@ export class addBodyController {
         let idNota = id;
         let text = body.text;
         let fecha = body.fecha;
+        let ocr;
+        if(body.ocr === "true"){
+            ocr = true;
+        }else{
+            ocr = false;
+        }
         let img ;
         let dto: addBodyDto;
         if(fileImg===undefined){
-            dto = new addBodyDto(idNota,fecha,text);
+            dto = new addBodyDto(idNota,fecha,ocr,text);
         }
         if(fileImg){
             img = fileImg.buffer;
-            dto = new addBodyDto(idNota,fecha,text,img);
+            dto = new addBodyDto(idNota,fecha,ocr,text,img);
         }
         let resultado = await this.repo.execute(dto);
         if (resultado.isLeft()) {
@@ -56,13 +62,21 @@ export class addBodyController {
         let fecha = body.fecha;
         let img ;
         let dto: updateBodyDto;
+        let ocr;
+        if (body.ocr === "true") {
+            ocr = true;
+        } 
+        if (body.ocr === "false") {
+            ocr = false;
+        }
         if(fileImg===undefined){
-            dto = new updateBodyDto(idbody,fecha,text);
+            dto = new updateBodyDto(idbody,fecha,ocr,text);
         }
         if(fileImg){
             img = fileImg.buffer;
-            dto = new updateBodyDto(idbody,fecha,text,img);
+            dto = new updateBodyDto(idbody,fecha,ocr,text,img);
         }
+        console.log(dto);
         let resultado = await this.repoUpdate.execute(dto);
         if (resultado.isLeft()) {
             return "No se pudo editar el body: "+resultado.getLeft().message;

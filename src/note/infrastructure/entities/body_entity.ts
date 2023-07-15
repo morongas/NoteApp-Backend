@@ -19,6 +19,9 @@ export class bodyEntity {
     @Column({ nullable: false })
     fechaBody: Date;
 
+    @Column({type: 'boolean'})
+    ocr: boolean;
+
     @ManyToOne(
         () => NoteEntity,
         (NoteEntity) => NoteEntity.idNota, {
