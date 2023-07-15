@@ -23,7 +23,7 @@ export class addBodyToNoteService implements IAppService<addBodyDto, string>{
             if(result.isLeft()){
                 return result; 
             }
-            return Either.makeRight<Error,string>("Resultado "+  result);
+            return Either.makeRight<Error,string>("Resultado: "+  result.getRight());
         }
     }
 }

@@ -48,7 +48,7 @@ export class adapterBody implements IBody{
        };
         try{
             const resultado = await this.repositorio.save(aux);
-            return Either.makeRight<Error,string>(resultado.text);
+            return Either.makeRight<Error,string>('Body creado e insertado en la nota');
         }catch(error){
             return Either.makeLeft<Error,string>(error);
         }

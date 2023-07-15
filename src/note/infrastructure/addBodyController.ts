@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Post, Put, Req, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, HttpStatus, Param, Post, Put, Req, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { addBodyToNoteService } from "../application/addBodyToNoteService";
 import { addBodyDto } from "../application/dto/addBodyDto";
 import { FileInterceptor } from "@nestjs/platform-express";
@@ -26,7 +26,7 @@ export class addBodyController {
     @ApiBody({type: addBodyDto})
     @Post(':id')
     @UseInterceptors(FileInterceptor('file'))
-    async create(@Param('id') id: string,@Body() body?, @Req() request?, @UploadedFile() fileImg?: Express.Multer.File): Promise<string> {
+    async create(@Param('id') id: string, @Res() response, @Body() body?, @Req() request?, @UploadedFile() fileImg?: Express.Multer.File): Promise<string> {
         let idNota = id;
         let text = body.text;
         let fecha = body.fecha;
@@ -44,7 +44,7 @@ export class addBodyController {
         if (resultado.isLeft()) {
             return "No se pudo crear el body: "+resultado.getLeft().message;
         }else{
-            return "Body creado";
+            return response.status(HttpStatus.OK).json(resultado.getRight());
         }
     }
 
