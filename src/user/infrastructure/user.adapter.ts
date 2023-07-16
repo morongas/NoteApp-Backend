@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { IUser } from '../domain/repository/IUser';
-import { InjectConnection, InjectRepository } from '@nestjs/typeorm';
-import { Connection, Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { UserEntity } from './entities/user.entity';
 import { Either } from "../../generics/Either";
 import { Usuario } from '../domain/Usuario';
@@ -10,14 +10,11 @@ import { Usuario } from '../domain/Usuario';
 export class adapterUserRepository implements IUser<UserEntity>{
   constructor(
     @InjectRepository(UserEntity)
-    private readonly repositorio: Repository<UserEntity>,
-    @InjectConnection() private readonly connection: Connection
+    private readonly repositorio: Repository<UserEntity>
 ) {}
 
   async getNotes(nota: number){
 
-    const rawData = await this.connection.query(`select count(*) from note where "userId" = `+nota+``);
-    console.log(rawData[0].count);
     const resultado = await this.repositorio.findOne({
       where:{id:nota},
       relations:{

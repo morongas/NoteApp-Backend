@@ -61,7 +61,7 @@ export class adapterNoteRepository  implements INotes{
             id: nota.getIdUsuario().getIDUser()
         });
 
-        console.log(userAux.id)
+
         const aux: NoteEntity = {
             idNota: nota.getid().getIDNota(),
             estadoNota: nota.getestadoNota().getEstado(),

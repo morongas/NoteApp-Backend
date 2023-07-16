@@ -34,7 +34,7 @@ export class adapterBody implements IBody{
             }
         });
 
-        console.log(result[0].user.id)
+
         if(result.length == 0){
             return Either.makeLeft<Error,string>((new Error('La nota no existe'))); 
         }
@@ -42,6 +42,16 @@ export class adapterBody implements IBody{
         if (result[0].task.length != 0) {
             return Either.makeLeft<Error,string>((new Error('Esta nota ya tiene tareas asignadas')));
         }
+
+        const resultUser = await this.repoUser.find({ 
+            where: {
+                id: result[0].user.id
+            }
+        });
+
+
+
+        const count = await this.repositorio2.query(`select count(*) from "note" join "bodyNote" on "notaIdNota" = "idNota" where "userId" =`+resultUser[0].id+``)
 
         const aux: bodyEntity = {
            IDbody: body.getIDbody(),
