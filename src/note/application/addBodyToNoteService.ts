@@ -12,7 +12,7 @@ export class addBodyToNoteService implements IAppService<addBodyDto, string>{
     }
     
     async execute(dto: addBodyDto): Promise<Either<Error, string>> {
-        if((dto.imagen === undefined) || (dto.imagen === null)){
+        if((dto.imagen === undefined)){
             dto.imagen = Buffer.from("");
         }
         const bo = NoteAggregate.createBody(dto.idNota,dto.fecha,dto.ocr,dto.text, dto.imagen);

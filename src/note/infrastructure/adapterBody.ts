@@ -46,7 +46,6 @@ export class adapterBody implements IBody{
                 idNota: body.getidNota()
             }, 
             relations: {
-                task: true,
                 user: true
             }
         });
@@ -54,10 +53,6 @@ export class adapterBody implements IBody{
 
         if(result.length == 0){
             return Either.makeLeft<Error,string>((new Error('La nota no existe'))); 
-        }
-
-        if (result[0].task.length != 0) {
-            return Either.makeLeft<Error,string>((new Error('Esta nota ya tiene tareas asignadas')));
         }
 
         if(body.getOCR()==true){

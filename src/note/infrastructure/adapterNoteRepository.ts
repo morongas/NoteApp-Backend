@@ -43,7 +43,7 @@ export class adapterNoteRepository  implements INotes{
                 }
             }
 
-        } else if (result[0].task.length != 0) {
+        } if (result[0].task.length != 0) {
             for(let i=0;i<result[0].task.length;i++){
                 const ta = task.createTask(result[0].task[i].title,result[0].task[i].fechaCreacion, result[0].task[i].status,result[0].idNota);
                 if(ta.isRight()){

@@ -9,6 +9,7 @@ import { deleteBodyService } from "../application/deleteBodyService";
 import { updateBodyDto } from "../application/dto/updateBodyDto";
 import { deleteBodyDto } from "../application/dto/deleteBodyDto";
 import { adapterBody } from "./adapterBody";
+import { response } from "express";
 
 @ApiTags('Body')
 @Controller('body')
@@ -33,6 +34,12 @@ export class addBodyController {
         let ocr = body.ocr;
         let img ;
         let dto: addBodyDto;
+        if(((text===undefined || text.length === 0) && fileImg === undefined)){
+            return response.status(HttpStatus.FORBIDDEN).json('El body no puede estar vacio');
+        } else if (!(text===undefined || text.length === 0) && !(fileImg === undefined)){
+            return response.status(HttpStatus.FORBIDDEN).json('El body puede tener texto o imagen, no los dos');
+        }
+
         if(fileImg===undefined){
             dto = new addBodyDto(idNota,fecha,ocr,text);
         }
@@ -51,13 +58,18 @@ export class addBodyController {
     @ApiBody({type: updateBodyDto})
     @Put(':idBody')
     @UseInterceptors(FileInterceptor('file'))
-    async update(@Param('idBody') idBody: string,@Body() body?, @Req() request?, @UploadedFile() fileImg?: Express.Multer.File): Promise<string> {
+    async update(@Param('idBody') idBody: string,@Res() response,@Body() body?, @UploadedFile() fileImg?: Express.Multer.File): Promise<string> {
         let idbody = idBody;
         let text = body.text;
         let fecha = body.fecha;
         let img ;
         let dto: updateBodyDto;
         let ocr;
+        if(((text===undefined || text.length === 0) && fileImg === undefined)){
+            return response.status(HttpStatus.FORBIDDEN).json('El body no puede estar vacio');
+        } else if (!(text===undefined || text.length === 0) && !(fileImg === undefined)){
+            return response.status(HttpStatus.FORBIDDEN).json('El body puede tener texto o imagen, no los dos');
+        }
         if (body.ocr === "true") {
             ocr = true;
         } 
@@ -71,24 +83,23 @@ export class addBodyController {
             img = fileImg.buffer;
             dto = new updateBodyDto(idbody,fecha,ocr,text,img);
         }
-        console.log(dto);
         let resultado = await this.repoUpdate.execute(dto);
         if (resultado.isLeft()) {
-            return "No se pudo editar el body: "+resultado.getLeft().message;
+            return response.status(HttpStatus.FORBIDDEN).json(resultado.getLeft().message);
         }else{
-            return "Body editado";
+            return response.status(HttpStatus.OK).json(resultado.getRight());
         }
     }
 
     @Delete(':id')
-    async delete(@Param('id') id:string, @Req() request): Promise<string> {
+    async delete(@Param('id') id:string, @Res() response): Promise<string> {
         let idBody = id;
         let dto = new deleteBodyDto(idBody);
         let resultado = await this.repoDelete.execute(dto);
         if (resultado.isLeft()) {
-            return "No se pudo eliminar la tarea: "+resultado.getLeft();
+            return response.status(HttpStatus.FORBIDDEN).json(resultado.getLeft().message);
         }else{
-            return "Body eliminado";
+            return response.status(HttpStatus.OK).json(resultado.getRight());
         }
     }
 

@@ -20,19 +20,12 @@ export class adapterTask implements ITask{
         const result = await this.repositorio2.find({ 
             where: {
                 idNota: tarea.getIdNota().getIDNota()
-            }, 
-            relations: {
-                body: true
             }
         }); 
 
         if(result.length == 0){
             return Either.makeLeft<Error,string>((new Error('La nota no existe'))); 
         }
-
-        if (result[0].body.length != 0) {
-            return Either.makeLeft<Error,string>((new Error('Esta nota ya tiene body')));
-        } 
 
         const aux: taskEntity = {
             IDtask: tarea.getId().getId(),
