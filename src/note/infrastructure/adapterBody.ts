@@ -9,6 +9,7 @@ import { body } from "../domain/entities/body";
 import { Optional } from "src/generics/Optional";
 import { NoteEntity } from "./entities/note_entity";
 import { UserEntity } from "src/user/infrastructure/entities/user.entity";
+import { Console } from "console";
 
 
 @Injectable()
@@ -23,6 +24,22 @@ export class adapterBody implements IBody{
         private readonly repoUser: Repository<UserEntity>
     ){}
     
+
+    async validarSuscripcion(usuarioId: number): Promise<boolean>{
+        
+        const resultUser = await this.repoUser.find({ 
+            where: {
+                id: usuarioId
+            }
+        });
+
+        if(resultUser[0].suscripcion=='Gratis'){
+            const count = await this.repositorio2.query(`select count(*) from "note" join "bodyNote" on "notaIdNota" = "idNota" where "ocr" = true and "userId" =`+resultUser[0].id+``)
+            if(count[0].count>=6) return false
+        }
+        return true
+    }
+
     async saveBody(body: body): Promise<Either<Error, string>> {
         const result = await this.repositorio2.find({ 
             where: {
@@ -43,16 +60,13 @@ export class adapterBody implements IBody{
             return Either.makeLeft<Error,string>((new Error('Esta nota ya tiene tareas asignadas')));
         }
 
-        const resultUser = await this.repoUser.find({ 
-            where: {
-                id: result[0].user.id
+        if(body.getOCR()==true){
+            const validacion = this.validarSuscripcion(result[0].user.id)
+            if(await validacion == false){
+                return Either.makeLeft<Error, string>(new Error('El usuario ya ha alcanzado el limite de uso de OCR para su suscripcion'))
             }
-        });
-
-
-
-        const count = await this.repositorio2.query(`select count(*) from "note" join "bodyNote" on "notaIdNota" = "idNota" where "userId" =`+resultUser[0].id+``)
-
+        }
+            
         const aux: bodyEntity = {
            IDbody: body.getIDbody(),
            fechaBody: body.getfecha().getValue(),

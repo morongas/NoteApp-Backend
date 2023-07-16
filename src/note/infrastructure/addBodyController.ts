@@ -42,7 +42,7 @@ export class addBodyController {
         }
         let resultado = await this.repo.execute(dto);
         if (resultado.isLeft()) {
-            return "No se pudo crear el body: "+resultado.getLeft().message;
+            return response.status(HttpStatus.FORBIDDEN).json(resultado.getLeft().message);
         }else{
             return response.status(HttpStatus.OK).json(resultado.getRight());
         }
