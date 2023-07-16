@@ -9,6 +9,8 @@ export class crearUsuarioDto{
         @ApiProperty()
         public email: string;
         @ApiProperty()
+        public suscripcion_gratis: boolean;
+        @ApiProperty()
         public primer_nombre: string;
         @ApiProperty()
         public segundo_nombre: string;
@@ -18,7 +20,7 @@ export class crearUsuarioDto{
         public telefono: string;
 
         constructor(usuario:string, clave:string, email: string, primer_nombre: string,
-            segundo_nombre: string, fecha_nacimiento: Date, telefono: string){
+            segundo_nombre: string, fecha_nacimiento: Date, telefono: string, suscripcion_gratis: boolean){
                 this.usuario = usuario;
                 this.clave = clave;
                 this.email = email;
@@ -26,6 +28,7 @@ export class crearUsuarioDto{
                 this.segundo_nombre = segundo_nombre;
                 this.fecha_nacimiento = fecha_nacimiento
                 this.telefono = telefono;
+                this.suscripcion_gratis = suscripcion_gratis;
 
         }
 

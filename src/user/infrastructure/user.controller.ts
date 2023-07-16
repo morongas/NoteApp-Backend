@@ -22,7 +22,7 @@ export class UserController {
   @Post()
   async registrarUsuario(@Body() body, @Res() response){
     const dto: crearUsuarioDto = new crearUsuarioDto(body.usuario, body.clave, body.email, 
-      body.primer_nombre,body.segundo_nombre,body.fecha_nacimiento,body.telefono)
+      body.primer_nombre,body.segundo_nombre,body.fecha_nacimiento,body.telefono, body.suscripcion_gratis)
       let result = await this.crearUsuario.execute(dto);
       if (result.isLeft()) {
         return response.status(HttpStatus.NOT_ACCEPTABLE).json(result.getLeft().message);
