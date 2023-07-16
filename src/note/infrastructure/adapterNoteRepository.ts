@@ -10,12 +10,15 @@ import { Optional } from "../../generics/Optional";
 import { bodyEntity } from "./entities/body_entity";
 import { body } from "../domain/entities/body";
 import { task } from "../domain/entities/task";
+import { UserEntity } from "src/user/infrastructure/entities/user.entity";
 
 @Injectable()
 export class adapterNoteRepository  implements INotes{
     constructor(
         @InjectRepository(NoteEntity)
         private readonly repositorio: Repository<NoteEntity>,
+        @InjectRepository(UserEntity)
+        private readonly repoUser: Repository<UserEntity>
     ) {}
 
     async buscarNota(id: string): Promise<Either<Error, NoteAggregate>> {
@@ -54,13 +57,18 @@ export class adapterNoteRepository  implements INotes{
 
     async saveNota(nota: NoteAggregate): Promise<Either<Error, string>> {
 
+        const userAux = await this.repoUser.findOneBy({
+            id: nota.getIdUsuario().getIDUser()
+        });
+
+        console.log(userAux.id)
         const aux: NoteEntity = {
             idNota: nota.getid().getIDNota(),
             estadoNota: nota.getestadoNota().getEstado(),
             fechaNota: nota.getfechaNota().getFecha(),
             tituloNota: nota.gettituloNota().getTituloNota(),
             descripcionNota: nota.getdescripcionNota().getDescripcion(),
-            user: nota.getIdUsuario().getIDUser().toString(),
+            user: userAux,
             body: [],
             task: []
         };
@@ -101,7 +109,7 @@ export class adapterNoteRepository  implements INotes{
     async deleteNota(id: string): Promise<Either<Error, string>> {
         let noteToDelete: NoteEntity;
         noteToDelete = await this.repositorio.findOneBy({
-            idNota: id,
+            idNota: id
         })
 
         const note = new Optional<NoteEntity>(noteToDelete);
@@ -111,7 +119,7 @@ export class adapterNoteRepository  implements INotes{
         }
 
         try {
-            const resultado = await this.repositorio.delete(noteToDelete);
+            //const resultado = await this.repositorio.delete(note.getValue());
             return Either.makeRight<Error, string>('Se elimino la nota exitosamente');
         }catch (error) {
             return Either.makeLeft<Error, string>(error);

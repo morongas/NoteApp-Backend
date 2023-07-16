@@ -22,10 +22,11 @@ import { lateController } from './lateController';
 import { lateService } from '../application/lateService';
 import { deleteBodyService } from '../application/deleteBodyService';
 import { deleteNoteService } from '../application/deleteNoteService';
+import { UserEntity } from 'src/user/infrastructure/entities/user.entity';
 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([NoteEntity]), TypeOrmModule.forFeature([bodyEntity]), TypeOrmModule.forFeature([taskEntity])],
+  imports: [TypeOrmModule.forFeature([NoteEntity]), TypeOrmModule.forFeature([bodyEntity]), TypeOrmModule.forFeature([taskEntity]),TypeOrmModule.forFeature([UserEntity])],
   controllers: [NoteController,addBodyController,taskController,lateController],
   providers: [createnoteService,updatenoteService,addBodyToNoteService,findNoteService,updateBodyFromNoteService,addTaskService,lateService,
     updateTaskService,deleteTaskService,deleteBodyService,deleteNoteService,adapterNoteRepository,adapterBody,adapterTask,{

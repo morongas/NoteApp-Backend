@@ -8,6 +8,7 @@ import { IBody } from "../domain/repository/IBody";
 import { body } from "../domain/entities/body";
 import { Optional } from "src/generics/Optional";
 import { NoteEntity } from "./entities/note_entity";
+import { UserEntity } from "src/user/infrastructure/entities/user.entity";
 
 
 @Injectable()
@@ -17,7 +18,9 @@ export class adapterBody implements IBody{
         @InjectRepository(bodyEntity)
         private readonly repositorio: Repository<bodyEntity>,
         @InjectRepository(NoteEntity)
-        private readonly repositorio2: Repository<NoteEntity>
+        private readonly repositorio2: Repository<NoteEntity>,
+        @InjectRepository(UserEntity)
+        private readonly repoUser: Repository<UserEntity>
     ){}
     
     async saveBody(body: body): Promise<Either<Error, string>> {
@@ -26,10 +29,12 @@ export class adapterBody implements IBody{
                 idNota: body.getidNota()
             }, 
             relations: {
-                task: true
+                task: true,
+                user: true
             }
         });
-        
+
+        console.log(result[0].user.id)
         if(result.length == 0){
             return Either.makeLeft<Error,string>((new Error('La nota no existe'))); 
         }
@@ -37,7 +42,8 @@ export class adapterBody implements IBody{
         if (result[0].task.length != 0) {
             return Either.makeLeft<Error,string>((new Error('Esta nota ya tiene tareas asignadas')));
         }
-       const aux: bodyEntity = {
+
+        const aux: bodyEntity = {
            IDbody: body.getIDbody(),
            fechaBody: body.getfecha().getValue(),
            text: body.gettext().getValue(),

@@ -40,7 +40,7 @@ export class UserEntity extends BaseEntity{
     @OneToMany(
         () =>TagEntity,
         (tagEntity) => tagEntity.idUsuario,{
-            onDelete: 'CASCADE',
+            cascade: true,
         } 
     )
     tags?: TagEntity[];
@@ -48,7 +48,7 @@ export class UserEntity extends BaseEntity{
     @OneToMany(
         () =>NoteEntity,
         (noteEntity) => noteEntity.user,{
-            onDelete: 'CASCADE',
+            cascade: true,
         }
     )
     notes?: NoteEntity[];

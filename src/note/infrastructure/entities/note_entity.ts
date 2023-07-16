@@ -28,7 +28,7 @@ export class NoteEntity {
         ()=>UserEntity,
         (userEntity)=> userEntity.notes
     )
-    user: string;
+    user: UserEntity;
 
     @OneToMany(
         () => bodyEntity,
