@@ -28,13 +28,14 @@ export class adapterNoteRepository  implements INotes{
             }, 
             relations: {
                 body: true,
-                task: true
+                task: true,
+                user: true
             }
         });
         if (result.length == 0) {
             return Either.makeLeft<Error, NoteAggregate>(new Error('No se encontro la nota'));  
         }
-        let aux = NoteAggregate.create(result[0].tituloNota, result[0].fechaNota,result[0].estadoNota,result[0].descripcionNota, result[0].idNota);
+        let aux = NoteAggregate.create(result[0].tituloNota, result[0].fechaNota,result[0].latitud,result[0].longitud,result[0].descripcionGPS,result[0].estadoNota,result[0].descripcionNota, result[0].idNota, result[0].user.id);
         if(result[0].body.length != 0){
             for(let i=0;i<result[0].body.length;i++){
                 const bo = body.create(result[0].idNota,result[0].body[i].fechaBody ,result[0].body[i].ocr,result[0].body[i].text, result[0].body[i].imagen,result[0].body[i].IDbody);
@@ -66,6 +67,9 @@ export class adapterNoteRepository  implements INotes{
             idNota: nota.getid().getIDNota(),
             estadoNota: nota.getestadoNota().getEstado(),
             fechaNota: nota.getfechaNota().getFecha(),
+            latitud: nota.getgpsNota().getlatitud(),
+            longitud: nota.getgpsNota().getlongitud(),
+            descripcionGPS: nota.getgpsNota().getdescripcion(),
             tituloNota: nota.gettituloNota().getTituloNota(),
             descripcionNota: nota.getdescripcionNota().getDescripcion(),
             user: userAux,

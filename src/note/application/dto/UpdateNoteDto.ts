@@ -12,7 +12,7 @@ export class UpdateNoteDto {
     @ApiProperty()
     descrip?: string;
 
-    constructor(tituloNota: string, idNota?:string, fechaCreacion?: Date, estado?: string, desc?: string) {
+    constructor(tituloNota: string, idNota?:string, fechaCreacion?: Date,estado?: string, desc?: string) {
         this.idNota = idNota;
         this.tituloNota = tituloNota;
         this.fechaCreacion = fechaCreacion;

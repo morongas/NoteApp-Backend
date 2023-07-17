@@ -29,10 +29,13 @@ export class NoteController {
   async create(@Body() body, @Res() response): Promise<string> {
     let titulo = body.titulo;
     let fechaC = body.fechaC;
+    let latitud = body.latitud;
+    let longitud = body.longitud;
+    let descripcionGPS = body.descripcionGPS;
     let est = body.est;
     let desc = body.desc;
     let idUsuario = body.idUsuario
-    let dto = new CreateNoteDto(titulo,fechaC, est,desc, idUsuario);
+    let dto = new CreateNoteDto(titulo,fechaC,latitud,longitud,descripcionGPS,est,desc,idUsuario);
     let result = await this.repo.execute(dto);
     if (result.isLeft()) {
       return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
@@ -42,18 +45,18 @@ export class NoteController {
   }
   @ApiBody({type: UpdateNoteDto})
   @Put(':id')
-  async update(@Param('id') id:string, @Body() body, @Req() request): Promise<string> {
+  async update(@Param('id') id:string, @Body() body, @Res() response): Promise<string> {
     let idNota = id;
     let titulo = body.titulo;
     let fechaC = body.fechaC;
     let est = body.est;
     let desc = body.desc;
-    let dto = new UpdateNoteDto(titulo, idNota,fechaC, est,desc);
+    let dto = new UpdateNoteDto(titulo, idNota,fechaC,est,desc);
     let resultado = await this.repoUpdate.execute(dto);
     if (resultado.isLeft()) {
-      return "No se pudo editar la nota: "+resultado.getLeft().message;
+      return response.status(HttpStatus.NOT_FOUND).json(resultado.getLeft().message);
     }else{
-      return "Nota editada";
+      return response.status(HttpStatus.OK).json("Nota Editado con Exito");
     }
   }
 

@@ -53,7 +53,7 @@ export class lateService {
         for(let x in body){
             switch(body[x].action){
                 case "createNote":
-                    let dto = new CreateNoteDto(body[x].nota.titulo, body[x].nota.fechaC, body[x].nota.est, body[x].nota.desc);
+                    let dto = new CreateNoteDto(body[x].nota.titulo, body[x].nota.fechaC, body[x].nota.latitud,body[x].nota.longitud,body[x].nota.descripcionGPS,body[x].nota.est, body[x].nota.desc, body[x].nota.idUsuario);
                     result = await this.notas.execute(dto);
                     idNotanueva = result.getRight();
                     break;

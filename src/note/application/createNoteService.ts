@@ -17,10 +17,10 @@ export class createnoteService implements IAppService<CreateNoteDto, string>{
     async execute(dto: CreateNoteDto): Promise<Either<Error,string>> {
     
         //Creamos el agregado
-        const nota = NoteAggregate.create(dto.tituloNota, dto.fechaCreacion,dto.estado,dto.descrip,undefined,dto.idUsuario);
+        const nota = NoteAggregate.create(dto.tituloNota, dto.fechaCreacion,dto.latitud,dto.longitud,dto.descripcionGPS,dto.estado,dto.descrip,undefined,dto.idUsuario);
         // Guardamos la nota en la base de datos
         if (nota.isLeft()) {
-            return Either.makeLeft<Error,string>(new Error('No se puede crear la nota'));
+            return Either.makeLeft<Error,string>(new Error(nota.getLeft().message));
         }else{
             let result = await this.NotesRepository.saveNota(nota.getRight());
             if(result.isLeft()){

@@ -19,6 +19,15 @@ export class NoteEntity {
     fechaNota: Date;
 
     @Column()
+    latitud: number;
+
+    @Column()
+    longitud: number;
+
+    @Column({ nullable: true})
+    descripcionGPS: string;
+
+    @Column()
     tituloNota: string;
 
     @Column({ nullable: true})
