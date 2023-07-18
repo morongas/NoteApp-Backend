@@ -5,10 +5,10 @@ import { Inject } from "@nestjs/common";
 import { IBody } from "../domain/repository/IBody";
 import { NoteAggregate } from "../domain/noteAggregate";
 
-export class updateBodyFromNoteService implements IAppService<updateBodyDto, string>{
-    private NotesRepository: IBody;
+export class updateBodyFromNoteService<T> implements IAppService<updateBodyDto, string>{
+    private NotesRepository: IBody<T>;
 
-    constructor(repo: IBody) {
+    constructor(repo: IBody<T>) {
         this.NotesRepository = repo;
     }
     

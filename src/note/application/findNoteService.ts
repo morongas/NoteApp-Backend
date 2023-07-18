@@ -3,10 +3,10 @@ import { findNoteDto } from "./dto/findNoteDto";
 import { Either } from "src/generics/Either";
 import { NoteAggregate } from "../domain/noteAggregate";
 
-export class findNoteService{
-    private readonly notaRepositorio: INotes
+export class findNoteService<T>{
+    private readonly notaRepositorio: INotes<T>
 
-    constructor(notaRepo: INotes) {
+    constructor(notaRepo: INotes<T>) {
         this.notaRepositorio = notaRepo;
     }
 

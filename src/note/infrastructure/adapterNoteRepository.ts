@@ -13,7 +13,7 @@ import { task } from "../domain/entities/task";
 import { UserEntity } from "src/user/infrastructure/entities/user.entity";
 
 @Injectable()
-export class adapterNoteRepository  implements INotes{
+export class adapterNoteRepository  implements INotes<NoteEntity>{
     constructor(
         @InjectRepository(NoteEntity)
         private readonly repositorio: Repository<NoteEntity>,
@@ -56,7 +56,7 @@ export class adapterNoteRepository  implements INotes{
         return Either.makeRight<Error, NoteAggregate>(aux.getRight());
     }
 
-    async saveNota(nota: NoteAggregate): Promise<Either<Error, string>> {
+    async saveNota(nota: NoteAggregate): Promise<Either<Error, NoteEntity>> {
 
         const userAux = await this.repoUser.findOneBy({
             id: nota.getIdUsuario().getIDUser()
@@ -78,9 +78,9 @@ export class adapterNoteRepository  implements INotes{
         };
         try{
             const resultado = await this.repositorio.save(aux);
-            return Either.makeRight<Error,string>(resultado.idNota);
+            return Either.makeRight<Error,NoteEntity>(resultado);
         }catch(error){
-            return Either.makeLeft<Error,string>(error);
+            return Either.makeLeft<Error,NoteEntity>(error);
         }
     }
 

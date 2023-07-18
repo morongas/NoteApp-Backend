@@ -4,10 +4,10 @@ import { Either } from "src/generics/Either";
 import { ITask } from "../domain/repository/ITask";
 import { NoteAggregate } from "../domain/noteAggregate";
 
-export class updateTaskService implements IAppService<editTaskDto, string>{
-    private taskRepo: ITask;
+export class updateTaskService<T> implements IAppService<editTaskDto, string>{
+    private taskRepo: ITask<T>;
 
-    constructor(repo: ITask) {
+    constructor(repo: ITask<T>) {
         this.taskRepo = repo;
     }
     async execute(dto: editTaskDto): Promise<Either<Error, string>> {

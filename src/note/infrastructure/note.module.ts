@@ -23,13 +23,16 @@ import { lateService } from '../application/lateService';
 import { deleteBodyService } from '../application/deleteBodyService';
 import { deleteNoteService } from '../application/deleteNoteService';
 import { UserEntity } from 'src/user/infrastructure/entities/user.entity';
+import { logg_entity } from './entities/logg_entity';
+import { concreteLogger } from 'src/core/application/concretLogger';
+import { adapterDecorator } from 'src/core/infrastructure/adapterDecorator';
 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([NoteEntity]), TypeOrmModule.forFeature([bodyEntity]), TypeOrmModule.forFeature([taskEntity]),TypeOrmModule.forFeature([UserEntity])],
+  imports: [TypeOrmModule.forFeature([NoteEntity]), TypeOrmModule.forFeature([bodyEntity]), TypeOrmModule.forFeature([taskEntity]), TypeOrmModule.forFeature([UserEntity]), TypeOrmModule.forFeature([logg_entity])],
   controllers: [NoteController,addBodyController,taskController,lateController],
-  providers: [createnoteService,updatenoteService,addBodyToNoteService,findNoteService,updateBodyFromNoteService,addTaskService,lateService,
-    updateTaskService,deleteTaskService,deleteBodyService,deleteNoteService,adapterNoteRepository,adapterBody,adapterTask,{
+  providers: [createnoteService,updatenoteService,addBodyToNoteService,findNoteService,updateBodyFromNoteService,addTaskService,lateService,concreteLogger,
+    updateTaskService,deleteTaskService,deleteBodyService,deleteNoteService,adapterNoteRepository,adapterBody,adapterTask,adapterDecorator,{
     provide: 'INotes',
     useClass: adapterNoteRepository,
 

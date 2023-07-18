@@ -6,11 +6,13 @@ import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { crearUsuarioDto } from '../application/dto/crearUsuarioDto';
 import { registrarUsuario } from '../application/registrarUsuario';
 import { adapterUserRepository } from './user.adapter';
+import { adapterDecorator } from 'src/core/infrastructure/adapterDecorator';
+import { concreteLogger } from 'src/core/application/concretLogger';
 
 @ApiTags('Usuario')
 @Controller('user')
 export class UserController {
-  constructor(private readonly repoIuser: adapterUserRepository,
+  constructor(private readonly repoIuser: adapterUserRepository, private readonly repoLogger: adapterDecorator,
               private  userService: getNotesByUserService<UserEntity>,
               private  crearUsuario: registrarUsuario<UserEntity>) 
             {
@@ -23,7 +25,8 @@ export class UserController {
   async registrarUsuario(@Body() body, @Res() response){
     const dto: crearUsuarioDto = new crearUsuarioDto(body.usuario, body.clave, body.email, 
       body.primer_nombre,body.segundo_nombre,body.fecha_nacimiento,body.telefono, body.suscripcion_gratis)
-      let result = await this.crearUsuario.execute(dto);
+      let result = await new concreteLogger(this.crearUsuario, this.repoLogger, "user created").execute(dto);
+
       if (result.isLeft()) {
         return response.status(HttpStatus.NOT_ACCEPTABLE).json(result.getLeft().message);
       }else{
@@ -31,28 +34,10 @@ export class UserController {
       }
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.userService.findAll();
-  // }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.userService.findOne(+id);
-  // }
 
   @Get(':id/notes')
   findNotes(@Param('id') id: string) {
     return this.userService.execute(+id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.userService.update(+id, updateUserDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.userService.remove(+id);
-  // }
 }

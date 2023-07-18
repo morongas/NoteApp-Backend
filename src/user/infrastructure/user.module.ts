@@ -6,12 +6,14 @@ import { UserEntity } from './entities/user.entity';
 import { getNotesByUserService } from '../application/getNotesByUserService';
 import { adapterUserRepository } from './user.adapter';
 import { registrarUsuario } from '../application/registrarUsuario';
+import { logg_entity } from 'src/note/infrastructure/entities/logg_entity';
+import { adapterDecorator } from 'src/core/infrastructure/adapterDecorator';
 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity])],
+  imports: [TypeOrmModule.forFeature([UserEntity]), TypeOrmModule.forFeature([logg_entity])],
   controllers: [UserController],
-  providers: [getNotesByUserService, adapterUserRepository, {
+  providers: [getNotesByUserService, adapterUserRepository, adapterDecorator, {
     provide: 'IUser<T>',
     useClass: adapterUserRepository,
   },registrarUsuario,{

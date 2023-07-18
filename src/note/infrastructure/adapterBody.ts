@@ -13,7 +13,7 @@ import { Console } from "console";
 
 
 @Injectable()
-export class adapterBody implements IBody{
+export class adapterBody implements IBody<bodyEntity>{
 
     constructor(
         @InjectRepository(bodyEntity)
@@ -40,7 +40,7 @@ export class adapterBody implements IBody{
         return true
     }
 
-    async saveBody(body: body): Promise<Either<Error, string>> {
+    async saveBody(body: body): Promise<Either<Error, bodyEntity>> {
         const result = await this.repositorio2.find({ 
             where: {
                 idNota: body.getidNota()
@@ -52,13 +52,13 @@ export class adapterBody implements IBody{
 
 
         if(result.length == 0){
-            return Either.makeLeft<Error,string>((new Error('La nota no existe'))); 
+            return Either.makeLeft<Error,bodyEntity>((new Error('La nota no existe'))); 
         }
 
         if(body.getOCR()==true){
             const validacion = this.validarSuscripcion(result[0].user.id)
             if(await validacion == false){
-                return Either.makeLeft<Error, string>(new Error('El usuario ya ha alcanzado el limite de uso de OCR para su suscripcion'))
+                return Either.makeLeft<Error, bodyEntity>(new Error('El usuario ya ha alcanzado el limite de uso de OCR para su suscripcion'))
             }
         }
             
@@ -71,10 +71,10 @@ export class adapterBody implements IBody{
            ocr: body.getOCR()
        };
         try{
-            const resultado = await this.repositorio.save(aux);
-            return Either.makeRight<Error,string>('Body creado e insertado en la nota');
+            const resultado= await this.repositorio.save(aux);
+            return Either.makeRight<Error,bodyEntity>(resultado);
         }catch(error){
-            return Either.makeLeft<Error,string>(error);
+            return Either.makeLeft<Error,bodyEntity>(error);
         }
 
     }
