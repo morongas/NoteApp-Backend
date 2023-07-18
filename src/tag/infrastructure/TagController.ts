@@ -6,12 +6,14 @@ import { DeleteTagService } from "../application/deleteTagService";
 import { UpdateTagService } from "../application/updateTagService";
 import { editTagDto } from "../application/dto/editTagDto";
 import { adapterTagRepository } from "./adapterTagRepository";
+import { adapterDecorator } from "src/core/infrastructure/adapterDecorator";
+import { concreteLogger } from "src/core/application/concretLogger";
 
 @ApiTags('Etiquetas')
 @Controller('tag')
 export class TagController{
     constructor(
-        private readonly repoItag: adapterTagRepository,
+      private readonly repoItag: adapterTagRepository, private readonly repoLogger: adapterDecorator,
         private  createRepo: CreateTagService,
         private  deleteRepo: DeleteTagService,
         private  updateRepo: UpdateTagService
@@ -24,8 +26,9 @@ export class TagController{
     @Post()
     async create(@Body() body, @Res() response): Promise<string>{
 
-        let dto = new createTagDto(body.nombre, body.idUsuario)
-        let result = await this.createRepo.execute(dto);
+        let dto = new createTagDto(body.nombre, body.idUsuario);
+        let result = await new concreteLogger(this.createRepo, this.repoLogger, "tag created").execute(dto);
+
         if (result.isLeft()) {
             return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
           }else{
@@ -35,7 +38,8 @@ export class TagController{
 
     @Delete(':id')
     async remove(@Param('id') id: string,@Res() response) {
-      let result = await this.deleteRepo.execute(id)
+      let result = await new concreteLogger(this.deleteRepo, this.repoLogger, "tag deleted").execute(id);
+
       if (result.isLeft()) {
         
         return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
@@ -48,7 +52,8 @@ export class TagController{
     async update(@Param('id') id: string, @Body() body, @Res() response): Promise<string>{
 
         let dto = new editTagDto(id,body.nombre, body.idUsuario, body.notas)
-        let result = await this.updateRepo.execute(dto);
+        let result = await new concreteLogger(this.updateRepo, this.repoLogger, "tag edited").execute(dto);
+
         if (result.isLeft()) {
             return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
           }else{

@@ -58,6 +58,7 @@ export class adapterTask implements ITask{
             taskToUpdate.status = task.getStatus();
         }else{
             taskToUpdate.title = task.getTitle().getTitle();
+            taskToUpdate.status = task.getStatus();
         }
 
         try {

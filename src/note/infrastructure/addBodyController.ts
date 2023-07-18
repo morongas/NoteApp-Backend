@@ -5,16 +5,16 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBody, ApiExcludeController, ApiTags } from "@nestjs/swagger";
 import { updateBodyFromNoteService } from "../application/updateBodyFromNoteService";
 import { deleteBodyService } from "../application/deleteBodyService";
-
 import { updateBodyDto } from "../application/dto/updateBodyDto";
 import { deleteBodyDto } from "../application/dto/deleteBodyDto";
 import { adapterBody } from "./adapterBody";
-import { response } from "express";
+import { adapterDecorator } from "src/core/infrastructure/adapterDecorator";
+import { concreteLogger } from "src/core/application/concretLogger";
 
 @ApiTags('Body')
 @Controller('body')
 export class addBodyController {
-    constructor(private readonly repoInotes: adapterBody,
+    constructor(private readonly repoInotes: adapterBody, private readonly repoLogger: adapterDecorator,
                 private  repo: addBodyToNoteService,
                  private  repoUpdate: updateBodyFromNoteService, 
                  private  repoDelete: deleteBodyService) 
@@ -47,7 +47,8 @@ export class addBodyController {
             img = fileImg.buffer;
             dto = new addBodyDto(idNota,fecha,ocr,text,img);
         }
-        let resultado = await this.repo.execute(dto);
+        let resultado = await new concreteLogger(this.repo, this.repoLogger, "body added").execute(dto);
+
         if (resultado.isLeft()) {
             return response.status(HttpStatus.FORBIDDEN).json(resultado.getLeft().message);
         }else{
@@ -83,7 +84,7 @@ export class addBodyController {
             img = fileImg.buffer;
             dto = new updateBodyDto(idbody,fecha,ocr,text,img);
         }
-        let resultado = await this.repoUpdate.execute(dto);
+        let resultado = await new concreteLogger(this.repoUpdate, this.repoLogger, "body edited").execute(dto);
         if (resultado.isLeft()) {
             return response.status(HttpStatus.FORBIDDEN).json(resultado.getLeft().message);
         }else{
@@ -95,7 +96,7 @@ export class addBodyController {
     async delete(@Param('id') id:string, @Res() response): Promise<string> {
         let idBody = id;
         let dto = new deleteBodyDto(idBody);
-        let resultado = await this.repoDelete.execute(dto);
+        let resultado = await new concreteLogger(this.repoDelete, this.repoLogger, "body deleted").execute(dto);
         if (resultado.isLeft()) {
             return response.status(HttpStatus.FORBIDDEN).json(resultado.getLeft().message);
         }else{

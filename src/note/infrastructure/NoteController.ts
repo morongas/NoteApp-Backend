@@ -9,11 +9,13 @@ import { findNoteService } from '../application/findNoteService';
 import { deleteNoteService } from '../application/deleteNoteService';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { deleteNoteDto } from '../application/dto/deleteNoteDto';
+import { concreteLogger } from 'src/core/application/concretLogger';
+import { adapterDecorator } from 'src/core/infrastructure/adapterDecorator';
 
 @ApiTags('Notas')
 @Controller('note')
 export class NoteController {
-  constructor(private readonly repoInotes: adapterNoteRepository,
+  constructor(private readonly repoInotes: adapterNoteRepository, private  readonly repoLogger: adapterDecorator,
               private  repo: createnoteService, 
               private  repoUpdate: updatenoteService, 
               private  repofind: findNoteService, 
@@ -36,7 +38,7 @@ export class NoteController {
     let desc = body.desc;
     let idUsuario = body.idUsuario
     let dto = new CreateNoteDto(titulo,fechaC,latitud,longitud,descripcionGPS,est,desc,idUsuario);
-    let result = await this.repo.execute(dto);
+    let result = await new concreteLogger(this.repo,this.repoLogger,"note created").execute(dto);
     if (result.isLeft()) {
       return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
     }else{
@@ -52,7 +54,7 @@ export class NoteController {
     let est = body.est;
     let desc = body.desc;
     let dto = new UpdateNoteDto(titulo, idNota,fechaC,est,desc);
-    let resultado = await this.repoUpdate.execute(dto);
+    let resultado = await new concreteLogger(this.repoUpdate, this.repoLogger, "note edited").execute(dto);
     if (resultado.isLeft()) {
       return response.status(HttpStatus.NOT_FOUND).json(resultado.getLeft().message);
     }else{
@@ -64,12 +66,12 @@ export class NoteController {
   async findById(@Param('id') id:string, @Res() response) {
     let idNota = id;
     let dto = new findNoteDto(idNota);
-    let result = await this.repofind.execute(dto);
-    if (result.isRight()) {
-      return response.status(HttpStatus.OK).json(result.getRight());
+    let resultado = await new concreteLogger(this.repofind, this.repoLogger, "note finded").execute(dto);
+    if (resultado.isRight()) {
+      return response.status(HttpStatus.OK).json(resultado.getRight());
     }
     else {
-      return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
+      return response.status(HttpStatus.NOT_FOUND).json(resultado.getLeft().message);
     }
   }
 
@@ -77,7 +79,7 @@ export class NoteController {
     async delete(@Param('id') id:string, @Req() request): Promise<string> {
         let idNote = id;
         let dto = new deleteNoteDto(idNote);
-        let resultado = await this.repoDelete.execute(dto);
+        let resultado = await new concreteLogger(this.repoDelete, this.repoLogger, "note deleted").execute(dto);
         if (resultado.isLeft()) {
             return "No se pudo eliminar la nota: "+resultado.getLeft();
         }else{

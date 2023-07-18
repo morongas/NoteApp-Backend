@@ -7,12 +7,14 @@ import { updateTaskService } from "../application/updateTaskService";
 import { deleteTaskDto } from "../application/dto/deleteTaskDto";
 import { deleteTaskService } from "../application/deleteTaskService";
 import { adapterTask } from "./adapterTask";
+import { adapterDecorator } from "src/core/infrastructure/adapterDecorator";
+import { concreteLogger } from "src/core/application/concretLogger";
 
 
 @ApiTags('task')
 @Controller('task')
 export class taskController{
-    constructor(    private readonly repoItask: adapterTask,
+    constructor(private readonly repoItask: adapterTask, private readonly repoLogger: adapterDecorator,
                     private  repo: addTaskService,
                     private  repoUpdate: updateTaskService, 
                     private  repoDelete: deleteTaskService)
@@ -30,7 +32,7 @@ export class taskController{
         let status = body.status;
         let fechaCreacion = body.fechaCreacion;
         let dto = new addTaskDto(idNota,text,status,fechaCreacion);
-        let resultado = await this.repo.execute(dto);
+        let resultado = await new concreteLogger(this.repo, this.repoLogger, "task created and added to note").execute(dto);
         if (resultado.isLeft()) {
             return "No se pudo crear la tarea: "+resultado.getLeft().message;
         }else{
@@ -45,7 +47,7 @@ export class taskController{
         let text = body.text;
         let status = body.status;
         let dto = new editTaskDto(text,status,idTask);
-        let resultado = await this.repoUpdate.execute(dto);
+        let resultado = await new concreteLogger(this.repoUpdate, this.repoLogger, "task edited").execute(dto);
         if (resultado.isLeft()) {
             return "No se pudo editar la tarea: "+resultado.getLeft().message;
         }else{
@@ -57,7 +59,7 @@ export class taskController{
     async delete(@Param('id') id:string, @Req() request): Promise<string> {
         let idTask = id;
         let dto = new deleteTaskDto(idTask);
-        let resultado = await this.repoDelete.execute(dto);
+        let resultado = await new concreteLogger(this.repoDelete, this.repoLogger, "task deleted").execute(dto);
         if (resultado.isLeft()) {
             return "No se pudo eliminar la tarea: "+resultado.getLeft();
         }else{
