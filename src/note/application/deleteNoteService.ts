@@ -3,10 +3,10 @@ import { deleteNoteDto } from "./dto/deleteNoteDto";
 import { Either } from "src/generics/Either";
 import { INotes } from "../domain/repository/INotes";
 
-export class deleteNoteService implements IAppService<deleteNoteDto, string>{
-    private noteRepository: INotes;
+export class deleteNoteService<T> implements IAppService<deleteNoteDto, string>{
+    private noteRepository: INotes<T>;
 
-    constructor(repo: INotes) {
+    constructor(repo: INotes<T>) {
         this.noteRepository = repo;
     }
     

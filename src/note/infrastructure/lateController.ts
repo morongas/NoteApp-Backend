@@ -9,7 +9,7 @@ import { concreteLogger } from "src/core/application/concretLogger";
 @Controller('late')
 export class lateController{
     aux: offline[];
-    constructor(private readonly repo: lateService,private  readonly repoLogger: adapterDecorator,) { }
+    constructor(private readonly repo: lateService<string>,private  readonly repoLogger: adapterDecorator,) { }
 
 
     @Post()

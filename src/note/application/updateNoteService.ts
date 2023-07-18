@@ -5,9 +5,9 @@ import { Either } from "../../generics/Either";
 import { UpdateNoteDto } from "./dto/UpdateNoteDto";
 
 
-export class updatenoteService implements IAppService<UpdateNoteDto, string>{
-    private NotesRepository: INotes;
-    constructor(repo: INotes) {
+export class updatenoteService<T> implements IAppService<UpdateNoteDto, string>{
+    private NotesRepository: INotes<T>;
+    constructor(repo: INotes<T>) {
         this.NotesRepository = repo;
     }
 

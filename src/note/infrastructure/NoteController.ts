@@ -11,15 +11,16 @@ import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { deleteNoteDto } from '../application/dto/deleteNoteDto';
 import { concreteLogger } from 'src/core/application/concretLogger';
 import { adapterDecorator } from 'src/core/infrastructure/adapterDecorator';
+import { NoteEntity } from './entities/note_entity';
 
 @ApiTags('Notas')
 @Controller('note')
 export class NoteController {
   constructor(private readonly repoInotes: adapterNoteRepository, private  readonly repoLogger: adapterDecorator,
-              private  repo: createnoteService, 
-              private  repoUpdate: updatenoteService, 
-              private  repofind: findNoteService, 
-              private  repoDelete: deleteNoteService) {
+              private  repo: createnoteService<NoteEntity>, 
+              private  repoUpdate: updatenoteService<NoteEntity>, 
+              private  repofind: findNoteService<NoteEntity>, 
+              private  repoDelete: deleteNoteService<NoteEntity>) {
                 this.repo = new createnoteService(this.repoInotes);
                 this.repoUpdate = new updatenoteService(this.repoInotes);
                 this.repofind = new findNoteService(this.repoInotes);
@@ -42,7 +43,7 @@ export class NoteController {
     if (result.isLeft()) {
       return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
     }else{
-      return response.status(HttpStatus.OK).json("Nota Creada con Exito: "+result.getRight());
+      return response.status(HttpStatus.OK).json(result.getRight());
     }
   }
   @ApiBody({type: UpdateNoteDto})

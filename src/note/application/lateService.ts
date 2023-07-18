@@ -22,18 +22,18 @@ import { deleteNoteService } from "./deleteNoteService";
 import { deleteBodyDto } from "./dto/deleteBodyDto";
 import { deleteBodyService } from "./deleteBodyService";
 
-export class lateService {
-    private notas: createnoteService;
+export class lateService<T>{
+    private notas: createnoteService<T>;
     private body: addBodyToNoteService;
     private editBody: updateBodyFromNoteService;
     private task: addTaskService;
     private editTask: updateTaskService;
     private deleteTask: deleteTaskService;
-    private updateNote: updatenoteService;
-    private deleteNote: deleteNoteService;
+    private updateNote: updatenoteService<T>;
+    private deleteNote: deleteNoteService<T>;
     private deleteBody: deleteBodyService;
 
-    constructor(@Inject('lateNota') repo: createnoteService, @Inject('lateUpdateNote') repoNoteUpdate: updatenoteService, @Inject('deleteNote') repoDelteNote: deleteNoteService,
+    constructor(@Inject('lateNota') repo: createnoteService<T>, @Inject('lateUpdateNote') repoNoteUpdate: updatenoteService<T>, @Inject('deleteNote') repoDelteNote: deleteNoteService<T>,
                 @Inject('lateCreateBody') lateBody: addBodyToNoteService, @Inject('lateUpdateBody') repoUpdateBody: updateBodyFromNoteService, @Inject('lateDeleteBody') repoDeleteBody: deleteBodyService,
                 @Inject('lateCreateTask') lateTask: addTaskService, @Inject('lateUpdateTask') lateUpdateTask: updateTaskService, @Inject('lateDeleteTask') repoDeleteTask: deleteTaskService) { 
         this.notas = repo;
