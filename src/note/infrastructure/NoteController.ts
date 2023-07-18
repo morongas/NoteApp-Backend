@@ -42,7 +42,7 @@ export class NoteController {
     if (result.isLeft()) {
       return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
     }else{
-      return response.status(HttpStatus.OK).json("Nota Creada con Exito");
+      return response.status(HttpStatus.OK).json("Nota Creada con Exito: "+result.getRight());
     }
   }
   @ApiBody({type: UpdateNoteDto})
