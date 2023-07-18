@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Post, Put, Req, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, HttpStatus, Param, Post, Put, Req, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { ApiBody, ApiTags } from "@nestjs/swagger";
 import { addTaskService } from "../application/addTaskService";
 import { addTaskDto } from "../application/dto/addTaskDto";
@@ -9,15 +9,16 @@ import { deleteTaskService } from "../application/deleteTaskService";
 import { adapterTask } from "./adapterTask";
 import { adapterDecorator } from "src/core/infrastructure/adapterDecorator";
 import { concreteLogger } from "src/core/application/concretLogger";
+import { taskEntity } from "./entities/task_entity";
 
 
 @ApiTags('task')
 @Controller('task')
 export class taskController{
     constructor(private readonly repoItask: adapterTask, private readonly repoLogger: adapterDecorator,
-                    private  repo: addTaskService,
-                    private  repoUpdate: updateTaskService, 
-                    private  repoDelete: deleteTaskService)
+                    private  repo: addTaskService<taskEntity>,
+                    private  repoUpdate: updateTaskService<taskEntity>, 
+                    private  repoDelete: deleteTaskService<taskEntity>)
                 {
                     this.repo = new addTaskService(this.repoItask);
                     this.repoUpdate = new updateTaskService(this.repoItask);
@@ -26,7 +27,7 @@ export class taskController{
 
     @ApiBody({type: addTaskDto})
     @Post(':id')
-    async create(@Param('id') id: string,@Body() body?, @Req() request?): Promise<string> {
+    async create(@Param('id') id: string,@Res() response, @Body() body?,@Req() request?): Promise<string> {
         let idNota = id;
         let text = body.text;
         let status = body.status;
@@ -36,7 +37,7 @@ export class taskController{
         if (resultado.isLeft()) {
             return "No se pudo crear la tarea: "+resultado.getLeft().message;
         }else{
-            return "Tarea creada";
+            return response.status(HttpStatus.OK).json(resultado.getRight());
         }
     }
 

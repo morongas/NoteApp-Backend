@@ -3,10 +3,10 @@ import { deleteTaskDto } from "./dto/deleteTaskDto";
 import { Either } from "src/generics/Either";
 import { ITask } from "../domain/repository/ITask";
 
-export class deleteTaskService implements IAppService<deleteTaskDto, string>{
-    private taskRepository: ITask;
+export class deleteTaskService<T> implements IAppService<deleteTaskDto, string>{
+    private taskRepository: ITask<T>;
 
-    constructor(repo: ITask) {
+    constructor(repo: ITask<T>) {
         this.taskRepository = repo;
     }
     

@@ -7,7 +7,7 @@ import { Repository } from "typeorm";
 import { Optional } from "src/generics/Optional";
 import { NoteEntity } from "./entities/note_entity";
 
-export class adapterTask implements ITask{
+export class adapterTask implements ITask<taskEntity>{
     constructor(
         @InjectRepository(taskEntity)
         private readonly repositorio: Repository<taskEntity>,
@@ -16,7 +16,7 @@ export class adapterTask implements ITask{
     ) { }
 
 
-    async saveTask(tarea: task): Promise<Either<Error, string>> {
+    async saveTask(tarea: task): Promise<Either<Error, taskEntity>> {
         const result = await this.repositorio2.find({ 
             where: {
                 idNota: tarea.getIdNota().getIDNota()
@@ -24,7 +24,7 @@ export class adapterTask implements ITask{
         }); 
 
         if(result.length == 0){
-            return Either.makeLeft<Error,string>((new Error('La nota no existe'))); 
+            return Either.makeLeft<Error,taskEntity>((new Error('La nota no existe'))); 
         }
 
         const aux: taskEntity = {
@@ -36,9 +36,9 @@ export class adapterTask implements ITask{
         };
         try {
             const resultado = await this.repositorio.save(aux);
-            return Either.makeRight<Error, string>(resultado.title);
+            return Either.makeRight<Error, taskEntity>(resultado);
         }catch (error) {
-            return Either.makeLeft<Error, string>(error);
+            return Either.makeLeft<Error, taskEntity>(error);
         }
     }
 

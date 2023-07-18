@@ -10,14 +10,15 @@ import { deleteBodyDto } from "../application/dto/deleteBodyDto";
 import { adapterBody } from "./adapterBody";
 import { adapterDecorator } from "src/core/infrastructure/adapterDecorator";
 import { concreteLogger } from "src/core/application/concretLogger";
+import { bodyEntity } from "./entities/body_entity";
 
 @ApiTags('Body')
 @Controller('body')
 export class addBodyController {
     constructor(private readonly repoInotes: adapterBody, private readonly repoLogger: adapterDecorator,
-                private  repo: addBodyToNoteService,
-                 private  repoUpdate: updateBodyFromNoteService, 
-                 private  repoDelete: deleteBodyService) 
+                private  repo: addBodyToNoteService<bodyEntity>,
+                 private  repoUpdate: updateBodyFromNoteService<bodyEntity>, 
+                 private  repoDelete: deleteBodyService<bodyEntity>) 
     {
         this.repo = new addBodyToNoteService(this.repoInotes);
         this.repoUpdate = new updateBodyFromNoteService(this.repoInotes);

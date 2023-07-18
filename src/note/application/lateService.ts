@@ -24,18 +24,18 @@ import { deleteBodyService } from "./deleteBodyService";
 
 export class lateService<T>{
     private notas: createnoteService<T>;
-    private body: addBodyToNoteService;
-    private editBody: updateBodyFromNoteService;
-    private task: addTaskService;
-    private editTask: updateTaskService;
-    private deleteTask: deleteTaskService;
+    private body: addBodyToNoteService<T>;
+    private editBody: updateBodyFromNoteService<T>;
+    private task: addTaskService<T>;
+    private editTask: updateTaskService<T>;
+    private deleteTask: deleteTaskService<T>;
     private updateNote: updatenoteService<T>;
     private deleteNote: deleteNoteService<T>;
-    private deleteBody: deleteBodyService;
+    private deleteBody: deleteBodyService<T>;
 
     constructor(@Inject('lateNota') repo: createnoteService<T>, @Inject('lateUpdateNote') repoNoteUpdate: updatenoteService<T>, @Inject('deleteNote') repoDelteNote: deleteNoteService<T>,
-                @Inject('lateCreateBody') lateBody: addBodyToNoteService, @Inject('lateUpdateBody') repoUpdateBody: updateBodyFromNoteService, @Inject('lateDeleteBody') repoDeleteBody: deleteBodyService,
-                @Inject('lateCreateTask') lateTask: addTaskService, @Inject('lateUpdateTask') lateUpdateTask: updateTaskService, @Inject('lateDeleteTask') repoDeleteTask: deleteTaskService) { 
+                @Inject('lateCreateBody') lateBody: addBodyToNoteService<T>, @Inject('lateUpdateBody') repoUpdateBody: updateBodyFromNoteService<T>, @Inject('lateDeleteBody') repoDeleteBody: deleteBodyService<T>,
+                @Inject('lateCreateTask') lateTask: addTaskService<T>, @Inject('lateUpdateTask') lateUpdateTask: updateTaskService<T>, @Inject('lateDeleteTask') repoDeleteTask: deleteTaskService<T>) { 
         this.notas = repo;
         this.body = lateBody;
         this.editBody = repoUpdateBody;

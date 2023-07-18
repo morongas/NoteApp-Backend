@@ -3,10 +3,10 @@ import { deleteBodyDto } from "./dto/deleteBodyDto";
 import { Either } from "src/generics/Either";
 import { IBody } from "../domain/repository/IBody";
 
-export class deleteBodyService implements IAppService<deleteBodyDto, string>{
-    private bodyRepository: IBody;
+export class deleteBodyService<T> implements IAppService<deleteBodyDto, string>{
+    private bodyRepository: IBody<T>;
 
-    constructor(repo: IBody) {
+    constructor(repo: IBody<T>) {
         this.bodyRepository = repo;
     }
     
