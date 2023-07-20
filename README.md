@@ -59,7 +59,7 @@ Modelo de Dominio.
 
 Arquitectura Hexagonal.
 
-![Arquitecture](./docs/Hexa.png)
+![Arquitecture](./docs/Hex.png)
 
 <br/>
 
