@@ -96,7 +96,10 @@ Algunos de los aportes de nuestros participantes en este repositorio y el reposi
 | Actividades                      | Rama            |
 |----------------------------------|----------------:|
 | Listado de Notas por Usuario | [CLEAN-23](https://github.com/omarlopezoficial/NoteApp-Backend/tree/feature/ListadoDeNotas) |
-|----------------------------------|----------------:|
+|Etiquetas|[CLEAN-23](https://github.com/omarlopezoficial/NoteApp-Backend/tree/feature/etiquetas)|
+|Registro de Usuario|[CLEAN-23](https://github.com/omarlopezoficial/NoteApp-Backend/tree/CLEAN-92-Backend-Feature-Usuario)|
+|Usuario Premiun y Gratis|[CLEAN-23](https://github.com/omarlopezoficial/NoteApp-Backend/tree/CLEAN-107-Feature/usuario-premiun-gratis)|
+
 
 
 ### Omar L
