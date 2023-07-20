@@ -5,6 +5,10 @@ import { mocksNote } from './Mocks/mocksNote';
 import { AppModule } from 'src/app.module';
 import { updatenoteService } from 'src/note/application/updateNoteService';
 import { createnoteService } from 'src/note/application/createNoteService';
+import { bodyMotherObject } from './MotherObject/bodyMotherObject';
+import { mocksBody } from './Mocks/mocksBody';
+import { addBodyToNoteService } from 'src/note/application/addBodyToNoteService';
+import { updateBodyFromNoteService } from 'src/note/application/updateBodyFromNoteService';
 
 @Module({
     imports: [
@@ -12,7 +16,7 @@ import { createnoteService } from 'src/note/application/createNoteService';
         forwardRef(() => NoteModule),
     ], // Importa tus módulos aquí
     providers: [
-        noteMotherObject, mocksNote, createnoteService, updatenoteService],
-    exports: [noteMotherObject],
+        noteMotherObject, mocksNote, createnoteService, updatenoteService, bodyMotherObject, mocksBody, addBodyToNoteService, updateBodyFromNoteService],
+    exports: [noteMotherObject,bodyMotherObject],
 })
 export class TestModule { }
