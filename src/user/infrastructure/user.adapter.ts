@@ -21,8 +21,7 @@ export class adapterUserRepository implements IUser<UserEntity>, IValidar{
             id: usuarioId
         }
     });
-    
-    console.log(resultUser)
+
     if(resultUser.length===0) return Either.makeLeft<Error,boolean>(new Error('Usuario no encontrado'))
 
     if(resultUser[0].suscripcion=='Gratis'){
