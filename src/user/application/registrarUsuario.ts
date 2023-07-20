@@ -12,9 +12,7 @@ export class registrarUsuario<T>{
     }
     async execute(dto: crearUsuarioDto): Promise<Either<Error,T>>{
         let suscrip: string = 'Gratis';
-        console.log(dto.suscripcion_gratis)
         if(dto.suscripcion_gratis === false){
-            console.log('entro')
             suscrip = 'Premium'
         }
 

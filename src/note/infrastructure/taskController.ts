@@ -35,7 +35,7 @@ export class taskController{
         let dto = new addTaskDto(idNota,text,status,fechaCreacion);
         let resultado = await new concreteLogger(this.repo, this.repoLogger, "task created and added to note").execute(dto);
         if (resultado.isLeft()) {
-            return "No se pudo crear la tarea: "+resultado.getLeft().message;
+            return response.status(HttpStatus.BAD_REQUEST).json(resultado.getLeft().message);
         }else{
             return response.status(HttpStatus.OK).json(resultado.getRight());
         }
