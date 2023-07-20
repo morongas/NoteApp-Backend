@@ -72,9 +72,9 @@ Algunos de los aportes de nuestros participantes en este repositorio y el reposi
 
 | Actividades                      | Rama            |
 |----------------------------------|----------------:|
-| Vistas Free y Premium | [CLEAN-47](https://github.com/omarlopezoficial/NoteApp-Frontend/) |
-| Fix Cargas Notas | [CLEAN-11](https://github.com/omarlopezoficial/NoteApp-Frontend/) |
-| Vista Información de Notas | [CLEAN-26](https://github.com/omarlopezoficial/NoteApp-Frontend/) |
+| Persistencia | [CLEAN-47](https://github.com/omarlopezoficial/NoteApp-Frontend/) |
+| OCR desde dentro de una nota | [CLEAN-11](https://github.com/omarlopezoficial/NoteApp-Frontend/) |
+| Geolocalizacion | [CLEAN-26](https://github.com/omarlopezoficial/NoteApp-Frontend/) |
 
 ### Asdrubal Asensio
 
