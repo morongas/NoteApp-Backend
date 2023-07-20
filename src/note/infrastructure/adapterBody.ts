@@ -10,10 +10,11 @@ import { Optional } from "src/generics/Optional";
 import { NoteEntity } from "./entities/note_entity";
 import { UserEntity } from "src/user/infrastructure/entities/user.entity";
 import { Console } from "console";
+import { IValidar } from "src/user/domain/repository/IValidar";
 
 
 @Injectable()
-export class adapterBody implements IBody<bodyEntity>{
+export class adapterBody implements IBody<bodyEntity>,IValidar{
 
     constructor(
         @InjectRepository(bodyEntity)
@@ -25,19 +26,20 @@ export class adapterBody implements IBody<bodyEntity>{
     ){}
     
 
-    async validarSuscripcion(usuarioId: number): Promise<boolean>{
+    async validarSuscripcion(usuarioId: number): Promise<Either<Error,boolean>>{
         
         const resultUser = await this.repoUser.find({ 
             where: {
                 id: usuarioId
             }
         });
+        if(resultUser.length===0) return Either.makeLeft<Error,boolean>(new Error('Usuario no'))
 
         if(resultUser[0].suscripcion=='Gratis'){
-            const count = await this.repositorio2.query(`select count(*) from "note" join "bodyNote" on "notaIdNota" = "idNota" where "ocr" = true and "userId" =`+resultUser[0].id+``)
-            if(count[0].count>=6) return false
+            const count = await this.repositorio.query(`select count(*) from "note" join "bodyNote" on "notaIdNota" = "idNota" where "ocr" = true and "userId" =`+resultUser[0].id+``)
+            if(count[0].count>=6) return Either.makeRight<Error,boolean>(false)
         }
-        return true
+        return Either.makeRight<Error,boolean>(true)
     }
 
     async saveBody(body: body): Promise<Either<Error, bodyEntity>> {
@@ -57,7 +59,8 @@ export class adapterBody implements IBody<bodyEntity>{
 
         if(body.getOCR()==true){
             const validacion = this.validarSuscripcion(result[0].user.id)
-            if(await validacion == false){
+            let bool = await validacion
+            if( bool.getRight()== false){
                 return Either.makeLeft<Error, bodyEntity>(new Error('El usuario ya ha alcanzado el limite de uso de OCR para su suscripcion'))
             }
         }
