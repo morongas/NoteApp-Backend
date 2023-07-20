@@ -53,13 +53,13 @@ $ npm run test
 
 Modelo de Dominio.
 
-![DM](./docs/domain_model.svg)
+![DM](./docs/DDD-diagrama.png)
 
 <br/>
 
 Arquitectura Hexagonal.
 
-![Arquitecture](./docs/arquitecture.svg)
+![Arquitecture](./docs/Arquitectura-diagrama.png)
 
 <br/>
 
