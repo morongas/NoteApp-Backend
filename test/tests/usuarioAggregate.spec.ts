@@ -7,8 +7,8 @@ import { crearUsuarioDto } from "src/user/application/dto/crearUsuarioDto";
 
 
 
-describe('registrarUsuarioService', () => {
-    test('test_registrar_usuario_valido', async () => {
+describe('usuarioAggregateTests', () => {
+    test('test_crear_usuario_valido', async () => {
         //Arrange
         const registrarUsuario: registrarUsuario<UserEntity> =
             usuarioMotherObject.registrarUsuarioService()
@@ -21,7 +21,7 @@ describe('registrarUsuarioService', () => {
         expect(result.isRight()).toBeTruthy();
     });
     
-    it('test_registrar_usuario_con_email_invalido', async () => {
+    it('test_crear_usuario_con_email_invalido', async () => {
         //Arrange
         const registrarUsuario: registrarUsuario<UserEntity> =
             usuarioMotherObject.registrarUsuarioService()
@@ -34,7 +34,7 @@ describe('registrarUsuarioService', () => {
         expect(result.isLeft()).toBeTruthy();
     });
 
-    it('test_registrar_usuario_con_clave_invalida', async () => {
+    it('test_crear_usuario_con_clave_invalida', async () => {
         //Arrange
         const registrarUsuario: registrarUsuario<UserEntity> =
             usuarioMotherObject.registrarUsuarioService()
