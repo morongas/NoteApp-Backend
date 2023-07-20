@@ -67,15 +67,18 @@ Arquitectura Hexagonal.
 
 Algunos de los aportes de nuestros participantes en este repositorio y el repositorio de [mobile](https://github.com/omarlopezoficial/NoteApp-Frontend) son: 
 
-### Andres H
+### Andres Hurtado
 
-| Actividades                      | Pull Request    |
+
+| Actividades                      | Rama            |
 |----------------------------------|----------------:|
-|  | [+](https://github.com/omarlopezoficial/NoteApp-Backend/) |
+| Vistas Free y Premium | [CLEAN-47](https://github.com/omarlopezoficial/NoteApp-Frontend/) |
+| Fix Cargas Notas | [CLEAN-11](https://github.com/omarlopezoficial/NoteApp-Frontend/) |
+| Vista Información de Notas | [CLEAN-26](https://github.com/omarlopezoficial/NoteApp-Frontend/) |
 
 ### Asdrubal Asensio
 
-| Actividades                      | Rama    |
+| Actividades                      | Rama            |
 |----------------------------------|----------------:|
 | Añadir Geolocalización | [CLEAN-46](https://github.com/omarlopezoficial/NoteApp-Backend/develop) |
 | Editar Body | [CLEAN-86](https://github.com/omarlopezoficial/NoteApp-Backend/develop) |
@@ -83,15 +86,18 @@ Algunos de los aportes de nuestros participantes en este repositorio y el reposi
 | Eliminar Body | [CLEAN-103](https://github.com/omarlopezoficial/NoteApp-Backend/develop) |
 | Obtener toda la info de una nota | [CLEAN-104](https://github.com/omarlopezoficial/NoteApp-Backend/develop) |
 
-### Ashly C.
+### Ashly Colmenares
 
-| Actividades                      | Pull Request    |
+| Actividades                      | Rama            |
 |----------------------------------|----------------:|
-|  | [+](https://github.com/omarlopezoficial/NoteApp-Backend/) |
+| Añadir GPS | [CLEAN-110](https://github.com/omarlopezoficial/NoteApp-Frontend/) |
+| Vista de Login y Registro | [CLEAN-11](https://github.com/omarlopezoficial/NoteApp-Frontend/) |
+| Alertas | [CLEAN-109](https://github.com/omarlopezoficial/NoteApp-Frontend/) |
+| Vista de Proceso de Pago | [CLEAN-55](https://github.com/omarlopezoficial/NoteApp-Frontend/) |
 
-### Carlos M
+### Carlos Morón
 
-| Actividades                      | Pull Request    |
+| Actividades                      | Rama            |
 |----------------------------------|----------------:|
 |  Creación de Nota | [CLEAN-59](https://github.com/omarlopezoficial/NoteApp-Backend/tree/CLEAN-59-Creacion-de-nota-Backend)|
 |  Añadir Tareas a una Nota | [CLEAN-50](https://github.com/omarlopezoficial/NoteApp-Backend/tree/develop)|
@@ -109,11 +115,13 @@ Algunos de los aportes de nuestros participantes en este repositorio y el reposi
 
 
 
-### Omar L
+### Omar Lopez
 
-| Actividades                      | Pull Request    |
+| Actividades                      | Rama            |
 |----------------------------------|----------------:|
-|  | [+](https://github.com/omarlopezoficial/NoteApp-Backend/) |
+| Vistas Free y Premium | [CLEAN-47](https://github.com/omarlopezoficial/NoteApp-Frontend/) |
+| Fix Cargas Notas | [CLEAN-11](https://github.com/omarlopezoficial/NoteApp-Frontend/) |
+| Vista Información de Notas | [CLEAN-26](https://github.com/omarlopezoficial/NoteApp-Frontend/) |
 
 ## License
 
