@@ -73,11 +73,15 @@ Algunos de los aportes de nuestros participantes en este repositorio y el reposi
 |----------------------------------|----------------:|
 |  | [+](https://github.com/omarlopezoficial/NoteApp-Backend/) |
 
-### Asdrubal
+### Asdrubal Asensio
 
-| Actividades                      | Pull Request    |
+| Actividades                      | Rama    |
 |----------------------------------|----------------:|
-|  | [+](https://github.com/omarlopezoficial/NoteApp-Backend/) |
+| Añadir Geolocalización | [CLEAN-46](https://github.com/omarlopezoficial/NoteApp-Backend/develop) |
+| Editar Body | [CLEAN-86](https://github.com/omarlopezoficial/NoteApp-Backend/develop) |
+| Eliminar Nota en Cascada | [CLEAN-102](https://github.com/omarlopezoficial/NoteApp-Backend/develop) |
+| Eliminar Body | [CLEAN-103](https://github.com/omarlopezoficial/NoteApp-Backend/develop) |
+| Obtener toda la info de una nota | [CLEAN-104](https://github.com/omarlopezoficial/NoteApp-Backend/develop) |
 
 ### Ashly C.
 
@@ -89,16 +93,19 @@ Algunos de los aportes de nuestros participantes en este repositorio y el reposi
 
 | Actividades                      | Pull Request    |
 |----------------------------------|----------------:|
-|  | [+](https://github.com/omarlopezoficial/NoteApp-Backend/) |
+|  Creación de Nota | [CLEAN-59](https://github.com/omarlopezoficial/NoteApp-Backend/tree/CLEAN-59-Creacion-de-nota-Backend)|
+|  Añadir Tareas a una Nota | [CLEAN-50](https://github.com/omarlopezoficial/NoteApp-Backend/tree/develop)|
+|  Loggs de Auditoria | [CLEAN-111](https://github.com/omarlopezoficial/NoteApp-Backend/tree/develop)|
 
 ### Javier Rojas
 
 | Actividades                      | Rama            |
 |----------------------------------|----------------:|
 | Listado de Notas por Usuario | [CLEAN-23](https://github.com/omarlopezoficial/NoteApp-Backend/tree/feature/ListadoDeNotas) |
-|Etiquetas|[CLEAN-23](https://github.com/omarlopezoficial/NoteApp-Backend/tree/feature/etiquetas)|
-|Registro de Usuario|[CLEAN-23](https://github.com/omarlopezoficial/NoteApp-Backend/tree/CLEAN-92-Backend-Feature-Usuario)|
-|Usuario Premiun y Gratis|[CLEAN-23](https://github.com/omarlopezoficial/NoteApp-Backend/tree/CLEAN-107-Feature/usuario-premiun-gratis)|
+|Etiquetas|[CLEAN-51](https://github.com/omarlopezoficial/NoteApp-Backend/tree/feature/etiquetas)|
+|Registro de Usuario|[CLEAN-68](https://github.com/omarlopezoficial/NoteApp-Backend/tree/CLEAN-92-Backend-Feature-Usuario)|
+|Usuario Premiun y Gratis|[CLEAN-107](https://github.com/omarlopezoficial/NoteApp-Backend/tree/CLEAN-107-Feature/usuario-premiun-gratis)|
+|Test Usuario Agregado|[CLEAN-117](https://github.com/omarlopezoficial/NoteApp-Backend/tree/develop)|
 
 
 
