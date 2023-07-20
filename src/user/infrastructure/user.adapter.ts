@@ -5,13 +5,32 @@ import { Repository } from 'typeorm';
 import { UserEntity } from './entities/user.entity';
 import { Either } from "../../generics/Either";
 import { Usuario } from '../domain/Usuario';
+import { IValidar } from '../domain/repository/IValidar';
 
 @Injectable()
-export class adapterUserRepository implements IUser<UserEntity>{
+export class adapterUserRepository implements IUser<UserEntity>, IValidar{
   constructor(
     @InjectRepository(UserEntity)
     private readonly repositorio: Repository<UserEntity>
-) {}
+  ) {}
+
+  async validarSuscripcion(usuarioId: number): Promise<Either<Error,boolean>>{
+        
+    const resultUser = await this.repositorio.find({ 
+        where: {
+            id: usuarioId
+        }
+    });
+    
+    console.log(resultUser)
+    if(resultUser.length===0) return Either.makeLeft<Error,boolean>(new Error('Usuario no encontrado'))
+
+    if(resultUser[0].suscripcion=='Gratis'){
+        const count = await this.repositorio.query(`select count(*) from "note" join "bodyNote" on "notaIdNota" = "idNota" where "ocr" = true and "userId" =`+resultUser[0].id+``)
+        if(count[0].count>=6) return Either.makeRight<Error,boolean>(false)
+    }
+    return Either.makeRight<Error,boolean>(true)
+  }
 
   async getNotes(nota: number){
 

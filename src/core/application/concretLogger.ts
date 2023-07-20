@@ -20,7 +20,7 @@ export class concreteLogger<Tservice, R> extends decorator<Tservice, R>{
         if (result.isLeft()) {
             logResult = await this.logger.execute(this.action,result.getLeft().message);
         }else{
-            logResult = await this.logger.execute(this.action,result.getRight().toString());
+            logResult = await this.logger.execute(this.action,JSON.stringify(result.getRight()));
         }
         return result;
     }
