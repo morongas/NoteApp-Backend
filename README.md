@@ -91,11 +91,13 @@ Algunos de los aportes de nuestros participantes en este repositorio y el reposi
 |----------------------------------|----------------:|
 |  | [+](https://github.com/omarlopezoficial/NoteApp-Backend/) |
 
-### Javier R
+### Javier Rojas
 
-| Actividades                      | Pull Request    |
+| Actividades                      | Rama            |
 |----------------------------------|----------------:|
-|  | [+](https://github.com/omarlopezoficial/NoteApp-Backend/) |
+| Listado de Notas por Usuario | [CLEAN-23](https://github.com/omarlopezoficial/NoteApp-Backend/tree/feature/ListadoDeNotas) |
+|----------------------------------|----------------:|
+
 
 ### Omar L
 
